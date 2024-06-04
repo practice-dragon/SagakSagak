@@ -5,6 +5,7 @@
  * @format
  */
 
+/*
 import React from "react";
 import type {PropsWithChildren} from "react";
 import {
@@ -116,3 +117,8 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+*/
+
+import StorybookUI from "./.storybook";
+
+export default StorybookUI;
