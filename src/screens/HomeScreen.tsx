@@ -119,6 +119,5 @@ const styles = StyleSheet.create({
 export default App;
 */
 
-import StorybookUI from "../../.storybook";
-
+import StorybookUI from "@story/index";
 export default StorybookUI;
