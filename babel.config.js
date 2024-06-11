@@ -1,10 +1,11 @@
+// babel.config.js
 module.exports = {
   presets: ["module:@react-native/babel-preset"],
   plugins: [
     [
       "module-resolver",
       {
-        root: ["./src"],
+        root: ["./"],
         extensions: [
           ".ios.ts",
           ".android.ts",
@@ -19,7 +20,7 @@ module.exports = {
         alias: {
           "@": "./src",
           "@const": "./src/const",
-          "@story": "./../.storybook",
+          "@story": "./.storybook",
         },
       },
     ],
