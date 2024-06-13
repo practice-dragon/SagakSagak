@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/PretendardVariable.ttf",
+      "sha1": "89b05a2f18c76f8deb577505d48237127ccfc908"
+    },
+    {
+      "path": "src/assets/fonts/RixInooAriDuri Regular.ttf",
+      "sha1": "7b99e8d97e2c37b9cd37b7955ffbcc3202186e7f"
+    }
+  ]
+}
