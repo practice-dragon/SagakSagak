@@ -8,15 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* sagak_sagakTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* sagak_sagakTests.m */; };
-		06DE4760817D42139161BCE4 /* PretendardVariable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27B891D28A04413D81DE0414 /* PretendardVariable.ttf */; };
 		115FE7E7692612239E3823B0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1D3EA71034676BBCCEAFF253 /* PrivacyInfo.xcprivacy */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		5BB7A1B866E895C701C45C5B /* libPods-sagak_sagak-sagak_sagakTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF445DAD4B3F8D0636ABD9F1 /* libPods-sagak_sagak-sagak_sagakTests.a */; };
-		75FF64063E3DB9DBEA2F4EDD /* libPods-sagak_sagak.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24006D5A30CA15D51DA17FBF /* libPods-sagak_sagak.a */; };
+		3739BAE839E841998AB7198F /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C9318E81294485B920E17A8 /* Pretendard-ExtraBold.otf */; };
+		4B9C43C0CFCC489ABCD228B6 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3540A0368A74744A2DFE817 /* Pretendard-Medium.otf */; };
+		51B1F34DEF7A4A25AB90BFFB /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3C25CB3B8CA4771944C57C4 /* Pretendard-SemiBold.otf */; };
+		5B8EA6D6844B48E488F38369 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F97BE61D599F49CE8A5207F4 /* Pretendard-Thin.otf */; };
+		64D3112B5249465B9077AB93 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF0E1E09605E447585A67D72 /* Pretendard-Black.otf */; };
+		77C5DFF6E58C48D6B3158BC2 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 406706DCDC774345843D91BD /* Pretendard-Regular.otf */; };
+		7F91761C9E4C4E2686A86309 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 80CBC6AA49714B2590AA82DA /* Pretendard-Light.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		B7A4A3272362D3AE8C22FC24 /* libPods-sagak_sagak-sagak_sagakTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21FC83B4F58F77A057489D8D /* libPods-sagak_sagak-sagak_sagakTests.a */; };
+		C8E1A86C77C24C7F8E6924F3 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1DA5059945E84A5999383F32 /* Pretendard-Bold.otf */; };
 		DA9FB13F646C44D79BBA7354 /* RixInooAriDuri Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A5A9A19BBFC48EFA85B24ED /* RixInooAriDuri Regular.ttf */; };
+		DF9E2EAA6C5F98FDA146C6D1 /* libPods-sagak_sagak.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F88E0F06DA555EA3026F032C /* libPods-sagak_sagak.a */; };
+		F8A716A341314E36B4FEC627 /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA9C9F32CC034EF6BC5CC96D /* Pretendard-ExtraLight.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,16 +49,24 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = sagak_sagak/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = sagak_sagak/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		1D3EA71034676BBCCEAFF253 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = sagak_sagak/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		24006D5A30CA15D51DA17FBF /* libPods-sagak_sagak.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sagak_sagak.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		27B891D28A04413D81DE0414 /* PretendardVariable.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = PretendardVariable.ttf; path = ../src/assets/fonts/PretendardVariable.ttf; sourceTree = "<group>"; };
-		43625C365C0F6999AC5A3B13 /* Pods-sagak_sagak.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak.debug.xcconfig"; path = "Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak.debug.xcconfig"; sourceTree = "<group>"; };
+		1DA5059945E84A5999383F32 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Bold.otf"; path = "../src/assets/fonts/Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		21FC83B4F58F77A057489D8D /* libPods-sagak_sagak-sagak_sagakTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sagak_sagak-sagak_sagakTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C9318E81294485B920E17A8 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraBold.otf"; path = "../src/assets/fonts/Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
+		406706DCDC774345843D91BD /* Pretendard-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.otf"; path = "../src/assets/fonts/Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		4A5A9A19BBFC48EFA85B24ED /* RixInooAriDuri Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "RixInooAriDuri Regular.ttf"; path = "../src/assets/fonts/RixInooAriDuri Regular.ttf"; sourceTree = "<group>"; };
-		7F81ABA57CA07B05EC6DCB66 /* Pods-sagak_sagak.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak.release.xcconfig"; path = "Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak.release.xcconfig"; sourceTree = "<group>"; };
+		5C1F2066063F5CEB05FA9347 /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig"; path = "Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig"; sourceTree = "<group>"; };
+		74A19008CA7ABE26026CD09F /* Pods-sagak_sagak.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak.release.xcconfig"; path = "Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak.release.xcconfig"; sourceTree = "<group>"; };
+		80CBC6AA49714B2590AA82DA /* Pretendard-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.otf"; path = "../src/assets/fonts/Pretendard-Light.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = sagak_sagak/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		95219E027714A53B4B6E8471 /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig"; path = "Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BF445DAD4B3F8D0636ABD9F1 /* libPods-sagak_sagak-sagak_sagakTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sagak_sagak-sagak_sagakTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA9C9F32CC034EF6BC5CC96D /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraLight.otf"; path = "../src/assets/fonts/Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
+		B3540A0368A74744A2DFE817 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.otf"; path = "../src/assets/fonts/Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		B3C25CB3B8CA4771944C57C4 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.otf"; path = "../src/assets/fonts/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		BE5C7503980FB41747FE6933 /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak-sagak_sagakTests.release.xcconfig"; path = "Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests.release.xcconfig"; sourceTree = "<group>"; };
+		CF0E1E09605E447585A67D72 /* Pretendard-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Black.otf"; path = "../src/assets/fonts/Pretendard-Black.otf"; sourceTree = "<group>"; };
+		D3E13386A4F6B04CCD1CFF76 /* Pods-sagak_sagak.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak.debug.xcconfig"; path = "Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F71D6533C18CB8FE5D1FAC6B /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak-sagak_sagakTests.release.xcconfig"; path = "Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests.release.xcconfig"; sourceTree = "<group>"; };
+		F88E0F06DA555EA3026F032C /* libPods-sagak_sagak.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sagak_sagak.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F97BE61D599F49CE8A5207F4 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Thin.otf"; path = "../src/assets/fonts/Pretendard-Thin.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BB7A1B866E895C701C45C5B /* libPods-sagak_sagak-sagak_sagakTests.a in Frameworks */,
+				B7A4A3272362D3AE8C22FC24 /* libPods-sagak_sagak-sagak_sagakTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75FF64063E3DB9DBEA2F4EDD /* libPods-sagak_sagak.a in Frameworks */,
+				DF9E2EAA6C5F98FDA146C6D1 /* libPods-sagak_sagak.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,8 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				24006D5A30CA15D51DA17FBF /* libPods-sagak_sagak.a */,
-				BF445DAD4B3F8D0636ABD9F1 /* libPods-sagak_sagak-sagak_sagakTests.a */,
+				F88E0F06DA555EA3026F032C /* libPods-sagak_sagak.a */,
+				21FC83B4F58F77A057489D8D /* libPods-sagak_sagak-sagak_sagakTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -118,8 +134,16 @@
 		6D071C358F814B6FA0D74DA2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				27B891D28A04413D81DE0414 /* PretendardVariable.ttf */,
 				4A5A9A19BBFC48EFA85B24ED /* RixInooAriDuri Regular.ttf */,
+				CF0E1E09605E447585A67D72 /* Pretendard-Black.otf */,
+				1DA5059945E84A5999383F32 /* Pretendard-Bold.otf */,
+				3C9318E81294485B920E17A8 /* Pretendard-ExtraBold.otf */,
+				AA9C9F32CC034EF6BC5CC96D /* Pretendard-ExtraLight.otf */,
+				80CBC6AA49714B2590AA82DA /* Pretendard-Light.otf */,
+				B3540A0368A74744A2DFE817 /* Pretendard-Medium.otf */,
+				406706DCDC774345843D91BD /* Pretendard-Regular.otf */,
+				B3C25CB3B8CA4771944C57C4 /* Pretendard-SemiBold.otf */,
+				F97BE61D599F49CE8A5207F4 /* Pretendard-Thin.otf */,
 			);
 			name = Resources;
 			path = "";
@@ -160,10 +184,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				43625C365C0F6999AC5A3B13 /* Pods-sagak_sagak.debug.xcconfig */,
-				7F81ABA57CA07B05EC6DCB66 /* Pods-sagak_sagak.release.xcconfig */,
-				95219E027714A53B4B6E8471 /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */,
-				F71D6533C18CB8FE5D1FAC6B /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */,
+				D3E13386A4F6B04CCD1CFF76 /* Pods-sagak_sagak.debug.xcconfig */,
+				74A19008CA7ABE26026CD09F /* Pods-sagak_sagak.release.xcconfig */,
+				5C1F2066063F5CEB05FA9347 /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */,
+				BE5C7503980FB41747FE6933 /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -175,12 +199,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "sagak_sagakTests" */;
 			buildPhases = (
-				0B3C9BCBDCB87E8580C5430A /* [CP] Check Pods Manifest.lock */,
+				FFAEED3DCC998A5E0D37C667 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				43A2081EEEC5A2D148FF1A65 /* [CP] Embed Pods Frameworks */,
-				BC4E37FCD45D186314D79ADE /* [CP] Copy Pods Resources */,
+				D329196CDC726908D44AC99E /* [CP] Embed Pods Frameworks */,
+				000DDA3887B93F747B651D75 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -196,13 +220,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "sagak_sagak" */;
 			buildPhases = (
-				F706A8455F361791F78016FC /* [CP] Check Pods Manifest.lock */,
+				900BA139761490E7B21D25D5 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D8B973048CFA42B9DFA48FDA /* [CP] Embed Pods Frameworks */,
-				CEB9CF3DD1761BB69F570AAE /* [CP] Copy Pods Resources */,
+				B9958A61DB58243D9F3F34D8 /* [CP] Embed Pods Frameworks */,
+				C3880F7B347C634BCE3DD17D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -264,70 +288,23 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				115FE7E7692612239E3823B0 /* PrivacyInfo.xcprivacy in Resources */,
-				06DE4760817D42139161BCE4 /* PretendardVariable.ttf in Resources */,
 				DA9FB13F646C44D79BBA7354 /* RixInooAriDuri Regular.ttf in Resources */,
+				64D3112B5249465B9077AB93 /* Pretendard-Black.otf in Resources */,
+				C8E1A86C77C24C7F8E6924F3 /* Pretendard-Bold.otf in Resources */,
+				3739BAE839E841998AB7198F /* Pretendard-ExtraBold.otf in Resources */,
+				F8A716A341314E36B4FEC627 /* Pretendard-ExtraLight.otf in Resources */,
+				7F91761C9E4C4E2686A86309 /* Pretendard-Light.otf in Resources */,
+				4B9C43C0CFCC489ABCD228B6 /* Pretendard-Medium.otf in Resources */,
+				77C5DFF6E58C48D6B3158BC2 /* Pretendard-Regular.otf in Resources */,
+				51B1F34DEF7A4A25AB90BFFB /* Pretendard-SemiBold.otf in Resources */,
+				5B8EA6D6844B48E488F38369 /* Pretendard-Thin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/.xcode.env",
-			);
-			name = "Bundle React Native code and images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
-		};
-		0B3C9BCBDCB87E8580C5430A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-sagak_sagak-sagak_sagakTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		43A2081EEEC5A2D148FF1A65 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BC4E37FCD45D186314D79ADE /* [CP] Copy Pods Resources */ = {
+		000DDA3887B93F747B651D75 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -344,24 +321,45 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CEB9CF3DD1761BB69F570AAE /* [CP] Copy Pods Resources */ = {
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/.xcode.env",
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+		};
+		900BA139761490E7B21D25D5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-sagak_sagak-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D8B973048CFA42B9DFA48FDA /* [CP] Embed Pods Frameworks */ = {
+		B9958A61DB58243D9F3F34D8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -378,7 +376,41 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F706A8455F361791F78016FC /* [CP] Check Pods Manifest.lock */ = {
+		C3880F7B347C634BCE3DD17D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D329196CDC726908D44AC99E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FFAEED3DCC998A5E0D37C667 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -393,7 +425,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-sagak_sagak-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-sagak_sagak-sagak_sagakTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -433,7 +465,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95219E027714A53B4B6E8471 /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */;
+			baseConfigurationReference = 5C1F2066063F5CEB05FA9347 /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -460,7 +492,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F71D6533C18CB8FE5D1FAC6B /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */;
+			baseConfigurationReference = BE5C7503980FB41747FE6933 /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -484,7 +516,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 43625C365C0F6999AC5A3B13 /* Pods-sagak_sagak.debug.xcconfig */;
+			baseConfigurationReference = D3E13386A4F6B04CCD1CFF76 /* Pods-sagak_sagak.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -511,7 +543,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F81ABA57CA07B05EC6DCB66 /* Pods-sagak_sagak.release.xcconfig */;
+			baseConfigurationReference = 74A19008CA7ABE26026CD09F /* Pods-sagak_sagak.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

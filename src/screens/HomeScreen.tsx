@@ -73,7 +73,7 @@ function App(): React.JSX.Element {
             <Text style={styles.highlight}>폰트가 잘 될까용</Text>
           </Section>
           <Section title="일반 폰트">
-            <Text>일반 폰트의 안녕하세요</Text>
+            <Text style={styles.highlight}>일반 폰트의 안녕하세요</Text>
           </Section>
         </View>
       </ScrollView>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: "600",
+    fontFamily: "Pretendard-Black",
   },
   sectionDescription: {
     marginTop: 8,
@@ -96,8 +96,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   highlight: {
-    fontFamily: "RixInooAriDuri RixInooAriDuri Regular",
-    // fontFamily: "PretendardVariable",
+    fontFamily: "Pretendard-thin",
   },
 });
 
