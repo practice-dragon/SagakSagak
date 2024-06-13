@@ -1,16 +1,11 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
+import {RootTabParamList} from "@/types/route";
+import {NavigationProp, useNavigation} from "@react-navigation/native";
 import React from "react";
 import type {PropsWithChildren} from "react";
 import {
+  Pressable,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
@@ -50,6 +45,8 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
+  const navigation = useNavigation<NavigationProp<RootTabParamList>>();
+
   const isDarkMode = useColorScheme() === "dark";
 
   const backgroundStyle = {
@@ -58,10 +55,6 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
@@ -70,12 +63,18 @@ function App(): React.JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Section title="Pretendard">
+            <Text style={styles.highlight}>Home</Text>
+          </Section>
+          <Section title="Pretendard">
             <Text style={styles.highlight}>폰트가 잘 될까용</Text>
           </Section>
           <Section title="일반 폰트">
             <Text style={styles.highlight}>일반 폰트의 안녕하세요</Text>
           </Section>
         </View>
+        <Pressable onPress={() => navigation.navigate("Settings")}>
+          <Text>Go to AAAAA</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
@@ -101,6 +100,3 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-
-// import StorybookUIRoot from "@story/index";
-// export default StorybookUIRoot;

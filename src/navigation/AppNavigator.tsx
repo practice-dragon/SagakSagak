@@ -1,18 +1,52 @@
 import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
-import {createStackNavigator} from "@react-navigation/stack";
+import {
+  createBottomTabNavigator,
+  BottomTabScreenProps,
+} from "@react-navigation/bottom-tabs";
+import {ThemeProvider} from "styled-components/native";
+import HomeScreen from "@/screens/HomeScreen";
+import SettingsScreen from "@/screens/SettingsScreen";
+import {RootTabParamList} from "@/types/route";
 
-import HomeScreen from "../screens/HomeScreen";
+import CalendarIcon from "@/assets/icons/calender.svg";
+import ChecklistIcon from "@/assets/icons/checklist.svg";
+import SettingsIcon from "@/assets/icons/settings.svg";
+import {theme} from "@/styles/theme";
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
-const AppNavigator = () => {
+const getTabBarIcon = (
+  routeName: string,
+  color: string,
+  size: number,
+): React.ReactNode => {
+  let IconComponent = CalendarIcon;
+  if (routeName === "Home") {
+    IconComponent = ChecklistIcon;
+  } else if (routeName === "Settings") {
+    IconComponent = SettingsIcon;
+  }
+  return <IconComponent width={size} height={size} fill={color} />;
+};
+
+const AppNavigator: React.FC = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({route}: BottomTabScreenProps<RootTabParamList>) => ({
+            tabBarIcon: ({color, size}) =>
+              getTabBarIcon(route.name, color, size),
+            tabBarActiveTintColor: "tomato",
+            tabBarInactiveTintColor: "gray",
+            tabBarStyle: {paddingBottom: 5, height: 60},
+          })}>
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Settings" component={SettingsScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 };
 

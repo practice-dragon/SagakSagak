@@ -7,5 +7,6 @@
       "@const/*": ["./src/const/*"],
       "@story/*": ["./.storybook/*"]
     }
-  }
+  },
+  "include": ["src/**/*", "src/components/custom.d.ts"]
 }
