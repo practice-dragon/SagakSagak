@@ -12,7 +12,7 @@ import {RootTabParamList} from "@/types/route";
 import CalendarIcon from "@/assets/icons/calender.svg";
 import ChecklistIcon from "@/assets/icons/checklist.svg";
 import SettingsIcon from "@/assets/icons/settings.svg";
-import {theme} from "@/styles/theme";
+import {lightTheme} from "@/styles/theme";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -31,6 +31,7 @@ const getTabBarIcon = (
 };
 
 const AppNavigator: React.FC = () => {
+  const theme = lightTheme;
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>

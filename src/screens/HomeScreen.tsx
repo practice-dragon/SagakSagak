@@ -44,6 +44,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function App(): React.JSX.Element {
   const navigation = useNavigation<NavigationProp<RootTabParamList>>();
 
@@ -99,4 +100,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+// export default App;
+
+import StorybookUIRoot from "@story/index";
+export default StorybookUIRoot;

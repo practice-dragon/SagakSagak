@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1BC535CF5A827A261A586635 /* libPods-sagak_sagak-sagak_sagakTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C33DE39C79412DD247C0B3A4 /* libPods-sagak_sagak-sagak_sagakTests.a */; };
 		3739BAE839E841998AB7198F /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C9318E81294485B920E17A8 /* Pretendard-ExtraBold.otf */; };
 		4B9C43C0CFCC489ABCD228B6 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3540A0368A74744A2DFE817 /* Pretendard-Medium.otf */; };
 		51B1F34DEF7A4A25AB90BFFB /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3C25CB3B8CA4771944C57C4 /* Pretendard-SemiBold.otf */; };
@@ -21,10 +22,9 @@
 		7F91761C9E4C4E2686A86309 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 80CBC6AA49714B2590AA82DA /* Pretendard-Light.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8E0C5E37C4134F1AA451D8DA /* PretendardVariable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1C246AA0227F4AC6A9C8C6D2 /* PretendardVariable.ttf */; };
-		AFBB9B4A760FEDB66ACDA482 /* libPods-sagak_sagak-sagak_sagakTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E77EEBEA71EEB8585AF15565 /* libPods-sagak_sagak-sagak_sagakTests.a */; };
+		94DEB4A15EF461BD65BCC77D /* libPods-sagak_sagak.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B9E4D5A919EFC44DDEDE74 /* libPods-sagak_sagak.a */; };
 		C8E1A86C77C24C7F8E6924F3 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1DA5059945E84A5999383F32 /* Pretendard-Bold.otf */; };
 		DA9FB13F646C44D79BBA7354 /* RixInooAriDuri Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A5A9A19BBFC48EFA85B24ED /* RixInooAriDuri Regular.ttf */; };
-		EC664DEE7F4FC312443B85B9 /* libPods-sagak_sagak.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 626B80D10EC000A275BDD085 /* libPods-sagak_sagak.a */; };
 		F8A716A341314E36B4FEC627 /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA9C9F32CC034EF6BC5CC96D /* Pretendard-ExtraLight.otf */; };
 /* End PBXBuildFile section */
 
@@ -55,18 +55,18 @@
 		3C9318E81294485B920E17A8 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraBold.otf"; path = "../src/assets/fonts/Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		406706DCDC774345843D91BD /* Pretendard-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.otf"; path = "../src/assets/fonts/Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		4A5A9A19BBFC48EFA85B24ED /* RixInooAriDuri Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "RixInooAriDuri Regular.ttf"; path = "../src/assets/fonts/RixInooAriDuri Regular.ttf"; sourceTree = "<group>"; };
-		626B80D10EC000A275BDD085 /* libPods-sagak_sagak.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sagak_sagak.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		71B16962FE6057D92362F8CB /* Pods-sagak_sagak.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak.release.xcconfig"; path = "Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak.release.xcconfig"; sourceTree = "<group>"; };
+		577B24AD52A6992121172199 /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig"; path = "Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7C3F1F4788033350504AB0DD /* Pods-sagak_sagak.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak.release.xcconfig"; path = "Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak.release.xcconfig"; sourceTree = "<group>"; };
 		80CBC6AA49714B2590AA82DA /* Pretendard-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.otf"; path = "../src/assets/fonts/Pretendard-Light.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = sagak_sagak/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		852BDF2DF0E71364A2F6F35B /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig"; path = "Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig"; sourceTree = "<group>"; };
-		8ED692B22932B58AD9D67251 /* Pods-sagak_sagak.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak.debug.xcconfig"; path = "Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak.debug.xcconfig"; sourceTree = "<group>"; };
+		93DAD975C4CF6B39348DC066 /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak-sagak_sagakTests.release.xcconfig"; path = "Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests.release.xcconfig"; sourceTree = "<group>"; };
+		9C281D386D5F204B4A3A1B5C /* Pods-sagak_sagak.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak.debug.xcconfig"; path = "Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak.debug.xcconfig"; sourceTree = "<group>"; };
 		AA9C9F32CC034EF6BC5CC96D /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraLight.otf"; path = "../src/assets/fonts/Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
 		B3540A0368A74744A2DFE817 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.otf"; path = "../src/assets/fonts/Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		B3C25CB3B8CA4771944C57C4 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.otf"; path = "../src/assets/fonts/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		C33DE39C79412DD247C0B3A4 /* libPods-sagak_sagak-sagak_sagakTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sagak_sagak-sagak_sagakTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF0E1E09605E447585A67D72 /* Pretendard-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Black.otf"; path = "../src/assets/fonts/Pretendard-Black.otf"; sourceTree = "<group>"; };
-		E63895F5BF927C94507B7966 /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sagak_sagak-sagak_sagakTests.release.xcconfig"; path = "Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests.release.xcconfig"; sourceTree = "<group>"; };
-		E77EEBEA71EEB8585AF15565 /* libPods-sagak_sagak-sagak_sagakTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sagak_sagak-sagak_sagakTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6B9E4D5A919EFC44DDEDE74 /* libPods-sagak_sagak.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sagak_sagak.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F97BE61D599F49CE8A5207F4 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Thin.otf"; path = "../src/assets/fonts/Pretendard-Thin.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AFBB9B4A760FEDB66ACDA482 /* libPods-sagak_sagak-sagak_sagakTests.a in Frameworks */,
+				1BC535CF5A827A261A586635 /* libPods-sagak_sagak-sagak_sagakTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,7 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC664DEE7F4FC312443B85B9 /* libPods-sagak_sagak.a in Frameworks */,
+				94DEB4A15EF461BD65BCC77D /* libPods-sagak_sagak.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,8 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				626B80D10EC000A275BDD085 /* libPods-sagak_sagak.a */,
-				E77EEBEA71EEB8585AF15565 /* libPods-sagak_sagak-sagak_sagakTests.a */,
+				E6B9E4D5A919EFC44DDEDE74 /* libPods-sagak_sagak.a */,
+				C33DE39C79412DD247C0B3A4 /* libPods-sagak_sagak-sagak_sagakTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -187,10 +187,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8ED692B22932B58AD9D67251 /* Pods-sagak_sagak.debug.xcconfig */,
-				71B16962FE6057D92362F8CB /* Pods-sagak_sagak.release.xcconfig */,
-				852BDF2DF0E71364A2F6F35B /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */,
-				E63895F5BF927C94507B7966 /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */,
+				9C281D386D5F204B4A3A1B5C /* Pods-sagak_sagak.debug.xcconfig */,
+				7C3F1F4788033350504AB0DD /* Pods-sagak_sagak.release.xcconfig */,
+				577B24AD52A6992121172199 /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */,
+				93DAD975C4CF6B39348DC066 /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -202,12 +202,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "sagak_sagakTests" */;
 			buildPhases = (
-				2D336E10C7E3F962572BFF6D /* [CP] Check Pods Manifest.lock */,
+				21CBD69DD99138A6748D865A /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				9C6F74CAE33AA221A941DD24 /* [CP] Embed Pods Frameworks */,
-				5408D380D90F7185E5E64838 /* [CP] Copy Pods Resources */,
+				CD7B560CBEB931551964D20C /* [CP] Embed Pods Frameworks */,
+				C4A721A6C56416D52E706B4B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -223,13 +223,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "sagak_sagak" */;
 			buildPhases = (
-				06F188D3648CAD22500C81FE /* [CP] Check Pods Manifest.lock */,
+				829535A71A059655EFD8E4D0 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				E366F7A462D4443B5FEF3FEF /* [CP] Embed Pods Frameworks */,
-				A12EEFC3E063E4DE6F9700E8 /* [CP] Copy Pods Resources */,
+				BD9061E9841A3C8D8CB0771D /* [CP] Embed Pods Frameworks */,
+				C150503A6DD2163A50BFCB7B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -324,29 +324,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		06F188D3648CAD22500C81FE /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-sagak_sagak-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2D336E10C7E3F962572BFF6D /* [CP] Check Pods Manifest.lock */ = {
+		21CBD69DD99138A6748D865A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -368,41 +346,46 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5408D380D90F7185E5E64838 /* [CP] Copy Pods Resources */ = {
+		829535A71A059655EFD8E4D0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-sagak_sagak-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9C6F74CAE33AA221A941DD24 /* [CP] Embed Pods Frameworks */ = {
+		BD9061E9841A3C8D8CB0771D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A12EEFC3E063E4DE6F9700E8 /* [CP] Copy Pods Resources */ = {
+		C150503A6DD2163A50BFCB7B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -419,21 +402,38 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E366F7A462D4443B5FEF3FEF /* [CP] Embed Pods Frameworks */ = {
+		C4A721A6C56416D52E706B4B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak/Pods-sagak_sagak-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CD7B560CBEB931551964D20C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sagak_sagak-sagak_sagakTests/Pods-sagak_sagak-sagak_sagakTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -469,7 +469,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 852BDF2DF0E71364A2F6F35B /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */;
+			baseConfigurationReference = 577B24AD52A6992121172199 /* Pods-sagak_sagak-sagak_sagakTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -496,7 +496,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E63895F5BF927C94507B7966 /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */;
+			baseConfigurationReference = 93DAD975C4CF6B39348DC066 /* Pods-sagak_sagak-sagak_sagakTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -520,7 +520,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ED692B22932B58AD9D67251 /* Pods-sagak_sagak.debug.xcconfig */;
+			baseConfigurationReference = 9C281D386D5F204B4A3A1B5C /* Pods-sagak_sagak.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -547,7 +547,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71B16962FE6057D92362F8CB /* Pods-sagak_sagak.release.xcconfig */;
+			baseConfigurationReference = 7C3F1F4788033350504AB0DD /* Pods-sagak_sagak.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
