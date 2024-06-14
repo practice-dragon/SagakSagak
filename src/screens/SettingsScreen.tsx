@@ -99,6 +99,3 @@ const styles = StyleSheet.create({
 });
 
 export default AAAAA;
-
-// import StorybookUIRoot from "@story/index";
-// export default StorybookUIRoot;

@@ -9,6 +9,7 @@ const main: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-docs",
     "@storybook/addon-themes",
+    "@storybook/addon-actions",
   ],
 };
 

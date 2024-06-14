@@ -44,8 +44,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function App(): React.JSX.Element {
+function Home(): React.JSX.Element {
   const navigation = useNavigation<NavigationProp<RootTabParamList>>();
 
   const isDarkMode = useColorScheme() === "dark";
@@ -100,7 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default App;
-
-import StorybookUIRoot from "@story/index";
-export default StorybookUIRoot;
+export default Home;

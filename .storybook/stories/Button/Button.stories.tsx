@@ -18,7 +18,7 @@ const ButtonMeta: Meta<typeof Button> = {
     },
   },
   args: {
-    text: "Hello world",
+    text: "시작하기",
     size: "sm",
   },
   decorators: [

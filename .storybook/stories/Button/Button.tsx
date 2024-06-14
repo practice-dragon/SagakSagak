@@ -1,5 +1,5 @@
 import React from "react";
-import {TouchableOpacity, Text, StyleSheet} from "react-native";
+import styled from "styled-components/native";
 
 interface ButtonProps {
   text: string;
@@ -7,34 +7,26 @@ interface ButtonProps {
   size: "sm" | "lg";
 }
 
-export const Button = ({text, onPress, size}: ButtonProps) => {
-  const buttonStyle = [styles.button, size === "sm" ? styles.sm : styles.lg];
+const ButtonContainer = styled.TouchableOpacity<{size: "sm" | "lg"}>`
+  background-color: ${({theme}) => theme.colors.primary};
+  padding: 10px 0;
+  width: ${({size}) => (size === "sm" ? "70%" : "80%")};
+  border-radius: 16px;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+`;
 
+const ButtonText = styled.Text`
+  color: ${({theme}) => theme.colors.textInverse};
+  font-size: 16px;
+  font-family: "Pretendard-SemiBold";
+`;
+
+export const Button = ({text, onPress, size = "sm"}: ButtonProps) => {
   return (
-    <TouchableOpacity style={buttonStyle} onPress={onPress}>
-      <Text style={styles.buttonText}>{text}</Text>
-    </TouchableOpacity>
+    <ButtonContainer size={size} onPress={onPress}>
+      <ButtonText>{text}</ButtonText>
+    </ButtonContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: "blue",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-  },
-  sm: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  lg: {
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-});

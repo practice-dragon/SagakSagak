@@ -9,6 +9,7 @@ declare module "styled-components/native" {
       text: string;
       border: string;
       notification: string;
+      textInverse: string;
     };
   }
 }
