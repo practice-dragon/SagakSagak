@@ -29,8 +29,7 @@ const getTabBarIcon = (
   }
   return <IconComponent width={size} height={size} fill={color} />;
 };
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+``;
 const AppNavigator = () => {
   const theme = lightTheme;
   return (
@@ -52,7 +51,4 @@ const AppNavigator = () => {
   );
 };
 
-// export default AppNavigator;
-
-import StorybookUIRoot from "@story/index";
-export default StorybookUIRoot;
+export default AppNavigator;
