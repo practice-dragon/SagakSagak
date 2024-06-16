@@ -11,6 +11,7 @@ const TaskContainer = styled.View<{state: "default" | "archived"}>`
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 12px;
+<<<<<<< Updated upstream
   border: ${({state}) => (state === "archived" ? `` : "none")};
   width: 90%;
 `;
@@ -21,12 +22,30 @@ const TaskTitle = styled.Text<{state: "default" | "archived"}>`
   font-weight: bold;
   text-decoration-line: ${({state}) =>
     state === "archived" ? "line-through" : "none"};
+=======
+  ${({state}) =>
+    state === "archived" &&
+    `
+    border-width: 2px;
+    border-color: ${({theme}) => theme.colors.archivedBorder};
+  `}
+`;
+
+const TaskTitle = styled.Text`
+  font-size: 16px;
+  color: ${({theme}) => theme.colors.text};
+  font-weight: bold;
+>>>>>>> Stashed changes
 `;
 
 const Task = ({text, state}: TaskProps) => {
   return (
     <TaskContainer state={state}>
+<<<<<<< Updated upstream
       <TaskTitle state={state}>{text}</TaskTitle>
+=======
+      <TaskTitle>{text}</TaskTitle>
+>>>>>>> Stashed changes
     </TaskContainer>
   );
 };
