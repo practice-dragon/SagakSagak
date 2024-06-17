@@ -1,6 +1,6 @@
 export type RootTabParamList = {
-  Home: undefined;
-  Today: undefined;
-  Custom: undefined;
-  Settings: undefined;
+  달력: undefined;
+  "오늘 할 일": undefined;
+  커스텀: undefined;
+  설정: undefined;
 };

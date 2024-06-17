@@ -10,6 +10,10 @@ export const lightTheme: DefaultTheme = {
     border: "#c7c7c7",
     notification: "#ff80ab",
   },
+  fonts: {
+    title: "RixInooAriDuri-Regular",
+    Regular: "Pretendard-Regular",
+  },
 };
 
 export const darkTheme: DefaultTheme = {
