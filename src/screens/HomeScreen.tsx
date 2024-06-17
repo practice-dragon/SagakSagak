@@ -1,9 +1,8 @@
-import {RootTabParamList} from "@/types/route";
-import {NavigationProp, useNavigation} from "@react-navigation/native";
+// import {RootTabParamList} from "@/types/route";
+// import {NavigationProp, useNavigation} from "@react-navigation/native";
 import React from "react";
 import type {PropsWithChildren} from "react";
 import {
-  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -40,12 +39,13 @@ function Section({children, title}: SectionProps): React.JSX.Element {
         ]}>
         {children}
       </Text>
+      <View>MyComponent</View>
     </View>
   );
 }
 
 function Home(): React.JSX.Element {
-  const navigation = useNavigation<NavigationProp<RootTabParamList>>();
+  // const navigation = useNavigation<NavigationProp<RootTabParamList>>();
 
   const isDarkMode = useColorScheme() === "dark";
 
@@ -72,9 +72,6 @@ function Home(): React.JSX.Element {
             <Text style={styles.highlight}>일반 폰트의 안녕하세요</Text>
           </Section>
         </View>
-        <Pressable onPress={() => navigation.navigate("Settings")}>
-          <Text>Go to AAAAA</Text>
-        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );

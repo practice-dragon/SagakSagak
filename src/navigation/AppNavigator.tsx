@@ -11,11 +11,12 @@ import CustomScreen from "@/screens/CustomScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
 import {RootTabParamList} from "@/types/route";
 
-import CalendarIcon from "@/assets/icons/calendar.svg";
+import CalendarIcon from "@/assets/icons/calender.svg";
 import ChecklistIcon from "@/assets/icons/checklist.svg";
 import SettingsIcon from "@/assets/icons/settings.svg";
 import HeartIcon from "@/assets/icons/heart.svg";
 import {lightTheme} from "@/styles/theme";
+import {Text} from "react-native-svg";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 

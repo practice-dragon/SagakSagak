@@ -8,5 +8,5 @@
       "@story/*": ["./.storybook/*"]
     }
   },
-  "include": ["src/**/*", "src/components/custom.d.ts"]
+  "include": ["src/**/*", "src/custom.d.ts"]
 }

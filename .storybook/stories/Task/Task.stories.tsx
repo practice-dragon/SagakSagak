@@ -14,11 +14,7 @@ const TaskMeta: Meta<typeof Task> = {
     },
   },
   args: {
-<<<<<<< Updated upstream
-    text: "AI 블로그 작성하기",
-=======
     text: "시작하기",
->>>>>>> Stashed changes
     state: "default",
   },
   decorators: [

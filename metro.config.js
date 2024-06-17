@@ -22,6 +22,9 @@ const config = {
     sourceExts: [...defaultConfig.resolver.sourceExts, "svg"],
     extraNodeModules: {
       "@storybook/react-native": require.resolve("@storybook/react-native"),
+      "@": "./src",
+      "@const": "./src/const",
+      "@story": "./.storybook",
     },
   },
 };
