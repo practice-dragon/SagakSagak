@@ -7,16 +7,11 @@ interface TaskProps {
 }
 
 const TaskContainer = styled.View<{state: "default" | "archived"}>`
-  background-color: ${({theme}) => theme.colors.card};
+  background-color: ${({theme, state}) =>
+    state === "default" ? theme.colors.card : theme.colors.archivedCard};
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 12px;
-  ${({state}) =>
-    state === "archived" &&
-    `
-    border-width: 2px;
-    border-color: ${({theme}) => theme.colors.archivedBorder};
-  `}
 `;
 
 const TaskTitle = styled.Text`
