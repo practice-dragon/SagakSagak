@@ -10,6 +10,11 @@ declare module "styled-components/native" {
       border: string;
       notification: string;
       textInverse: string;
+      n1: string;
+      n2: string;
+      n3: string;
+      n4: string;
+      n5: string;
     };
   }
 }

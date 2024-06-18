@@ -8,18 +8,20 @@ const ButtonMeta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
     text: {
-      group: "Component",
+      control: "text",
+      defaultValue: "시작하기",
     },
-
     onPress: {action: "pressed the button"},
     size: {
       control: {type: "radio"},
       options: ["sm", "lg"],
+      defaultValue: "sm",
     },
-  },
-  args: {
-    text: "시작하기",
-    size: "sm",
+    variant: {
+      control: {type: "radio"},
+      options: ["gray", "primary", "textGray"],
+      defaultValue: "primary",
+    },
   },
   decorators: [
     Story => (
@@ -41,5 +43,26 @@ export const Small: StoryObj<typeof Button> = {
 export const Large: StoryObj<typeof Button> = {
   args: {
     size: "lg",
+  },
+};
+
+export const Gray: StoryObj<typeof Button> = {
+  args: {
+    variant: "gray",
+    text: "Gray",
+  },
+};
+
+export const Primary: StoryObj<typeof Button> = {
+  args: {
+    variant: "primary",
+    text: "Primary",
+  },
+};
+
+export const TextGray: StoryObj<typeof Button> = {
+  args: {
+    variant: "textGray",
+    text: "textGray",
   },
 };

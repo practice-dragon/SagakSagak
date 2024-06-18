@@ -9,6 +9,11 @@ export const lightTheme: DefaultTheme = {
     textInverse: "#ffffff",
     border: "#c7c7c7",
     notification: "#ff80ab",
+    n1: "#F9F9F9",
+    n2: "#EAEAEA",
+    n3: "#CCCCCC",
+    n4: "#999999",
+    n5: "#000000",
   },
   fonts: {
     h1: {
@@ -42,6 +47,7 @@ export const lightTheme: DefaultTheme = {
   },
 };
 
+/*
 export const darkTheme: DefaultTheme = {
   colors: {
     primary: "#bb86fc",
@@ -53,3 +59,4 @@ export const darkTheme: DefaultTheme = {
     notification: "#ff80ab",
   },
 };
+*/
