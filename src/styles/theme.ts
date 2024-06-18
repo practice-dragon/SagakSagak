@@ -11,8 +11,34 @@ export const lightTheme: DefaultTheme = {
     notification: "#ff80ab",
   },
   fonts: {
-    title: "RixInooAriDuri-Regular",
-    Regular: "Pretendard-Regular",
+    h1: {
+      fontFamily: "RixInooAriDuri Regular",
+      fontSize: "32px",
+    },
+    h2: {
+      fontFamily: "Pretendard-ExtraBold",
+      fontSize: "24px",
+    },
+    h3: {
+      fontFamily: "Pretendard-Bold",
+      fontSize: "24px",
+    },
+    special: {
+      fontFamily: "Pretendard-Regular",
+      fontSize: "12px",
+    },
+    p1: {
+      fontFamily: "Pretendard-Bold",
+      fontSize: "20px",
+    },
+    p2: {
+      fontFamily: "Pretendard-Bold",
+      fontSize: "16px",
+    },
+    p3: {
+      fontFamily: "Pretendard-Regular",
+      fontSize: "14px",
+    },
   },
 };
 
