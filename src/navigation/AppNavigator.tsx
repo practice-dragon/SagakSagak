@@ -37,7 +37,7 @@ const getTabBarIcon = (
   } else if (routeName === "설정") {
     IconComponent = focused ? ActiveSettingsIcon : SettingsIcon;
   }
-  return <IconComponent />;
+  return <IconComponent width={35} height={35} />;
 };
 
 const AppNavigator = () => {
@@ -53,13 +53,13 @@ const AppNavigator = () => {
             tabBarInactiveTintColor: theme.colors.text,
             tabBarStyle: {
               paddingBottom: 5,
-              height: 60,
+              height: 70,
             },
             tabBarLabelStyle: {
               fontFamily: theme.fonts.Regular,
               fontSize: 12,
             },
-            tabBarIconStyle: {},
+            tabBarIconStyle: {width: 10, height: 10},
           })}>
           <Tab.Screen name="달력" component={HomeScreen} />
           <Tab.Screen name="오늘 할 일" component={TodayScreen} />

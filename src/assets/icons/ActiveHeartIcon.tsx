@@ -1,7 +1,7 @@
 import {Path, Svg} from "react-native-svg";
 
-const ActiveHeartIcon = () => (
-  <Svg width="42" height="42" viewBox="0 0 42 42">
+const ActiveHeartIcon = ({width = 20, height = 20}) => (
+  <Svg width={width} height={height} viewBox="0 0 42 42">
     <Path
       fillRule="evenodd"
       clipRule="evenodd"

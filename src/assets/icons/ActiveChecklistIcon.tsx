@@ -1,7 +1,7 @@
 import {Path, Svg} from "react-native-svg";
 
-const ActiveChecklistIcon = () => (
-  <Svg width="42" height="42" viewBox="0 0 42 42">
+const ActiveChecklistIcon = ({width = 20, height = 20}) => (
+  <Svg width={width} height={height} viewBox="0 0 42 42">
     <Path
       d="M3.5 21C3.5 12.7505 3.5 8.62575 6.062 6.062C8.6275 3.5 12.7505 3.5 21 3.5C29.2495 3.5 33.3742 3.5 35.9362 6.062C38.5 8.6275 38.5 12.7505 38.5 21C38.5 29.2495 38.5 33.3742 35.9362 35.9362C33.376 38.5 29.2495 38.5 21 38.5C12.7505 38.5 8.62575 38.5 6.062 35.9362C3.5 33.376 3.5 29.2495 3.5 21Z"
       fill="#FF7A00"

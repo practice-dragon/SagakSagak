@@ -1,6 +1,6 @@
 import {Path, Svg} from "react-native-svg";
-const HeartIcon = () => (
-  <Svg width="44" height="44" viewBox="0 0 44 44">
+const HeartIcon = ({width = 20, height = 20}) => (
+  <Svg width={width} height={height} viewBox="0 0 44 44">
     <Path
       opacity="0.5"
       fillRule="evenodd"
