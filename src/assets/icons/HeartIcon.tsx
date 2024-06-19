@@ -1,6 +1,11 @@
-import {Path, Svg} from "react-native-svg";
-const HeartIcon = ({width = 20, height = 20}) => (
-  <Svg width={width} height={height} viewBox="0 0 44 44">
+import {Path, Svg, SvgProps} from "react-native-svg";
+
+interface SVGAttributeProps extends SvgProps {
+  width?: number;
+  height?: number;
+}
+const HeartIcon = ({width, height, ...props}: SVGAttributeProps) => (
+  <Svg width={width} height={height} {...props} viewBox="0 0 44 44">
     <Path
       opacity="0.5"
       fillRule="evenodd"

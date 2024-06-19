@@ -1,7 +1,11 @@
-import {Path, Svg} from "react-native-svg";
+import {Path, Svg, SvgProps} from "react-native-svg";
 
-const ActiveSettingIcon = ({width = 20, height = 20}) => (
-  <Svg width={width} height={height} viewBox="0 0 46 45">
+interface SVGAttributeProps extends SvgProps {
+  width?: number;
+  height?: number;
+}
+const ActiveSettingIcon = ({width, height, ...props}: SVGAttributeProps) => (
+  <Svg width={width} height={height} {...props} viewBox="0 0 46 45">
     <Path
       fillRule="evenodd"
       clipRule="evenodd"

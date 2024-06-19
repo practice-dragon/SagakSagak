@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components/native";
 import Svg, {Circle as SvgCircle} from "react-native-svg";
+import ActiveCheckIcon from "../../../src/assets/icons/ActiveCheckIcon";
 
 interface CalendarDayProps {
   totalTasks?: number;
   completedTasks?: number;
   day: number;
   isSelected?: boolean;
-  isCompleted?: boolean;
 }
 
 const Wrapper = styled.View`
@@ -49,7 +49,6 @@ const CalendarDay = ({
   completedTasks = 0,
   day,
   isSelected = false,
-  isCompleted = false,
 }: CalendarDayProps) => {
   const percentage = totalTasks > 0 ? completedTasks / totalTasks : 0;
   const radius = 10;
@@ -66,7 +65,7 @@ const CalendarDay = ({
             cx={(diameter + strokeWidth) / 2}
             cy={(diameter + strokeWidth) / 2}
             r={radius}
-            strokeColor={({theme}) => theme.colors.primary}
+            strokeColor={({theme}) => theme.colors.n2}
             strokeWidth={strokeWidth}
             fill="none"
           />
@@ -74,13 +73,22 @@ const CalendarDay = ({
             cx={(diameter + strokeWidth) / 2}
             cy={(diameter + strokeWidth) / 2}
             r={radius}
-            strokeColor={({theme}) => theme.colors.n2}
+            strokeColor={({theme}) => theme.colors.primary}
             strokeWidth={strokeWidth}
             fill="none"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
           />
         </Svg>
+        {completedTasks >= 1 && totalTasks === completedTasks ? (
+          <ActiveCheckIcon
+            width={24}
+            height={24}
+            style={{position: "absolute"}}
+          />
+        ) : (
+          ""
+        )}
       </TaskStatusWrapper>
       <DayText isSelected={isSelected}>{day}</DayText>
     </Wrapper>

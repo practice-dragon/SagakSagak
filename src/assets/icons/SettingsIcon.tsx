@@ -1,7 +1,12 @@
-import {Path, Svg} from "react-native-svg";
+import {Path, Svg, SvgProps} from "react-native-svg";
 
-const SettingsIcon = ({width = 20, height = 20}) => (
-  <Svg width={width} height={height} viewBox="0 0 44 43">
+interface SVGAttributeProps extends SvgProps {
+  width?: number;
+  height?: number;
+}
+
+const SettingsIcon = ({width, height, ...props}: SVGAttributeProps) => (
+  <Svg width={width} height={height} {...props} viewBox="0 0 44 43">
     <Path
       opacity="0.5"
       fillRule="evenodd"

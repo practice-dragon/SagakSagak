@@ -1,7 +1,11 @@
-import {Path, Svg} from "react-native-svg";
+import {Path, Svg, SvgProps} from "react-native-svg";
 
-const ChecklistIcon = ({width = 20, height = 20}) => (
-  <Svg width={width} height={height} viewBox="0 0 43 43">
+interface SVGAttributeProps extends SvgProps {
+  width?: number;
+  height?: number;
+}
+const ChecklistIcon = ({width, height, ...props}: SVGAttributeProps) => (
+  <Svg width={width} height={height} {...props} viewBox="0 0 43 43">
     <Path
       opacity="0.5"
       d="M3.58325 21.5C3.58325 13.0541 3.58325 8.83117 6.20625 6.20637C8.83284 3.58337 13.054 3.58337 21.4999 3.58337C29.9458 3.58337 34.1688 3.58337 36.7918 6.20637C39.4166 8.83296 39.4166 13.0541 39.4166 21.5C39.4166 29.946 39.4166 34.1689 36.7918 36.7919C34.1706 39.4167 29.9458 39.4167 21.4999 39.4167C13.054 39.4167 8.83104 39.4167 6.20625 36.7919C3.58325 34.1707 3.58325 29.946 3.58325 21.5Z"
