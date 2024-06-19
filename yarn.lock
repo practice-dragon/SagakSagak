@@ -3115,7 +3115,7 @@
   resolved "https://registry.yarnpkg.com/@storybook/react-native-theming/-/react-native-theming-7.6.20.tgz#eab757c9225277e9bed6fc7da9f40a5f10348b97"
   integrity sha512-vwMmR2xUAu4f1BSqJIIy/CbmhOyTCu385RZO8+5nf0ym73NDtwLks6Crp71xcy9fR/NDOHHADO2c4YPSpYyifA==
 
-"@storybook/react-native@^7.6.19":
+"@storybook/react-native@^7.6.20":
   version "7.6.20"
   resolved "https://registry.yarnpkg.com/@storybook/react-native/-/react-native-7.6.20.tgz#8ec46db5652ecaee6f5eb96dfd51e4b6966ace2c"
   integrity sha512-zDhTzLFJg1iNwVLcUWL4ieU5gM8+DSql6+XS14ARaaHNEAUSOo4j59VY2XUWIKUW8znhIxdDMOGGZYfc6PvFlg==

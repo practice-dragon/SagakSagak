@@ -11,6 +11,7 @@ const main: StorybookConfig = {
     "@storybook/addon-themes",
     "@storybook/addon-actions",
   ],
+  reactNative: {},
 };
 
 export default main;

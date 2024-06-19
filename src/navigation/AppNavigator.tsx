@@ -11,22 +11,20 @@ import CustomScreen from "@/screens/CustomScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
 import {RootTabParamList} from "@/types/route";
 
-import CalendarIcon from "@/assets/icons/calender.svg";
-import ChecklistIcon from "@/assets/icons/checklist.svg";
-import SettingsIcon from "@/assets/icons/settings.svg";
-import HeartIcon from "@/assets/icons/heart.svg";
-import ActiveCalendarIcon from "@/assets/icons/active_calender.svg";
-import ActiveChecklistIcon from "@/assets/icons/active_checklist.svg";
-import ActiveSettingsIcon from "@/assets/icons/active_settings.svg";
-import ActiveHeartIcon from "@/assets/icons/active_heart.svg";
+import CalendarIcon from "@/assets/icons/CalendarIcon";
+import ChecklistIcon from "@/assets/icons/ChecklistIcon";
+import SettingsIcon from "@/assets/icons/SettingsIcon";
+import HeartIcon from "@/assets/icons/HeartIcon";
+import ActiveCalendarIcon from "@/assets/icons/ActiveCalendarIcon";
+import ActiveChecklistIcon from "@/assets/icons/ActiveChecklistIcon";
+import ActiveSettingsIcon from "@/assets/icons/ActiveSettingsIcon";
+import ActiveHeartIcon from "@/assets/icons/ActiveHeartIcon";
 import {lightTheme} from "@/styles/theme";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const getTabBarIcon = (
   routeName: string,
-  color: string,
-  size: number,
   focused: boolean,
 ): React.ReactNode => {
   let IconComponent = focused ? ActiveCalendarIcon : CalendarIcon;
@@ -39,7 +37,7 @@ const getTabBarIcon = (
   } else if (routeName === "설정") {
     IconComponent = focused ? ActiveSettingsIcon : SettingsIcon;
   }
-  return <IconComponent width={size} height={size} fill={color} />;
+  return <IconComponent />;
 };
 
 const AppNavigator = () => {
@@ -50,7 +48,7 @@ const AppNavigator = () => {
         <Tab.Navigator
           screenOptions={({route}: BottomTabScreenProps<RootTabParamList>) => ({
             tabBarIcon: ({color, size, focused}) =>
-              getTabBarIcon(route.name, color, size, focused),
+              getTabBarIcon(route.name, focused),
             tabBarActiveTintColor: theme.colors.primary,
             tabBarInactiveTintColor: theme.colors.text,
             tabBarStyle: {
@@ -61,6 +59,7 @@ const AppNavigator = () => {
               fontFamily: theme.fonts.Regular,
               fontSize: 12,
             },
+            tabBarIconStyle: {},
           })}>
           <Tab.Screen name="달력" component={HomeScreen} />
           <Tab.Screen name="오늘 할 일" component={TodayScreen} />
