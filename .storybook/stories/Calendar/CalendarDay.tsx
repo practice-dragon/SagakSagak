@@ -18,9 +18,9 @@ const Wrapper = styled.View`
   box-sizing: border-box;
   padding: 2px;
   width: 30px;
-  height: 40px;
   background-color: transparent;
   margin: 4px;
+  gap: 1px;
 `;
 
 const TaskStatusWrapper = styled.View`
@@ -52,7 +52,7 @@ const CalendarDay = ({
 }: CalendarDayProps) => {
   const percentage = totalTasks > 0 ? completedTasks / totalTasks : 0;
   const radius = 10;
-  const strokeWidth = 3;
+  const strokeWidth = 7;
   const diameter = radius * 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - percentage * circumference;
