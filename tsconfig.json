@@ -6,7 +6,8 @@
       "@/*": ["./src/*"],
       "@const/*": ["./src/const/*"],
       "@story/*": ["./.storybook/*"]
-    }
+    },
+    "types": ["react-native-dotenv"]
   },
   "include": ["src/**/*", "src/custom.d.ts"]
 }

@@ -1,3 +1,5 @@
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+
 import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {
@@ -41,33 +43,38 @@ const getTabBarIcon = (
 };
 
 const AppNavigator = () => {
+  const queryClient = new QueryClient();
   const theme = lightTheme;
   return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({route}: BottomTabScreenProps<RootTabParamList>) => ({
-            tabBarIcon: ({color, size, focused}) =>
-              getTabBarIcon(route.name, focused),
-            tabBarActiveTintColor: theme.colors.primary,
-            tabBarInactiveTintColor: theme.colors.text,
-            tabBarStyle: {
-              paddingBottom: 5,
-              height: 70,
-            },
-            tabBarLabelStyle: {
-              fontFamily: theme.fonts.Regular,
-              fontSize: 12,
-            },
-            tabBarIconStyle: {width: 10, height: 10},
-          })}>
-          <Tab.Screen name="달력" component={HomeScreen} />
-          <Tab.Screen name="오늘 할 일" component={TodayScreen} />
-          <Tab.Screen name="커스텀" component={CustomScreen} />
-          <Tab.Screen name="설정" component={SettingsScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({
+              route,
+            }: BottomTabScreenProps<RootTabParamList>) => ({
+              tabBarIcon: ({color, size, focused}) =>
+                getTabBarIcon(route.name, focused),
+              tabBarActiveTintColor: theme.colors.primary,
+              tabBarInactiveTintColor: theme.colors.text,
+              tabBarStyle: {
+                paddingBottom: 5,
+                height: 70,
+              },
+              tabBarLabelStyle: {
+                fontFamily: theme.fonts.Regular,
+                fontSize: 12,
+              },
+              tabBarIconStyle: {width: 10, height: 10},
+            })}>
+            <Tab.Screen name="달력" component={HomeScreen} />
+            <Tab.Screen name="오늘 할 일" component={TodayScreen} />
+            <Tab.Screen name="커스텀" component={CustomScreen} />
+            <Tab.Screen name="설정" component={SettingsScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 
