@@ -4,14 +4,14 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
-import {Google_webClientId} from "@env";
-import React, {useEffect} from "react";
+import {googleClientIdWeb} from "@env";
+import {useEffect} from "react";
 
 export default function GoogleSignInComponent() {
   useEffect(() => {
     GoogleSignin.configure({
       scopes: ["https://www.googleapis.com/auth/drive.readonly"],
-      webClientId: Google_webClientId,
+      webClientId: googleClientIdWeb,
       offlineAccess: true,
       forceCodeForRefreshToken: true,
     });

@@ -1,9 +1,47 @@
 {
-  "installed": {
-    "client_id": "446203325064-d6cocctca00vc8glr0iodf9b3f52tn1n.apps.googleusercontent.com",
+  "project_info": {
+    "project_number": "446203325064",
     "project_id": "sagaksagak-427402",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs"
-  }
+    "storage_bucket": "sagaksagak-427402.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446203325064:android:62ba4f7c00b08486db4d3d",
+        "android_client_info": {
+          "package_name": "com.sagak_sagak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446203325064-d6cocctca00vc8glr0iodf9b3f52tn1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sagak_sagak",
+            "certificate_hash": "a20b29d2ee4e0514e8e221b507bbce65f6f82b0f"
+          }
+        },
+        {
+          "client_id": "446203325064-msst80foh1ns8jn5s4qunjdsj7v1uu57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA4xnHxw2u0lDHCtSIsAz_0wTGM8ae7DY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446203325064-msst80foh1ns8jn5s4qunjdsj7v1uu57.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
 }
