@@ -4,7 +4,11 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
-import {googleClientIdWeb} from "@env";
+import {
+  googleClientIdAndroid,
+  googleClientIdWeb,
+  googleClientIdIos,
+} from "@env";
 import {useEffect} from "react";
 
 export default function GoogleSignInComponent() {
@@ -12,6 +16,7 @@ export default function GoogleSignInComponent() {
     GoogleSignin.configure({
       scopes: ["https://www.googleapis.com/auth/drive.readonly"],
       webClientId: googleClientIdWeb,
+      iosClientId: googleClientIdIos,
       offlineAccess: true,
       forceCodeForRefreshToken: true,
     });

@@ -1,5 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
     <uses-permission android:name="android.permission.INTERNET" />
     <meta-data
         android:name="com.google.android.gms.version"
@@ -23,6 +22,19 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+      </activity>
+
+      <activity
+        android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        android:exported="true">
+      <intent-filter>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <category android:name="android.intent.category.BROWSABLE" />
+      <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
+      <data android:host="oauth"
+          android:scheme="kakaof0e4e05290d8c796df9780c023be5765" />
+      </intent-filter>
       </activity>
     </application>
 </manifest>
