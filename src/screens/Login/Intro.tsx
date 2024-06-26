@@ -8,7 +8,6 @@ import {
   serviceTerms as getKakaoServiceTerms,
   unlink,
 } from "@react-native-seoul/kakao-login";
-import ResultView from "./Intro.web";
 
 const LoginScreen = () => {
   const [result, setResult] = useState<string>("");
@@ -74,7 +73,6 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ResultView />
       <Pressable
         style={styles.button}
         onPress={() => {

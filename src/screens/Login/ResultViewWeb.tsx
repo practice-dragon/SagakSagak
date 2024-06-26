@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components/native";
+import styled from "styled-components";
 
 interface ResultViewType {
   type?: "login" | "profile" | "logout" | "unlink";
@@ -53,7 +53,7 @@ const ResultView = ({type, state}: ResultViewType) => {
   })();
 };
 
-const ResultBox = styled.View`
+const ResultBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
