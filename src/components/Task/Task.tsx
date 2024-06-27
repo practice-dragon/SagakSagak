@@ -5,7 +5,6 @@ import ActiveCheckSquareIcon from "../../../src/assets/icons/ActiveCheckSquareIc
 import CheckSquareIcon from "../../../src/assets/icons/CheckSquareIcon";
 import BinIcon from "@/assets/icons/BinIcon";
 import {supabase} from "@/lib/supabase";
-import EditIcon from "@/assets/icons/EditIcon";
 
 interface TaskProps {
   id: number;
@@ -98,14 +97,9 @@ const Task = ({id, text, completed, onDelete, onEdit}: TaskProps) => {
           <TaskText completed={completed}>{text}</TaskText>
         </TouchableOpacity>
       )}
-      <RightIcons>
-        <StyledTouchableOpacity onPress={onEdit}>
-          <EditIcon width={16} height={16} />
-        </StyledTouchableOpacity>
-        <StyledTouchableOpacity onPress={handleDelete}>
-          <BinIcon width={24} height={24} />
-        </StyledTouchableOpacity>
-      </RightIcons>
+      <TouchableOpacity onPress={handleDelete}>
+        <BinIcon width={24} height={24} />
+      </TouchableOpacity>
     </Container>
   );
 };
@@ -128,16 +122,6 @@ const TaskText = styled(Text)<{completed: boolean}>`
   color: ${({completed}) => (completed ? "gray" : "#333")};
   text-decoration-line: ${({completed}) =>
     completed ? "line-through" : "none"};
-`;
-
-const RightIcons = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const StyledTouchableOpacity = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
 `;
 
 export default Task;

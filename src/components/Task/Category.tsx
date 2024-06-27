@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import styled from "styled-components/native";
+import Task from "@story/stories/Task/Task";
 import PlusIcon from "@/assets/icons/PlusIcon";
 import {TaskType} from "@/types/Profile";
 import {Modal, Text, TextInput, TouchableOpacity} from "react-native";
-import Task from "./Task";
+import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
+import EditIcon from "@/assets/icons/EditIcon";
 
 interface CategoryProps {
   text: string;
@@ -39,18 +41,18 @@ const Category = ({
     }
   };
 
-  const handleCancelEdit = () => {
-    setModalVisible(false);
-    setSelectedTaskId(null);
-    setNewTaskTitle("");
-  };
-
   return (
     <CategoryContainer>
-      <CategoryHeader onPress={onPress}>
-        <CategoryText>{text}</CategoryText>
-        <PlusIcon width={16} height={16} />
+      <CategoryHeader>
+        <CategoryBox onPress={onPress}>
+          <CategoryText>{text}</CategoryText>
+          <PlusIcon width={16} height={16} />
+        </CategoryBox>
+        <IconBox>
+          <MenuDotsIcon width={16} height={16} />
+        </IconBox>
       </CategoryHeader>
+
       {todos?.map(task => (
         <Task
           key={task.id}
@@ -65,7 +67,7 @@ const Category = ({
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={handleCancelEdit}>
+        onRequestClose={() => setModalVisible(false)}>
         <ModalContainer>
           <ModalView>
             <TextInput
@@ -73,14 +75,9 @@ const Category = ({
               onChangeText={text => setNewTaskTitle(text)}
               value={newTaskTitle}
             />
-            <ButtonRow>
-              <TouchableOpacity onPress={handleConfirmEdit}>
-                <Text>확인</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleCancelEdit}>
-                <Text>취소</Text>
-              </TouchableOpacity>
-            </ButtonRow>
+            <TouchableOpacity onPress={handleConfirmEdit}>
+              <Text>확인</Text>
+            </TouchableOpacity>
           </ModalView>
         </ModalContainer>
       </Modal>
@@ -92,14 +89,24 @@ const CategoryContainer = styled.View`
   margin-top: 16px;
 `;
 
-const CategoryHeader = styled.TouchableOpacity`
+const CategoryHeader = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const CategoryBox = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   background-color: ${({theme}) => theme.colors.card};
   padding: 12px 16px;
+  align-self: flex-start;
   gap: 3px;
   border-radius: 8px;
-  align-self: flex-start;
+`;
+
+const IconBox = styled.TouchableOpacity`
+  padding: 0 20px;
 `;
 
 const CategoryText = styled.Text`
@@ -120,13 +127,6 @@ const ModalView = styled.View`
   padding: 20px;
   border-radius: 10px;
   align-items: center;
-`;
-
-const ButtonRow = styled.View`
-  flex-direction: row;
-  justify-content: space-around;
-  width: 100%;
-  margin-top: 20px;
 `;
 
 export default Category;

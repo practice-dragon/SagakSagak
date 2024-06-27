@@ -8,12 +8,12 @@ import {
   Text,
 } from "react-native";
 import styled from "styled-components/native";
-import Calendar from "@story/stories/Calendar/Calendar";
-import Category from "@story/stories/Task/Category";
 import PlusIcon from "@/assets/icons/PlusIcon";
 import {supabase} from "@/lib/supabase";
-import {CategoryType, TaskType} from "@/types/Profile";
+import {CategoryType} from "@/types/Profile";
 import {useAuth} from "@/context/AuthContext";
+import Category from "@/components/Task/Category";
+import Calendar from "@/components/Task/Calendar";
 
 function Home() {
   const [viewType, setViewType] = useState<"week" | "month">("week");
