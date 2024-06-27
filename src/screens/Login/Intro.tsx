@@ -1,5 +1,6 @@
-import {useState} from "react";
-import {Pressable, StyleSheet, Text, View} from "react-native";
+import React, {useState} from "react";
+import {Image, Pressable, Text} from "react-native";
+import styled from "styled-components/native";
 import {
   login as kakaoLogin,
   logout as kakaoLogout,
@@ -9,6 +10,50 @@ import {
 } from "@react-native-seoul/kakao-login";
 import {supabase} from "@/lib/supabase";
 import {useAuth} from "@/context/AuthContext";
+import {Button} from "@story/stories/Button/Button";
+
+const Container = styled.SafeAreaView`
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 100px;
+  background-color: ${({theme}) => theme.colors.background};
+`;
+
+const LogoContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LogoImage = styled(Image).attrs({
+  source: require("../../assets/images/sagak_logo.png"),
+})`
+  width: 138px;
+  height: 50px;
+`;
+
+const TextContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin-top: 200px;
+`;
+
+const TextDescription = styled(Text)`
+  font-size: ${({theme}) => theme.fonts.h2.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.h2.fontFamily};
+  color: ${({theme}) => theme.colors.text};
+  text-align: center;
+`;
+
+const ButtonContainer = styled.View`
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+`;
 
 const LoginScreen = () => {
   const [result, setResult] = useState<string>("");
@@ -48,7 +93,7 @@ const LoginScreen = () => {
 
       setResult(JSON.stringify(token));
       authLogin({id: id.toString(), username: nickname});
-      console.log("로그인 성공쓰", profile);
+      console.log("로그인 성공", profile);
     } catch (err) {
       console.error("login err", err);
     }
@@ -59,7 +104,7 @@ const LoginScreen = () => {
       const message = await kakaoLogout();
       setResult(message);
       authLogout();
-      console.log("로그아웃 성공쓰");
+      console.log("로그아웃 성공");
     } catch (err) {
       console.error("signOut error", err);
     }
@@ -76,40 +121,32 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Pressable style={styles.button} onPress={signInWithKakao}>
-        <Text style={styles.text}>카카오 로그인</Text>
-      </Pressable>
-      <Pressable style={styles.button} onPress={unlinkKakao}>
-        <Text style={styles.text}>링크 해제</Text>
-      </Pressable>
-      <Pressable style={styles.button} onPress={signOutWithKakao}>
-        <Text style={styles.text}>카카오 로그아웃</Text>
-      </Pressable>
-    </View>
+    <Container>
+      <LogoContainer>
+        <LogoImage />
+      </LogoContainer>
+      <TextContainer>
+        <TextDescription>오늘 하루를 계획해봅시다~</TextDescription>
+      </TextContainer>
+      <ButtonContainer>
+        <Button
+          size="lg"
+          text="카카오 계정으로 로그인!"
+          onPress={signInWithKakao}
+          variant="primary"
+        />
+        {/* <Button onPress={signInWithKakao}>
+          <ButtonText>카카오 로그인</ButtonText>
+        </Button>
+        <Button onPress={unlinkKakao}>
+          <ButtonText>링크 해제</ButtonText>
+        </Button>
+        <Button onPress={signOutWithKakao}>
+          <ButtonText>카카오 로그아웃</ButtonText>
+        </Button> */}
+      </ButtonContainer>
+    </Container>
   );
 };
 
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    height: "100%",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingBottom: 100,
-  },
-  button: {
-    backgroundColor: "#FEE500",
-    borderRadius: 40,
-    borderWidth: 1,
-    width: 250,
-    height: 40,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginTop: 10,
-  },
-  text: {
-    textAlign: "center",
-  },
-});

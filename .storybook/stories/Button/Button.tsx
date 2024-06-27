@@ -18,7 +18,7 @@ const ButtonContainer = styled.TouchableOpacity<{
       : variant === "primary"
       ? theme.colors.primary
       : "transparent"};
-  padding: 10px 0;
+  padding: 10px 5px;
   width: ${({size}) => (size === "sm" ? "70%" : "80%")};
   border-radius: 16px;
   align-items: center;
@@ -33,7 +33,7 @@ const ButtonText = styled.Text<{variant: "gray" | "primary" | "textGray"}>`
       : variant === "primary"
       ? theme.colors.textInverse
       : theme.colors.text};
-  font-size: ${({theme}) => theme.fonts.p2.fontSize};
+  font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
   font-family: ${({theme}) => theme.fonts.p2.fontFamily};
 `;
 
