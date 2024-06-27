@@ -1,4 +1,4 @@
-import {supabase} from "@/services/supabase";
+import {supabase} from "@/lib/supabase";
 import {useQuery} from "@tanstack/react-query";
 
 export const useGetUser = () => {

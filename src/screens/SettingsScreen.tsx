@@ -1,101 +1,114 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from "react";
-import type {PropsWithChildren} from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from "react-native";
+import {SafeAreaView, ScrollView, Text, TouchableOpacity} from "react-native";
+import styled from "styled-components/native";
+import ChangeIcon from "@/assets/icons/ChangeIcon";
+import ChatIcon from "@/assets/icons/ChatIcon";
+// import DangerIcon from "@/assets/icons/DangerIcon";
+import NotificationIcon from "@/assets/icons/NotificationIcon";
+import ArrowIcon from "@/assets/icons/ArrowIcon";
 
-import {Colors} from "react-native/Libraries/NewAppScreen";
+const Container = styled.SafeAreaView`
+  flex: 1;
+  background-color: ${({theme}) => theme.colors.background};
+`;
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const SectionContainer = styled.View`
+  padding: 16px;
+  margin: 8px 0;
+`;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === "dark";
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const SectionTitle = styled.Text`
+  font-size: ${({theme}) => theme.fonts.p3.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.p3.fontFamily};
+  color: ${({theme}) => theme.colors.text};
+  margin-bottom: 8px;
+`;
 
-function AAAAA(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === "dark";
+const ItemContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-top-width: 1px;
+  border-top-color: ${({theme}) => theme.colors.n2};
+`;
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+const LeftContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+`;
+
+const ItemText = styled.Text`
+  font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.p2.fontFamily};
+  color: ${({theme}) => theme.colors.text};
+`;
+
+const ArrowContainer = styled.View``;
+
+const SettingsScreen = () => {
+  const handleLogout = () => {
+    console.log("Logout clicked");
+  };
+
+  const handleChangeConnectedAccounts = () => {
+    console.log("Change connected accounts clicked");
+  };
+
+  const handleAdjustPushNotifications = () => {
+    console.log("Adjust push notifications clicked");
+  };
+
+  const handleSendFeedback = () => {
+    console.log("Send feedback clicked");
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Pretendard">
-            <Text style={styles.highlight}>AAAAA</Text>
-          </Section>
-          <Section title="Pretendard">
-            <Text style={styles.highlight}>폰트가 잘 될까용</Text>
-          </Section>
-          <Section title="일반 폰트">
-            <Text style={styles.highlight}>일반 폰트의 안녕하세요</Text>
-          </Section>
-        </View>
+    <Container>
+      <ScrollView contentInsetAdjustmentBehavior="automatic" style={{flex: 1}}>
+        <SectionContainer>
+          <SectionTitle>계정</SectionTitle>
+          <TouchableOpacity onPress={handleChangeConnectedAccounts}>
+            <ItemContainer>
+              <LeftContainer>
+                <ChangeIcon width={16} height={16} />
+                <ItemText>계정 설정하기</ItemText>
+              </LeftContainer>
+              <ArrowContainer>
+                <ArrowIcon width={16} height={16} />
+              </ArrowContainer>
+            </ItemContainer>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleAdjustPushNotifications}>
+            <ItemContainer>
+              <LeftContainer>
+                <NotificationIcon width={16} height={16} />
+                <ItemText>푸시 알림 맞추기</ItemText>
+              </LeftContainer>
+              <ArrowContainer>
+                <ArrowIcon width={16} height={16} />
+              </ArrowContainer>
+            </ItemContainer>
+          </TouchableOpacity>
+        </SectionContainer>
+        <SectionContainer>
+          <SectionTitle>고객 지원</SectionTitle>
+          <TouchableOpacity onPress={handleSendFeedback}>
+            <ItemContainer>
+              <LeftContainer>
+                <ChatIcon width={16} height={16} />
+                <ItemText>건의하기</ItemText>
+              </LeftContainer>
+              <ArrowContainer>
+                <ArrowIcon width={16} height={16} />
+              </ArrowContainer>
+            </ItemContainer>
+          </TouchableOpacity>
+        </SectionContainer>
       </ScrollView>
-    </SafeAreaView>
+    </Container>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontFamily: "Pretendard-Black",
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: "400",
-  },
-  highlight: {
-    fontFamily: "RixInooAriDuri Regular",
-  },
-});
-
-export default AAAAA;
+export default SettingsScreen;

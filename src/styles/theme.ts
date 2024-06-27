@@ -18,31 +18,31 @@ export const lightTheme: DefaultTheme = {
   fonts: {
     h1: {
       fontFamily: "RixInooAriDuri Regular",
-      fontSize: "32px",
+      fontSize: 32,
     },
     h2: {
       fontFamily: "Pretendard-ExtraBold",
-      fontSize: "24px",
+      fontSize: 24,
     },
     h3: {
       fontFamily: "Pretendard-Bold",
-      fontSize: "24px",
+      fontSize: 24,
     },
     special: {
       fontFamily: "Pretendard-Regular",
-      fontSize: "12px",
+      fontSize: 12,
     },
     p1: {
       fontFamily: "Pretendard-Bold",
-      fontSize: "20px",
+      fontSize: 20,
     },
     p2: {
       fontFamily: "Pretendard-Bold",
-      fontSize: "16px",
+      fontSize: 16,
     },
     p3: {
       fontFamily: "Pretendard-Regular",
-      fontSize: "14px",
+      fontSize: 14,
     },
   },
 };

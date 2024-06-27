@@ -1,5 +1,5 @@
-import {supabase} from "@/services/supabase";
-import React, {useState, useEffect} from "react";
+import {supabase} from "@/lib/supabase";
+import {useState, useEffect} from "react";
 import {View, Text, TextInput, Button, FlatList} from "react-native";
 
 interface Todo {

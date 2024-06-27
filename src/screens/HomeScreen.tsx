@@ -29,16 +29,16 @@ function Home(): React.JSX.Element {
 
   return (
     <SafeAreaView>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Text>Home</Text>
-          <Text>폰트가 잘 될까용</Text>
-          <Text>일반 폰트의 안녕하세요</Text>
-        </View>
-      </ScrollView>
+      {/* <ScrollView contentInsetAdjustmentBehavior="automatic"> */}
+      <View
+        style={{
+          backgroundColor: isDarkMode ? Colors.black : Colors.white,
+        }}>
+        <Text>Home</Text>
+        <Text>폰트가 잘 될까용</Text>
+        <Text>일반 폰트의 안녕하세요</Text>
+      </View>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }

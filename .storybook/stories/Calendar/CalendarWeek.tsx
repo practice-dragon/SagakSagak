@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled, {useTheme} from "styled-components/native";
 import CalendarDay from "./CalendarDay";
-import Arrow from "../../../src/assets/icons/Arrow";
+import ArrowIcon from "../../../src/assets/icons/ArrowIcon";
 const Container = styled.View`
   flex-direction: column;
   justify-content: space-between;
@@ -87,7 +87,7 @@ const CalendarWeek = () => {
     <Container>
       <ButtonContainer>
         <Button onPress={handlePreviousWeek}>
-          <Arrow width={24} height={24} direction="left" />
+          <ArrowIcon width={24} height={24} direction="left" />
         </Button>
         <DateContainer>
           <DateText>
@@ -96,7 +96,7 @@ const CalendarWeek = () => {
           </DateText>
         </DateContainer>
         <Button onPress={handleNextWeek}>
-          <Arrow width={24} height={24} direction="right" />
+          <ArrowIcon width={24} height={24} direction="right" />
         </Button>
       </ButtonContainer>
       <WeekdayContainer>

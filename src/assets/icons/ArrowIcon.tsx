@@ -21,7 +21,7 @@ const getRotation = (direction: "up" | "down" | "left" | "right") => {
   }
 };
 
-const Arrow = ({
+const ArrowIcon = ({
   width,
   height,
   direction = "right",
@@ -39,4 +39,4 @@ const Arrow = ({
   );
 };
 
-export default Arrow;
+export default ArrowIcon;

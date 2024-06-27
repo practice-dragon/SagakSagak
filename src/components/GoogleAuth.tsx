@@ -1,4 +1,3 @@
-import {supabase} from "@/services/supabase";
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -10,6 +9,7 @@ import {
   googleClientIdIos,
 } from "@env";
 import {useEffect} from "react";
+import {supabase} from "@/lib/supabase";
 
 export default function GoogleSignInComponent() {
   useEffect(() => {
