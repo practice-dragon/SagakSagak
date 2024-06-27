@@ -5,7 +5,6 @@ import {
 } from "@react-navigation/bottom-tabs";
 import {createStackNavigator} from "@react-navigation/stack";
 import HomeScreen from "@/screens/HomeScreen";
-import TodayScreen from "@/screens/TodayScreen";
 import CustomScreen from "@/screens/CustomScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
 import ChangeConnectedAccountsScreen from "@/screens/Settings/ChangeConnectedAccountsScreen";
@@ -30,8 +29,6 @@ const getTabBarIcon = (
   let IconComponent = focused ? ActiveCalendarIcon : CalendarIcon;
   if (routeName === "달력") {
     IconComponent = focused ? ActiveCalendarIcon : CalendarIcon;
-  } else if (routeName === "오늘 할 일") {
-    IconComponent = focused ? ActiveChecklistIcon : ChecklistIcon;
   } else if (routeName === "커스텀") {
     IconComponent = focused ? ActiveHeartIcon : HeartIcon;
   } else if (routeName === "설정") {
@@ -88,7 +85,6 @@ const MainScreen = () => {
         },
       })}>
       <Tab.Screen name="달력" component={HomeScreen} />
-      <Tab.Screen name="오늘 할 일" component={TodayScreen} />
       <Tab.Screen name="커스텀" component={CustomScreen} />
       <Tab.Screen name="설정" component={SettingsStackNavigator} />
     </Tab.Navigator>

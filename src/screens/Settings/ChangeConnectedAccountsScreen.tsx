@@ -3,6 +3,7 @@ import {useAuth} from "@/context/AuthContext";
 import React from "react";
 import {SafeAreaView, Text, TouchableOpacity} from "react-native";
 import styled from "styled-components/native";
+import {logout as kakaoLogout} from "@react-native-seoul/kakao-login";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -23,16 +24,19 @@ const LogoutButtonText = styled.Text`
 `;
 
 const ChangeConnectedAccountsScreen = () => {
-  const {logout} = useAuth();
+  const {logout: authLogout} = useAuth();
 
   const handleLogout = async () => {
     try {
-      await logout();
+      const message = await kakaoLogout();
+      console.log(message);
+      await authLogout();
       console.log("로그아웃 성공");
     } catch (error) {
       console.error("Error logging out:", error);
     }
   };
+
   return (
     <Container>
       <TouchableOpacity onPress={handleLogout}>

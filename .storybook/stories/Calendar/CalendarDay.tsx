@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components/native";
+import styled, {useTheme} from "styled-components/native";
 import Svg, {Circle as SvgCircle} from "react-native-svg";
 import ActiveCheckIcon from "../../../src/assets/icons/ActiveCheckIcon";
 
@@ -8,6 +8,7 @@ interface CalendarDayProps {
   completedTasks?: number;
   day: number;
   isSelected?: boolean;
+  onClick?: () => void;
 }
 
 const Wrapper = styled.View`
@@ -19,11 +20,11 @@ const Wrapper = styled.View`
   padding: 2px;
   width: 30px;
   background-color: transparent;
-  margin: 4px;
+  margin: 0 4px;
   gap: 1px;
 `;
 
-const TaskStatusWrapper = styled.View`
+const TaskStatusWrapper = styled.TouchableOpacity`
   margin: 2px 0;
   display: flex;
   justify-content: center;
@@ -34,7 +35,7 @@ const TaskStatusWrapper = styled.View`
 `;
 
 const DayText = styled.Text<{isSelected: boolean}>`
-  font-size: ${({theme}) => theme.fonts.p3.fontSize};
+  font-size: ${({theme}) => theme.fonts.p3.fontSize}px;
   font-family: ${({theme}) => theme.fonts.p3.fontFamily};
   color: ${({theme, isSelected}) =>
     isSelected ? theme.colors.primary : theme.colors.text};
@@ -49,7 +50,9 @@ const CalendarDay = ({
   completedTasks = 0,
   day,
   isSelected = false,
+  onClick,
 }: CalendarDayProps) => {
+  const theme = useTheme();
   const percentage = totalTasks > 0 ? completedTasks / totalTasks : 0;
   const radius = 10;
   const strokeWidth = 7;
@@ -57,15 +60,21 @@ const CalendarDay = ({
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - percentage * circumference;
 
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
+
   return (
     <Wrapper>
-      <TaskStatusWrapper>
+      <TaskStatusWrapper onPress={handleClick}>
         <Svg height={diameter + strokeWidth} width={diameter + strokeWidth}>
           <StyledCircle
             cx={(diameter + strokeWidth) / 2}
             cy={(diameter + strokeWidth) / 2}
             r={radius}
-            strokeColor={({theme}) => theme.colors.n2}
+            strokeColor={theme.colors.n2}
             strokeWidth={strokeWidth}
             fill="none"
           />
@@ -73,7 +82,7 @@ const CalendarDay = ({
             cx={(diameter + strokeWidth) / 2}
             cy={(diameter + strokeWidth) / 2}
             r={radius}
-            strokeColor={({theme}) => theme.colors.primary}
+            strokeColor={theme.colors.primary}
             strokeWidth={strokeWidth}
             fill="none"
             strokeDasharray={circumference}
@@ -86,9 +95,7 @@ const CalendarDay = ({
             height={24}
             style={{position: "absolute"}}
           />
-        ) : (
-          ""
-        )}
+        ) : null}
       </TaskStatusWrapper>
       <DayText isSelected={isSelected}>{day}</DayText>
     </Wrapper>
