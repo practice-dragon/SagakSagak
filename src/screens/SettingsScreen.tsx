@@ -3,9 +3,10 @@ import {SafeAreaView, ScrollView, Text, TouchableOpacity} from "react-native";
 import styled from "styled-components/native";
 import ChangeIcon from "@/assets/icons/ChangeIcon";
 import ChatIcon from "@/assets/icons/ChatIcon";
-// import DangerIcon from "@/assets/icons/DangerIcon";
 import NotificationIcon from "@/assets/icons/NotificationIcon";
 import ArrowIcon from "@/assets/icons/ArrowIcon";
+import {SettingsStackParamList} from "@/types/route";
+import {useNavigation, NavigationProp} from "@react-navigation/native";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -48,12 +49,10 @@ const ItemText = styled.Text`
 const ArrowContainer = styled.View``;
 
 const SettingsScreen = () => {
-  const handleLogout = () => {
-    console.log("Logout clicked");
-  };
+  const navigation = useNavigation<NavigationProp<SettingsStackParamList>>();
 
   const handleChangeConnectedAccounts = () => {
-    console.log("Change connected accounts clicked");
+    navigation.navigate("ChangeConnectedAccounts");
   };
 
   const handleAdjustPushNotifications = () => {

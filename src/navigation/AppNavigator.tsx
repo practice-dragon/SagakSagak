@@ -3,11 +3,13 @@ import {
   createBottomTabNavigator,
   BottomTabScreenProps,
 } from "@react-navigation/bottom-tabs";
+import {createStackNavigator} from "@react-navigation/stack";
 import HomeScreen from "@/screens/HomeScreen";
 import TodayScreen from "@/screens/TodayScreen";
 import CustomScreen from "@/screens/CustomScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
-import {RootTabParamList} from "@/types/route";
+import ChangeConnectedAccountsScreen from "@/screens/Settings/ChangeConnectedAccountsScreen";
+import {RootTabParamList, SettingsStackParamList} from "@/types/route";
 import CalendarIcon from "@/assets/icons/CalendarIcon";
 import ChecklistIcon from "@/assets/icons/ChecklistIcon";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
@@ -17,9 +19,9 @@ import ActiveChecklistIcon from "@/assets/icons/ActiveChecklistIcon";
 import ActiveSettingsIcon from "@/assets/icons/ActiveSettingsIcon";
 import ActiveHeartIcon from "@/assets/icons/ActiveHeartIcon";
 import {lightTheme} from "@/styles/theme";
-import {StyleSheet} from "react-native";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
+const SettingsStack = createStackNavigator<SettingsStackParamList>();
 
 const getTabBarIcon = (
   routeName: string,
@@ -38,9 +40,34 @@ const getTabBarIcon = (
   return <IconComponent width={35} height={35} />;
 };
 
-const MainScreen = () => {
-  const theme = lightTheme;
+const theme = lightTheme;
 
+const SettingsStackNavigator = () => (
+  <SettingsStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: theme.colors.background,
+      },
+      headerTintColor: theme.colors.text,
+      headerTitleStyle: {
+        fontFamily: theme.fonts.h3.fontFamily,
+        fontSize: theme.fonts.h3.fontSize,
+      },
+    }}>
+    <SettingsStack.Screen
+      name="Settings"
+      component={SettingsScreen}
+      options={{headerShown: false}}
+    />
+    <SettingsStack.Screen
+      name="ChangeConnectedAccounts"
+      component={ChangeConnectedAccountsScreen}
+      options={{title: "계정 설정하기"}}
+    />
+  </SettingsStack.Navigator>
+);
+
+const MainScreen = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}: BottomTabScreenProps<RootTabParamList>) => ({
@@ -63,7 +90,7 @@ const MainScreen = () => {
       <Tab.Screen name="달력" component={HomeScreen} />
       <Tab.Screen name="오늘 할 일" component={TodayScreen} />
       <Tab.Screen name="커스텀" component={CustomScreen} />
-      <Tab.Screen name="설정" component={SettingsScreen} />
+      <Tab.Screen name="설정" component={SettingsStackNavigator} />
     </Tab.Navigator>
   );
 };

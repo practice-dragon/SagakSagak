@@ -21,7 +21,6 @@ const App = () => {
       const initializeAuth = async () => {
         await checkAuthStatus();
         setIsCheckingAuth(false);
-        console.log("isCheckingAuth", isCheckingAuth);
       };
 
       initializeAuth();
@@ -35,7 +34,6 @@ const App = () => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          // headerTitleStyle: {fontSize: 45, backgroundColor: "red"},
         }}>
         {isAuthenticated ? (
           <Stack.Screen name="Main" component={MainScreen} />

@@ -5,3 +5,8 @@ export type RootTabParamList = {
   커스텀: undefined;
   설정: undefined;
 };
+
+export type SettingsStackParamList = {
+  Settings: undefined;
+  ChangeConnectedAccounts: undefined;
+};
