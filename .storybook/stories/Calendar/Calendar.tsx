@@ -74,12 +74,15 @@ const WeekdayText = styled.Text`
 const Calendar = ({
   viewType,
   setViewType,
+  selectedDate,
+  setSelectedDate,
 }: {
   viewType: "week" | "month";
   setViewType: (type: "week" | "month") => void;
+  selectedDate: Date;
+  setSelectedDate: (date: Date) => void;
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<number | null>(null);
 
   const handlePreviousPeriod = () => {
     setCurrentDate(prevDate => {

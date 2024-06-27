@@ -1,53 +1,114 @@
-import React from "react";
-import {View, Text} from "react-native";
+import React, {useState} from "react";
 import styled from "styled-components/native";
+import Task from "@story/stories/Task/Task";
 import PlusIcon from "@/assets/icons/PlusIcon";
-import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
-import {TouchableOpacity} from "react-native-gesture-handler";
+import {TaskType} from "@/types/Profile";
+import {Modal, Text, TextInput, TouchableOpacity} from "react-native";
 
 interface CategoryProps {
   text: string;
+  onPress: () => void;
+  todos: TaskType[];
+  onDeleteTask: (taskId: number) => void;
+  onUpdateTask: (taskId: number, newTitle: string) => void;
 }
 
-const Category = ({text}: CategoryProps) => {
+const Category = ({
+  text,
+  onPress,
+  todos,
+  onDeleteTask,
+  onUpdateTask,
+}: CategoryProps) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
+
+  const handleEditTask = (taskId: number, currentTitle: string) => {
+    setSelectedTaskId(taskId);
+    setNewTaskTitle(currentTitle);
+    setModalVisible(true);
+  };
+
+  const handleConfirmEdit = () => {
+    if (selectedTaskId && newTaskTitle.trim() !== "") {
+      onUpdateTask(selectedTaskId, newTaskTitle.trim());
+      setModalVisible(false);
+      setSelectedTaskId(null);
+      setNewTaskTitle("");
+    }
+  };
+
   return (
-    <Container>
-      <LeftContent>
+    <CategoryContainer>
+      <CategoryHeader onPress={onPress}>
         <CategoryText>{text}</CategoryText>
         <PlusIcon width={16} height={16} />
-      </LeftContent>
-      <RightContent>
-        <MenuDotsIcon width={24} height={24} />
-      </RightContent>
-    </Container>
+      </CategoryHeader>
+      {todos?.map(task => (
+        <Task
+          key={task.id}
+          id={task.id}
+          text={task.title}
+          completed={task.completed}
+          onDelete={() => onDeleteTask(task.id)}
+          onEdit={() => handleEditTask(task.id, task.title)}
+        />
+      ))}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <ModalContainer>
+          <ModalView>
+            <TextInput
+              placeholder="수정할 내용 입력"
+              onChangeText={text => setNewTaskTitle(text)}
+              value={newTaskTitle}
+            />
+            <TouchableOpacity onPress={handleConfirmEdit}>
+              <Text>확인</Text>
+            </TouchableOpacity>
+          </ModalView>
+        </ModalContainer>
+      </Modal>
+    </CategoryContainer>
   );
 };
 
-const Container = styled(View)`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin: 6px 0;
+const CategoryContainer = styled.View`
+  margin-top: 16px;
 `;
 
-const LeftContent = styled(TouchableOpacity)`
+const CategoryHeader = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   background-color: ${({theme}) => theme.colors.card};
   padding: 12px 16px;
-  align-items: center;
   gap: 3px;
   border-radius: 8px;
+  align-self: flex-start;
 `;
 
-const RightContent = styled(View)`
-  padding: 16px;
-`;
-
-const CategoryText = styled(Text)`
+const CategoryText = styled.Text`
   color: ${({theme}) => theme.colors.text};
   font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
   font-family: ${({theme}) => theme.fonts.p2.fontFamily};
+`;
+
+const ModalContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalView = styled.View`
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  align-items: center;
 `;
 
 export default Category;

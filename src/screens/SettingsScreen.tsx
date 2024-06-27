@@ -83,7 +83,7 @@ const SettingsScreen = () => {
             <ItemContainer>
               <LeftContainer>
                 <NotificationIcon width={16} height={16} />
-                <ItemText>푸시 알림 맞추기</ItemText>
+                <ItemText>알림 설정하기</ItemText>
               </LeftContainer>
               <ArrowContainer>
                 <ArrowIcon width={16} height={16} />

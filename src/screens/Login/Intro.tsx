@@ -22,8 +22,7 @@ const Container = styled.SafeAreaView`
 
 const LogoContainer = styled.View`
   flex: 1;
-  justify-content: center;
-  align-items: center;
+  margin-top: 10px;
 `;
 
 const LogoImage = styled(Image).attrs({
@@ -65,28 +64,35 @@ const LoginScreen = () => {
       const profile: KakaoProfile = await getKakaoProfile();
 
       const {nickname, id} = profile;
-      const {data: existingProfile, error} = await supabase
+
+      const {
+        data: existingProfile,
+        error,
+        status,
+      } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", id.toString())
         .single();
 
-      if (error) {
+      if (error && status !== 406) {
         console.error("Supabase select error", error);
         return;
       }
 
       if (!existingProfile) {
-        const {data, error} = await supabase.from("profiles").upsert([
-          {
-            id: id.toString(),
-            username: nickname,
-            joinedat: new Date().toISOString(),
-          },
-        ]);
+        const {data, error: upsertError} = await supabase
+          .from("profiles")
+          .upsert([
+            {
+              id: id.toString(),
+              username: nickname,
+              joinedat: new Date().toISOString(),
+            },
+          ]);
 
-        if (error) {
-          console.error("Supabase upsert error", error);
+        if (upsertError) {
+          console.error("Supabase upsert error", upsertError);
           return;
         }
       }

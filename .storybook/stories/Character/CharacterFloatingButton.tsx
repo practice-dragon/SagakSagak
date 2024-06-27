@@ -1,5 +1,5 @@
 import React from "react";
-import {TouchableOpacity, Image, ImageSourcePropType, Text} from "react-native";
+import {TouchableOpacity, Image, ImageSourcePropType} from "react-native";
 import styled from "styled-components/native";
 
 interface CharacterFloatingButtonProps {
@@ -11,8 +11,6 @@ const CharacterFloatingButton = ({
   imageSource = {uri: "https://via.placeholder.com/150"},
   onPress,
 }: CharacterFloatingButtonProps) => {
-  console.log(imageSource);
-
   return (
     <ButtonContainer onPress={onPress}>
       <CharacterImage source={imageSource} />
@@ -29,6 +27,8 @@ const ButtonContainer = styled(TouchableOpacity)`
   border-radius: 35px;
   justify-content: center;
   align-items: center;
+  z-index: 10;
+  background-color: red;
 `;
 
 const CharacterImage = styled(Image)`

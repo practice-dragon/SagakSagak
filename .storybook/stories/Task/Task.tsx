@@ -1,52 +1,127 @@
-import React from "react";
-import {View, Text} from "react-native";
+import React, {useState} from "react";
+import {View, Text, TextInput, TouchableOpacity, Modal} from "react-native";
 import styled from "styled-components/native";
-
 import ActiveCheckSquareIcon from "../../../src/assets/icons/ActiveCheckSquareIcon";
 import CheckSquareIcon from "../../../src/assets/icons/CheckSquareIcon";
-
 import BinIcon from "@/assets/icons/BinIcon";
-import {TouchableOpacity} from "react-native-gesture-handler";
+import {supabase} from "@/lib/supabase";
 
 interface TaskProps {
+  id: number;
   text: string;
-  state: "default" | "archived";
+  completed: boolean;
+  onDelete: () => void;
+  onEdit: () => void;
 }
 
-const Task = ({text, state}: TaskProps) => {
+const Task = ({id, text, completed, onDelete, onEdit}: TaskProps) => {
+  const [editable, setEditable] = useState(false);
+  const [newText, setNewText] = useState(text);
+
+  const toggleCompleted = async () => {
+    try {
+      const {data, error} = await supabase
+        .from("todos")
+        .update({completed: !completed})
+        .eq("id", id.toString())
+        .single();
+
+      if (error) {
+        console.error("Supabase update error", error);
+        return;
+      }
+    } catch (error) {
+      console.error("Error updating task completed status", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const {error} = await supabase
+        .from("todos")
+        .delete()
+        .eq("id", id.toString());
+
+      if (error) {
+        console.error("Supabase delete error", error);
+        return;
+      }
+
+      onDelete();
+    } catch (error) {
+      console.error("Error deleting task", error);
+    }
+  };
+
+  const handleEdit = async () => {
+    try {
+      const {data, error} = await supabase
+        .from("todos")
+        .update({title: newText})
+        .eq("id", id.toString())
+        .single();
+
+      if (error) {
+        console.error("Supabase update error", error);
+        return;
+      }
+
+      setEditable(false);
+    } catch (error) {
+      console.error("Error updating task title", error);
+    }
+  };
+
   return (
     <Container>
       <LeftIcons>
-        {state === "default" && <CheckSquareIcon width={24} height={24} />}
-        {state === "archived" && (
-          <ActiveCheckSquareIcon width={24} height={24} />
+        {completed ? (
+          <ActiveCheckSquareIcon
+            width={24}
+            height={24}
+            onPress={toggleCompleted}
+          />
+        ) : (
+          <CheckSquareIcon width={24} height={24} onPress={toggleCompleted} />
         )}
       </LeftIcons>
-      <TaskText state={state}>{text}</TaskText>
-      <BinIcon width={24} height={24} />
+      {editable ? (
+        <TextInput
+          value={newText}
+          onChangeText={setNewText}
+          onBlur={handleEdit}
+          autoFocus
+        />
+      ) : (
+        <TouchableOpacity onPress={() => setEditable(true)}>
+          <TaskText completed={completed}>{text}</TaskText>
+        </TouchableOpacity>
+      )}
+      <TouchableOpacity onPress={handleDelete}>
+        <BinIcon width={24} height={24} />
+      </TouchableOpacity>
     </Container>
   );
 };
 
-const Container = styled(TouchableOpacity)`
+const Container = styled.View`
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
 `;
 
-const LeftIcons = styled(View)`
+const LeftIcons = styled.View`
   flex-direction: row;
   align-items: center;
   margin-right: 2px;
 `;
 
-const TaskText = styled(Text)<{state: "default" | "archived"}>`
+const TaskText = styled(Text)<{completed: boolean}>`
   flex: 1;
   font-size: 16px;
-  color: ${({state}) => (state === "archived" ? "gray" : "#333")};
-  text-decoration-line: ${({state}) =>
-    state === "archived" ? "line-through" : "none"};
+  color: ${({completed}) => (completed ? "gray" : "#333")};
+  text-decoration-line: ${({completed}) =>
+    completed ? "line-through" : "none"};
 `;
 
 export default Task;
