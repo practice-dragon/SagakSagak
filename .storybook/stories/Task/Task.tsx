@@ -4,7 +4,9 @@ import styled from "styled-components/native";
 
 import ActiveCheckSquareIcon from "../../../src/assets/icons/ActiveCheckSquareIcon";
 import CheckSquareIcon from "../../../src/assets/icons/CheckSquareIcon";
-import MenuDotsIcon from "../../../src/assets/icons/MenuDotsIcon";
+
+import BinIcon from "@/assets/icons/BinIcon";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 interface TaskProps {
   text: string;
@@ -21,16 +23,16 @@ const Task = ({text, state}: TaskProps) => {
         )}
       </LeftIcons>
       <TaskText state={state}>{text}</TaskText>
-      <MenuDotsIcon width={24} height={24} />
+      <BinIcon width={24} height={24} />
     </Container>
   );
 };
 
-const Container = styled(View)`
+const Container = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 8px 16px;
 `;
 
 const LeftIcons = styled(View)`

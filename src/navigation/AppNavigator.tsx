@@ -27,7 +27,7 @@ const getTabBarIcon = (
   focused: boolean,
 ): React.ReactNode => {
   let IconComponent = focused ? ActiveCalendarIcon : CalendarIcon;
-  if (routeName === "달력") {
+  if (routeName === "캘린더") {
     IconComponent = focused ? ActiveCalendarIcon : CalendarIcon;
   } else if (routeName === "커스텀") {
     IconComponent = focused ? ActiveHeartIcon : HeartIcon;
@@ -75,8 +75,6 @@ const MainScreen = () => {
         tabBarStyle: {
           paddingBottom: 5,
           height: 70,
-          fontFamily: theme.fonts.h1.fontFamily,
-          fontSize: theme.fonts.h1.fontSize,
         },
         tabBarIconStyle: {width: 10, height: 10},
         headerTitleStyle: {
@@ -84,7 +82,7 @@ const MainScreen = () => {
           fontSize: theme.fonts.h1.fontSize,
         },
       })}>
-      <Tab.Screen name="달력" component={HomeScreen} />
+      <Tab.Screen name="캘린더" component={HomeScreen} />
       <Tab.Screen name="커스텀" component={CustomScreen} />
       <Tab.Screen name="설정" component={SettingsStackNavigator} />
     </Tab.Navigator>

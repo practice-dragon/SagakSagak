@@ -8,7 +8,7 @@ const Container = styled.View`
   justify-content: space-between;
   align-items: center;
   margin: 8px 0;
-  width: 90%;
+  width: 100%;
 `;
 
 const DateContainer = styled.View`
@@ -120,16 +120,7 @@ const Calendar = ({
         </Button>
         <DateContainer>
           <DateText>
-            {viewType === "month"
-              ? `${currentDate.getFullYear()}년 ${currentDate.toLocaleString(
-                  "ko-KR",
-                  {
-                    month: "long",
-                  },
-                )} `
-              : `${currentDate.getFullYear()}년 ${
-                  currentDate.getMonth() + 1
-                }월`}
+            {currentDate.getFullYear()}.{currentDate.getMonth()}
           </DateText>
         </DateContainer>
         <Button onPress={handleNextPeriod}>
