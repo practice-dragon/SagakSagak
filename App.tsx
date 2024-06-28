@@ -8,6 +8,7 @@ import {AuthProvider, useAuth} from "./src/context/AuthContext";
 import {ThemeProvider} from "styled-components/native";
 import {lightTheme} from "./src/styles/theme";
 import {NavigationContainer} from "@react-navigation/native";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -49,7 +50,9 @@ const App = () => {
       <AuthProvider>
         <ThemeProvider theme={lightTheme}>
           <NavigationContainer>
-            <AuthNavigator />
+            <GestureHandlerRootView>
+              <AuthNavigator />
+            </GestureHandlerRootView>
           </NavigationContainer>
         </ThemeProvider>
       </AuthProvider>

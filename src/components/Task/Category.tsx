@@ -5,51 +5,109 @@ import PlusIcon from "@/assets/icons/PlusIcon";
 import {TaskType} from "@/types/Profile";
 import {Modal, Text, TextInput, TouchableOpacity} from "react-native";
 import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
-import EditIcon from "@/assets/icons/EditIcon";
+import CustomBottomSheet from "@/components/common/BottomSheet";
+import Button from "../common/Button";
+import {addTask, updateCategory, deleteCategory} from "@/lib/supabaseAPI";
 
 interface CategoryProps {
   text: string;
-  onPress: () => void;
-  todos: TaskType[];
-  onDeleteTask: (taskId: number) => void;
-  onUpdateTask: (taskId: number, newTitle: string) => void;
+  todos?: TaskType[];
+  id: string;
+  user_id: string;
 }
 
-const Category = ({
-  text,
-  onPress,
-  todos,
-  onDeleteTask,
-  onUpdateTask,
-}: CategoryProps) => {
+const Category = ({text, todos, id, user_id}: CategoryProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [categoryTitle, setCategoryTitle] = useState(text);
+  const [newCategoryTitle, setNewCategoryTitle] = useState("");
 
-  const handleEditTask = (taskId: number, currentTitle: string) => {
-    setSelectedTaskId(taskId);
-    setNewTaskTitle(currentTitle);
-    setModalVisible(true);
+  const handleAddTask = async () => {
+    try {
+      if (newTaskTitle.trim() !== "") {
+        const userId = user_id;
+        const categoryId = id;
+        const data = await addTask(
+          userId,
+          newTaskTitle.trim(),
+          categoryId,
+          new Date(),
+        );
+
+        if (data) {
+          console.log("Task added successfully:", data);
+          setNewTaskTitle("");
+          setModalVisible(false);
+        } else {
+          console.error("Failed to add task:", data);
+        }
+      }
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   };
 
-  const handleConfirmEdit = () => {
-    if (selectedTaskId && newTaskTitle.trim() !== "") {
-      onUpdateTask(selectedTaskId, newTaskTitle.trim());
-      setModalVisible(false);
-      setSelectedTaskId(null);
-      setNewTaskTitle("");
+  const handleEdit = async () => {
+    try {
+      if (newCategoryTitle.trim() !== "") {
+        const userId = user_id;
+        const success = await updateCategory(
+          id,
+          newCategoryTitle.trim(),
+          userId,
+        );
+
+        if (success) {
+          console.log(
+            "Category updated successfully:",
+            newCategoryTitle.trim(),
+          );
+          setCategoryTitle(newCategoryTitle.trim());
+          setNewCategoryTitle("");
+          setBottomSheetVisible(false);
+        } else {
+          console.error("Failed to update category:", newCategoryTitle.trim());
+        }
+      }
+    } catch (error) {
+      console.error("Error updating category:", error);
     }
+  };
+
+  const handleDeleteCategory = async () => {
+    try {
+      const userId = user_id;
+      const success = await deleteCategory(id, userId);
+
+      if (success) {
+        console.log("Category deleted successfully:", id);
+        // Handle successful category deletion, e.g., navigate back or update state
+      } else {
+        console.error("Failed to delete category:", id);
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+    setBottomSheetVisible(false);
+  };
+
+  const closeBottomSheet = () => {
+    setBottomSheetVisible(false);
   };
 
   return (
     <CategoryContainer>
       <CategoryHeader>
-        <CategoryBox onPress={onPress}>
-          <CategoryText>{text}</CategoryText>
+        <CategoryBox onPress={() => setModalVisible(true)}>
+          <CategoryText>{categoryTitle}</CategoryText>
           <PlusIcon width={16} height={16} />
         </CategoryBox>
-        <IconBox>
-          <MenuDotsIcon width={16} height={16} />
+        <IconBox
+          onPress={() => {
+            setBottomSheetVisible(true);
+          }}>
+          <MenuDotsIcon width={24} height={24} />
         </IconBox>
       </CategoryHeader>
 
@@ -59,10 +117,9 @@ const Category = ({
           id={task.id}
           text={task.title}
           completed={task.completed}
-          onDelete={() => onDeleteTask(task.id)}
-          onEdit={() => handleEditTask(task.id, task.title)}
         />
       ))}
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -71,19 +128,39 @@ const Category = ({
         <ModalContainer>
           <ModalView>
             <TextInput
-              placeholder="수정할 내용 입력"
+              placeholder="할 일을 입력하세요"
               onChangeText={text => setNewTaskTitle(text)}
               value={newTaskTitle}
             />
-            <TouchableOpacity onPress={handleConfirmEdit}>
-              <Text>확인</Text>
+            <TouchableOpacity onPress={handleAddTask}>
+              <Text>추가</Text>
             </TouchableOpacity>
           </ModalView>
         </ModalContainer>
       </Modal>
+
+      <CustomBottomSheet
+        visible={bottomSheetVisible}
+        onClose={closeBottomSheet}>
+        <TextInput
+          placeholder="카테고리 이름을 입력하세요"
+          onChangeText={text => setNewCategoryTitle(text)}
+          value={newCategoryTitle}
+          style={{padding: 10, borderBottomWidth: 1, borderColor: "#ccc"}}
+        />
+        <Button text="수정하기" onPress={handleEdit} size={"sm"} />
+        <Button
+          text="삭제하기"
+          onPress={handleDeleteCategory}
+          size={"sm"}
+          variant="textGray"
+        />
+      </CustomBottomSheet>
     </CategoryContainer>
   );
 };
+
+export default Category;
 
 const CategoryContainer = styled.View`
   margin-top: 16px;
@@ -106,7 +183,7 @@ const CategoryBox = styled.TouchableOpacity`
 `;
 
 const IconBox = styled.TouchableOpacity`
-  padding: 0 20px;
+  padding: 16px 15px;
 `;
 
 const CategoryText = styled.Text`
@@ -128,5 +205,3 @@ const ModalView = styled.View`
   border-radius: 10px;
   align-items: center;
 `;
-
-export default Category;

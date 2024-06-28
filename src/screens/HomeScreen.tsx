@@ -9,9 +9,15 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import PlusIcon from "@/assets/icons/PlusIcon";
-import {supabase} from "@/lib/supabase";
 import {CategoryType} from "@/types/Profile";
 import {useAuth} from "@/context/AuthContext";
+import {
+  fetchCategories,
+  addCategory,
+  addTask,
+  deleteTask,
+  updateTask,
+} from "@/lib/supabaseAPI";
 import Category from "@/components/Task/Category";
 import Calendar from "@/components/Task/Calendar";
 
@@ -28,115 +34,44 @@ function Home() {
   );
 
   useEffect(() => {
-    fetchCategories();
+    fetchCategoriesData();
   }, []);
 
-  const fetchCategories = async () => {
+  const fetchCategoriesData = async () => {
     if (userProfile) {
-      const {data, error} = await supabase
-        .from("categories")
-        .select("*, todos (*)")
-        .eq("user_id", userProfile.id.toString());
-      if (error) {
-        console.error(error);
-      } else {
-        setCategories(data as CategoryType[]);
-      }
+      const data = await fetchCategories(userProfile.id.toString());
+      setCategories(data);
     }
-  };
-
-  const addCategory = () => {
-    setModalVisible(true);
-    setSelectedCategoryId(null);
   };
 
   const handleAddCategory = async () => {
     if (userProfile && newCategoryName.trim() !== "") {
-      const formattedDate = `${selectedDate.getFullYear()}-${
-        selectedDate.getMonth() + 1
-      }-${selectedDate.getDate()}`;
-      const {data, error} = await supabase
-        .from("categories")
-        .insert([
-          {
-            name: newCategoryName.trim(),
-            user_id: userProfile.id,
-            created_at: formattedDate,
-          },
-        ])
-        .select();
-
-      if (error) {
-        console.error(error);
-      } else {
-        setCategories([...categories, ...(data as CategoryType[])]);
+      const success = await addCategory(
+        newCategoryName.trim(),
+        userProfile,
+        selectedDate,
+      );
+      if (success) {
         setNewCategoryName("");
         setModalVisible(false);
+        fetchCategoriesData();
       }
     }
-  };
-
-  const addTask = (categoryId: number) => {
-    setModalVisible(true);
-    setSelectedCategoryId(categoryId);
   };
 
   const handleAddTask = async () => {
     if (userProfile && newTaskTitle.trim() !== "" && selectedCategoryId) {
-      const {data, error} = await supabase
-        .from("todos")
-        .insert([
-          {
-            title: newTaskTitle.trim(),
-            category_id: selectedCategoryId,
-            user_id: userProfile.id,
-            created_at: selectedDate.toISOString(),
-          },
-        ])
-        .select();
-
-      if (error) {
-        console.error(error);
-      } else {
-        fetchCategories();
+      const success = await addTask(
+        userProfile.id.toString(),
+        newTaskTitle.trim(),
+        selectedCategoryId,
+        selectedDate,
+      );
+      if (success) {
         setNewTaskTitle("");
         setModalVisible(false);
+        fetchCategoriesData();
       }
-    }
-  };
-
-  const handleDeleteTask = async (taskId: number) => {
-    try {
-      const {error} = await supabase
-        .from("todos")
-        .delete()
-        .eq("id", taskId.toString());
-
-      if (error) {
-        console.error("Supabase delete error", error);
-        return;
-      }
-      fetchCategories();
-    } catch (error) {
-      console.error("Error deleting task", error);
-    }
-  };
-
-  const handleUpdateTask = async (taskId: number, newTitle: string) => {
-    try {
-      const {data, error} = await supabase
-        .from("todos")
-        .update({title: newTitle})
-        .eq("id", taskId.toString())
-        .single();
-
-      if (error) {
-        console.error("Supabase update error", error);
-        return;
-      }
-      fetchCategories();
-    } catch (error) {
-      console.error("Error updating task title", error);
     }
   };
 
@@ -149,20 +84,20 @@ function Home() {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-        <AddCategoryButton onPress={addCategory}>
+        <AddCategoryButton onPress={() => setModalVisible(true)}>
           <AddCategoryButtonText>카테고리 만들기</AddCategoryButtonText>
           <PlusIcon width={16} height={16} />
         </AddCategoryButton>
         {categories?.map(category => (
           <Category
             key={category.id}
+            id={category.id}
             text={category.name}
             todos={category.todos}
-            onPress={() => addTask(category.id)}
-            onDeleteTask={handleDeleteTask}
-            onUpdateTask={handleUpdateTask}
+            user_id={userProfile?.id ?? ""}
           />
         ))}
+        {/* 카테고리 추가 모달 */}
         <Modal
           animationType="slide"
           transparent={true}
@@ -197,6 +132,8 @@ function Home() {
     </SafeAreaView>
   );
 }
+
+export default Home;
 
 const Container = styled.ScrollView`
   background-color: ${({theme}) => theme.colors.background};
@@ -235,5 +172,3 @@ const ModalView = styled.View`
   border-radius: 10px;
   align-items: center;
 `;
-
-export default Home;

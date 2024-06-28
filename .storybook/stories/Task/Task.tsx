@@ -1,72 +1,25 @@
 import React, {useState} from "react";
-import {View, Text, TextInput, TouchableOpacity, Modal} from "react-native";
+import {Text, TextInput, TouchableOpacity} from "react-native";
 import styled from "styled-components/native";
 import ActiveCheckSquareIcon from "../../../src/assets/icons/ActiveCheckSquareIcon";
 import CheckSquareIcon from "../../../src/assets/icons/CheckSquareIcon";
 import BinIcon from "@/assets/icons/BinIcon";
-import {supabase} from "@/lib/supabase";
 import EditIcon from "@/assets/icons/EditIcon";
+import {deleteTask, updateTask} from "@/lib/supabaseAPI";
 
 interface TaskProps {
   id: number;
   text: string;
   completed: boolean;
-  onDelete: () => void;
-  onEdit: () => void;
 }
 
-const Task = ({id, text, completed, onDelete, onEdit}: TaskProps) => {
+const Task = ({id, text, completed}: TaskProps) => {
   const [editable, setEditable] = useState(false);
   const [newText, setNewText] = useState(text);
 
-  const toggleCompleted = async () => {
-    try {
-      const {data, error} = await supabase
-        .from("todos")
-        .update({completed: !completed})
-        .eq("id", id.toString())
-        .single();
-
-      if (error) {
-        console.error("Supabase update error", error);
-        return;
-      }
-    } catch (error) {
-      console.error("Error updating task completed status", error);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      const {error} = await supabase
-        .from("todos")
-        .delete()
-        .eq("id", id.toString());
-
-      if (error) {
-        console.error("Supabase delete error", error);
-        return;
-      }
-
-      onDelete();
-    } catch (error) {
-      console.error("Error deleting task", error);
-    }
-  };
-
   const handleEdit = async () => {
     try {
-      const {data, error} = await supabase
-        .from("todos")
-        .update({title: newText})
-        .eq("id", id.toString())
-        .single();
-
-      if (error) {
-        console.error("Supabase update error", error);
-        return;
-      }
-
+      await updateTask(id, newText);
       setEditable(false);
     } catch (error) {
       console.error("Error updating task title", error);
@@ -77,13 +30,9 @@ const Task = ({id, text, completed, onDelete, onEdit}: TaskProps) => {
     <Container>
       <LeftIcons>
         {completed ? (
-          <ActiveCheckSquareIcon
-            width={24}
-            height={24}
-            onPress={toggleCompleted}
-          />
+          <ActiveCheckSquareIcon width={24} height={24} onPress={() => {}} />
         ) : (
-          <CheckSquareIcon width={24} height={24} onPress={toggleCompleted} />
+          <CheckSquareIcon width={24} height={24} onPress={() => {}} />
         )}
       </LeftIcons>
       {editable ? (
@@ -92,6 +41,7 @@ const Task = ({id, text, completed, onDelete, onEdit}: TaskProps) => {
           onChangeText={setNewText}
           onBlur={handleEdit}
           autoFocus
+          onSubmitEditing={handleEdit}
         />
       ) : (
         <TouchableOpacity onPress={() => setEditable(true)}>
@@ -99,10 +49,10 @@ const Task = ({id, text, completed, onDelete, onEdit}: TaskProps) => {
         </TouchableOpacity>
       )}
       <RightIcons>
-        <StyledTouchableOpacity onPress={onEdit}>
+        <StyledTouchableOpacity onPress={() => setEditable(true)}>
           <EditIcon width={16} height={16} />
         </StyledTouchableOpacity>
-        <StyledTouchableOpacity onPress={handleDelete}>
+        <StyledTouchableOpacity onPress={() => deleteTask(id)}>
           <BinIcon width={24} height={24} />
         </StyledTouchableOpacity>
       </RightIcons>

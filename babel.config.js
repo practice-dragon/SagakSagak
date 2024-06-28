@@ -32,5 +32,6 @@ module.exports = {
         path: ".env.local",
       },
     ],
+    ["react-native-reanimated/plugin"],
   ],
 };
