@@ -44,7 +44,7 @@ export const addCategory = async (
 };
 
 export const updateCategory = async (
-  categoryId: string,
+  categoryId: number,
   updatedCategoryName: string,
   userId: string,
 ) => {
@@ -67,7 +67,7 @@ export const updateCategory = async (
   }
 };
 
-export const deleteCategory = async (categoryId: string, userId: string) => {
+export const deleteCategory = async (categoryId: number, userId: string) => {
   try {
     const {error} = await supabase
       .from("categories")
@@ -88,27 +88,38 @@ export const deleteCategory = async (categoryId: string, userId: string) => {
 
 export const addTask = async (
   userId: string,
-  taskTitle: string,
-  categoryId: string,
+  title: string,
+  categoryId: number,
   selectedDate: Date,
 ) => {
-  const {data, error} = await supabase
-    .from("todos")
-    .insert([
-      {
-        title: taskTitle.trim(),
-        category_id: categoryId,
-        user_id: userId,
-        created_at: selectedDate.toISOString(),
-      },
-    ])
-    .select();
+  const formattedDate = selectedDate.toISOString();
 
-  if (error) {
-    console.error(error);
+  try {
+    const {data, error} = await supabase.from("todos").insert([
+      {
+        title: title.trim(),
+        user_id: userId,
+        category_id: categoryId,
+        completed: false,
+        created_at: formattedDate,
+      },
+    ]);
+
+    if (error) {
+      console.error("Error adding task:", error.message);
+      return null;
+    }
+
+    if (data && data.length > 0) {
+      console.log("Task added successfully:", data[0]);
+      return data[0]; // Return the inserted task data
+    } else {
+      console.error("Failed to add task.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error adding task:", error);
     return null;
-  } else {
-    return data;
   }
 };
 
@@ -117,23 +128,8 @@ export const deleteTask = async (taskId: number) => {
     .from("todos")
     .delete()
     .eq("id", taskId.toString());
-
   if (error) {
     console.error("Supabase delete error", error);
     return;
   }
-};
-
-export const updateTask = async (taskId: number, newTitle: string) => {
-  const {data, error} = await supabase
-    .from("todos")
-    .update({title: newTitle})
-    .eq("id", taskId.toString())
-    .single();
-
-  if (error) {
-    console.error("Supabase update error", error);
-    return;
-  }
-  return data;
 };

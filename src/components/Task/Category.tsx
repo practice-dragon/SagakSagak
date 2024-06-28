@@ -12,7 +12,7 @@ import {addTask, updateCategory, deleteCategory} from "@/lib/supabaseAPI";
 interface CategoryProps {
   text: string;
   todos?: TaskType[];
-  id: string;
+  id: number;
   user_id: string;
 }
 
