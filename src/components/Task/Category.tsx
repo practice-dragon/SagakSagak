@@ -83,7 +83,7 @@ const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
       </CategoryHeader>
 
       {todos?.map(task => (
-        <Task key={task.id} id={task.id} task={task} />
+        <Task key={task.id} task={task} selectedDate={selectedDate} />
       ))}
 
       <CustomBottomSheet

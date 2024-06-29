@@ -13,13 +13,13 @@ export interface TaskType {
   title: string;
   description?: string;
   completed: boolean;
-  reminder_time?: string;
-  created_at?: string;
+  reminder_time?: Date;
+  created_at?: Date;
   category_id: number;
   user_id: string;
   repeat_interval?: string;
   duration_interval?: string;
-  deadline_time?: string;
+  deadline_time?: Date;
 }
 
 export interface CategoryType {

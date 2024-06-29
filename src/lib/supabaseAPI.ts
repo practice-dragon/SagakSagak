@@ -154,3 +154,48 @@ export const updateTaskCompletedStatus = async (
     return;
   }
 };
+
+export const updateTask = async (
+  taskId: number,
+  title: string,
+  categoryId: number,
+  selectedDate: Date,
+  description?: string,
+  reminderTime?: Date,
+  repeatInterval?: string,
+  durationInterval?: string,
+  deadlineTime?: Date,
+  completed?: boolean,
+) => {
+  try {
+    const isoSelectedDate = selectedDate.toISOString();
+    const isoReminderTime = reminderTime
+      ? reminderTime.toISOString()
+      : undefined;
+    const isoDeadlineTime = deadlineTime
+      ? deadlineTime.toISOString()
+      : undefined;
+
+    const {error} = await supabase
+      .from("todos")
+      .update({
+        title: title.trim(),
+        category_id: categoryId,
+        completed: completed || false,
+        created_at: isoSelectedDate,
+        description: description?.trim(),
+        reminder_time: isoReminderTime,
+        repeat_interval: repeatInterval,
+        duration_interval: durationInterval,
+        deadline_time: isoDeadlineTime,
+      })
+      .eq("id", taskId.toString());
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error updating task:", error);
+    return {error};
+  }
+};

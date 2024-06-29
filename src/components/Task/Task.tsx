@@ -4,21 +4,21 @@ import styled from "styled-components/native";
 import ActiveCheckSquareIcon from "../../../src/assets/icons/ActiveCheckSquareIcon";
 import CheckSquareIcon from "../../../src/assets/icons/CheckSquareIcon";
 import BinIcon from "@/assets/icons/BinIcon";
-import {supabase} from "@/lib/supabase";
 import {TaskType} from "@/types/Profile";
 import EditIcon from "@/assets/icons/EditIcon";
 import {format} from "date-fns";
 import {deleteTask, updateTaskCompletedStatus} from "@/lib/supabaseAPI";
+import UpdateTaskBottomSheet from "./UpdateTaskBottomSheet";
 
 interface TaskProps {
-  id: number;
   task: TaskType;
+  selectedDate: Date;
 }
 
-const Task = ({id, task}: TaskProps) => {
+const Task = ({task, selectedDate}: TaskProps) => {
   const {completed, title, description, deadline_time, reminder_time} = task;
-  const [editable, setEditable] = useState(false);
   const [newText, setNewText] = useState(title);
+  const [BottomSheetVisible, setBottomSheetVisible] = useState(false);
 
   const toggleCompleted = async () => {
     await updateTaskCompletedStatus(task.id, completed);
@@ -28,23 +28,8 @@ const Task = ({id, task}: TaskProps) => {
     await deleteTask(task.id);
   };
 
-  const handleEdit = async () => {
-    try {
-      const {data, error} = await supabase
-        .from("todos")
-        .update({title: newText})
-        .eq("id", id.toString())
-        .single();
-
-      if (error) {
-        console.error("Supabase update error", error);
-        return;
-      }
-
-      setEditable(false);
-    } catch (error) {
-      console.error("Error updating task title", error);
-    }
+  const closeBottomSheet = () => {
+    setBottomSheetVisible(false);
   };
 
   return (
@@ -69,13 +54,20 @@ const Task = ({id, task}: TaskProps) => {
         )}
       </MiddleContainer>
       <RightContainer>
-        <TouchableOpacity onPress={() => setEditable(true)}>
+        <TouchableOpacity onPress={() => setBottomSheetVisible(true)}>
           <EditIcon width={24} height={24} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleDelete}>
           <BinIcon width={24} height={24} />
         </TouchableOpacity>
       </RightContainer>
+
+      <UpdateTaskBottomSheet
+        task={task}
+        onClose={closeBottomSheet}
+        selectedDate={selectedDate}
+        visible={BottomSheetVisible}
+      />
     </TaskContainer>
   );
 };
