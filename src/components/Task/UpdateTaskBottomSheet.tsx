@@ -133,7 +133,7 @@ const UpdateTaskBottomSheet = ({
           onConfirm={handleConfirmDeadline}
           onCancel={hideDeadlinePicker}
         />
-        <StyledButton text="만들기!" onPress={handleUpdateTask} size={"lg"} />
+        <StyledButton text="수정하기!" onPress={handleUpdateTask} size={"lg"} />
       </BottomSheetContent>
     </CustomBottomSheet>
   );
@@ -148,6 +148,7 @@ const BottomSheetContent = styled.View`
 `;
 
 const BottomSheetTitle = styled.Text`
+  align-self: center;
   color: ${({theme}) => theme.colors.text};
   font-size: ${({theme}) => theme.fonts.h2.fontSize}px;
   font-family: ${({theme}) => theme.fonts.h1.fontFamily};
