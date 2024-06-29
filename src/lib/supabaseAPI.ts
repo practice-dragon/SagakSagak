@@ -138,3 +138,19 @@ export const deleteTask = async (taskId: number) => {
     return;
   }
 };
+
+export const updateTaskCompletedStatus = async (
+  taskId: number,
+  currentCompletedStatus: boolean,
+) => {
+  const {error} = await supabase
+    .from("todos")
+    .update({completed: !currentCompletedStatus})
+    .eq("id", taskId.toString())
+    .single();
+
+  if (error) {
+    console.error("Supabase delete error", error);
+    return;
+  }
+};

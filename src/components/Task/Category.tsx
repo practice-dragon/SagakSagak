@@ -83,12 +83,7 @@ const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
       </CategoryHeader>
 
       {todos?.map(task => (
-        <Task
-          key={task.id}
-          id={task.id}
-          text={task.title}
-          completed={task.completed}
-        />
+        <Task key={task.id} id={task.id} task={task} />
       ))}
 
       <CustomBottomSheet
@@ -163,7 +158,7 @@ const BottomSheetBox = styled.View`
 
 const BottomSheetTitle = styled.Text`
   color: ${({theme}) => theme.colors.text};
-  font-size: ${({theme}) => theme.fonts.h1.fontSize}px;
+  font-size: ${({theme}) => theme.fonts.h2.fontSize}px;
   font-family: ${({theme}) => theme.fonts.h1.fontFamily};
 `;
 

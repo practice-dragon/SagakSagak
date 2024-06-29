@@ -128,7 +128,7 @@ const BottomSheetBox = styled.View`
 
 const BottomSheetTitle = styled.Text`
   color: ${({theme}) => theme.colors.text};
-  font-size: ${({theme}) => theme.fonts.h1.fontSize}px;
+  font-size: ${({theme}) => theme.fonts.h2.fontSize}px;
   font-family: ${({theme}) => theme.fonts.h1.fontFamily};
 `;
 

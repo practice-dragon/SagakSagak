@@ -1,52 +1,31 @@
 import React, {useState} from "react";
-import {View, Text, TextInput, TouchableOpacity, Modal} from "react-native";
+import {View, TextInput, TouchableOpacity} from "react-native";
 import styled from "styled-components/native";
 import ActiveCheckSquareIcon from "../../../src/assets/icons/ActiveCheckSquareIcon";
 import CheckSquareIcon from "../../../src/assets/icons/CheckSquareIcon";
 import BinIcon from "@/assets/icons/BinIcon";
 import {supabase} from "@/lib/supabase";
+import {TaskType} from "@/types/Profile";
+import EditIcon from "@/assets/icons/EditIcon";
+import {format} from "date-fns";
+import {deleteTask, updateTaskCompletedStatus} from "@/lib/supabaseAPI";
 
 interface TaskProps {
   id: number;
-  text: string;
-  completed: boolean;
+  task: TaskType;
 }
 
-const Task = ({id, text, completed}: TaskProps) => {
+const Task = ({id, task}: TaskProps) => {
+  const {completed, title, description, deadline_time, reminder_time} = task;
   const [editable, setEditable] = useState(false);
-  const [newText, setNewText] = useState(text);
+  const [newText, setNewText] = useState(title);
 
   const toggleCompleted = async () => {
-    try {
-      const {data, error} = await supabase
-        .from("todos")
-        .update({completed: !completed})
-        .eq("id", id.toString())
-        .single();
-
-      if (error) {
-        console.error("Supabase update error", error);
-        return;
-      }
-    } catch (error) {
-      console.error("Error updating task completed status", error);
-    }
+    await updateTaskCompletedStatus(task.id, completed);
   };
 
   const handleDelete = async () => {
-    try {
-      const {error} = await supabase
-        .from("todos")
-        .delete()
-        .eq("id", id.toString());
-
-      if (error) {
-        console.error("Supabase delete error", error);
-        return;
-      }
-    } catch (error) {
-      console.error("Error deleting task", error);
-    }
+    await deleteTask(task.id);
   };
 
   const handleEdit = async () => {
@@ -69,55 +48,72 @@ const Task = ({id, text, completed}: TaskProps) => {
   };
 
   return (
-    <Container>
-      <LeftIcons>
-        {completed ? (
-          <ActiveCheckSquareIcon
-            width={24}
-            height={24}
-            onPress={toggleCompleted}
-          />
-        ) : (
-          <CheckSquareIcon width={24} height={24} onPress={toggleCompleted} />
+    <TaskContainer>
+      <LeftContainer>
+        <CheckIconContainer>
+          <TouchableOpacity onPress={toggleCompleted}>
+            {completed ? (
+              <ActiveCheckSquareIcon width={24} height={24} />
+            ) : (
+              <CheckSquareIcon width={24} height={24} />
+            )}
+          </TouchableOpacity>
+        </CheckIconContainer>
+      </LeftContainer>
+      <MiddleContainer>
+        <TaskTitle completed={completed}>{title}</TaskTitle>
+        {deadline_time && (
+          <DeadlineText completed={completed}>
+            {format(deadline_time, "hh:mm a")} 까지
+          </DeadlineText>
         )}
-      </LeftIcons>
-      {editable ? (
-        <TextInput
-          value={newText}
-          onChangeText={setNewText}
-          onBlur={handleEdit}
-          autoFocus
-        />
-      ) : (
+      </MiddleContainer>
+      <RightContainer>
         <TouchableOpacity onPress={() => setEditable(true)}>
-          <TaskText completed={completed}>{text}</TaskText>
+          <EditIcon width={24} height={24} />
         </TouchableOpacity>
-      )}
-      <TouchableOpacity onPress={handleDelete}>
-        <BinIcon width={24} height={24} />
-      </TouchableOpacity>
-    </Container>
+        <TouchableOpacity onPress={handleDelete}>
+          <BinIcon width={24} height={24} />
+        </TouchableOpacity>
+      </RightContainer>
+    </TaskContainer>
   );
 };
 
-const Container = styled.View`
+export default Task;
+
+const TaskContainer = styled.View`
   flex-direction: row;
-  justify-content: space-between;
-  padding: 8px 16px;
+  padding: 10px 16px;
 `;
 
-const LeftIcons = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-right: 2px;
-`;
+const CheckIconContainer = styled.View``;
 
-const TaskText = styled(Text)<{completed: boolean}>`
+const LeftContainer = styled.View``;
+
+const MiddleContainer = styled.View`
   flex: 1;
-  font-size: 16px;
-  color: ${({completed}) => (completed ? "gray" : "#333")};
+`;
+
+const RightContainer = styled.View`
+  align-self: flex-end;
+  gap: 3px;
+`;
+
+const TaskTitle = styled.Text<{completed: boolean}>`
+  color: ${({completed, theme}) =>
+    completed ? theme.colors.n4 : theme.colors.text};
   text-decoration-line: ${({completed}) =>
     completed ? "line-through" : "none"};
+  margin-left: 8px;
+  font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.p2.fontFamily};
 `;
 
-export default Task;
+const DeadlineText = styled.Text<{completed: boolean}>`
+  color: ${({completed, theme}) =>
+    completed ? theme.colors.n4 : theme.colors.text};
+  font-size: ${({theme}) => theme.fonts.p3.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.p3.fontFamily};
+  margin-left: 8px;
+`;
