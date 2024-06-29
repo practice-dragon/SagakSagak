@@ -73,7 +73,6 @@ function Home() {
             user_id={userProfile?.id ?? ""}
           />
         ))}
-        {/* 카테고리 추가 모달 */}
         <CustomBottomSheet
           visible={bottomSheetVisible}
           onClose={() => setBottomSheetVisible(false)}>
@@ -85,7 +84,7 @@ function Home() {
               value={newCategoryName}
             />
           </BottomSheetBox>
-          <Button onPress={handleAddCategory} size="lg" text="확인" />
+          <Button onPress={handleAddCategory} size="lg" text="만들기" />
         </CustomBottomSheet>
 
         <View style={{height: 100}} />
@@ -140,5 +139,5 @@ const BottomSheetTextInput = styled.TextInput`
   border-radius: 10px;
   font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
   font-family: ${({theme}) => theme.fonts.p2.fontFamily};
-  color: ${({theme}) => theme.colors.n3};
+  color: ${({theme}) => theme.colors.text};
 `;

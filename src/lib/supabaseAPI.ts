@@ -1,5 +1,5 @@
 import {supabase} from "@/lib/supabase";
-import {CategoryType} from "@/types/Profile";
+import {CategoryType, TaskType} from "@/types/Profile";
 
 export const fetchCategories = async (userId: string) => {
   const {data, error} = await supabase
@@ -91,22 +91,37 @@ export const addTask = async (
   title: string,
   categoryId: number,
   selectedDate: Date,
+  description?: string,
+  reminderTime?: Date,
+  repeatInterval?: string,
+  durationInterval?: string,
+  deadlineTime?: Date,
 ) => {
   try {
-    const isoDate = selectedDate.toISOString();
+    const isoSelectedDate = selectedDate.toISOString();
+    const isoReminderTime = reminderTime
+      ? reminderTime.toISOString()
+      : undefined;
+    const isoDeadlineTime = deadlineTime
+      ? deadlineTime.toISOString()
+      : undefined;
     const {data, error} = await supabase.from("todos").insert([
       {
         title: title.trim(),
         user_id: userId,
         category_id: categoryId,
         completed: false,
-        created_at: isoDate,
+        created_at: isoSelectedDate,
+        description: description?.trim(),
+        reminder_time: isoReminderTime,
+        repeat_interval: repeatInterval,
+        duration_interval: durationInterval,
+        deadline_time: isoDeadlineTime,
       },
     ]);
     if (error) {
       throw error;
     }
-    return data;
   } catch (error) {
     console.error("Error adding task:", error);
     return {error};

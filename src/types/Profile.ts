@@ -13,7 +13,6 @@ export interface TaskType {
   title: string;
   description?: string;
   completed: boolean;
-  due_date?: string;
   reminder_time?: string;
   created_at?: string;
   category_id: number;

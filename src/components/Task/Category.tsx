@@ -174,5 +174,5 @@ const BottomSheetTextInput = styled.TextInput`
   border-radius: 10px;
   font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
   font-family: ${({theme}) => theme.fonts.p2.fontFamily};
-  color: ${({theme}) => theme.colors.n3};
+  color: ${({theme}) => theme.colors.text};
 `;

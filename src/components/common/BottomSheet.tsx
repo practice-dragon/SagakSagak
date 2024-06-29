@@ -43,7 +43,6 @@ const SheetContent = styled.View`
   padding: 20px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  max-height: 50%;
   align-items: center;
 `;
 
