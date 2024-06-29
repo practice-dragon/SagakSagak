@@ -10,11 +10,9 @@ interface TaskProps {
   id: number;
   text: string;
   completed: boolean;
-  onDelete: () => void;
-  onEdit: () => void;
 }
 
-const Task = ({id, text, completed, onDelete, onEdit}: TaskProps) => {
+const Task = ({id, text, completed}: TaskProps) => {
   const [editable, setEditable] = useState(false);
   const [newText, setNewText] = useState(text);
 
@@ -46,8 +44,6 @@ const Task = ({id, text, completed, onDelete, onEdit}: TaskProps) => {
         console.error("Supabase delete error", error);
         return;
       }
-
-      onDelete();
     } catch (error) {
       console.error("Error deleting task", error);
     }

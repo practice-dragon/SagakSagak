@@ -1,52 +1,28 @@
 import React, {useState} from "react";
 import styled from "styled-components/native";
-import Task from "@story/stories/Task/Task";
-import PlusIcon from "@/assets/icons/PlusIcon";
-import {TaskType} from "@/types/Profile";
-import {Modal, Text, TextInput, TouchableOpacity} from "react-native";
+import {Text, Modal, TouchableOpacity, TextInput} from "react-native";
 import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
-import CustomBottomSheet from "@/components/common/BottomSheet";
+import AddTaskBottomSheet from "@/components/Task/AddTaskBottomSheet";
 import Button from "../common/Button";
-import {addTask, updateCategory, deleteCategory} from "@/lib/supabaseAPI";
+import {updateCategory, deleteCategory} from "@/lib/supabaseAPI";
+import PlusIcon from "@/assets/icons/PlusIcon";
+import {CategoryType, TaskType} from "@/types/Profile";
+import CustomBottomSheet from "../common/BottomSheet";
+import Task from "./Task";
 
 interface CategoryProps {
   text: string;
   todos?: TaskType[];
   id: number;
   user_id: string;
+  selectedDate: Date;
 }
 
-const Category = ({text, todos, id, user_id}: CategoryProps) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
-  const [categoryTitle, setCategoryTitle] = useState(text);
+const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
-
-  const handleAddTask = async () => {
-    try {
-      if (newTaskTitle.trim() !== "") {
-        const userId = user_id;
-        const categoryId = id;
-        const data = await addTask(
-          userId,
-          newTaskTitle.trim(),
-          categoryId,
-          new Date(),
-        );
-
-        if (data) {
-          console.log("Task added successfully:", data);
-          setNewTaskTitle("");
-          setModalVisible(false);
-        } else {
-          console.error("Failed to add task:", data);
-        }
-      }
-    } catch (error) {
-      console.error("Error adding task:", error);
-    }
-  };
+  const [editBottomSheetVisible, setEditBottomSheetVisible] = useState(false);
+  const [addTaskBottomSheetVisible, setAddTaskBottomSheetVisible] =
+    useState(false);
 
   const handleEdit = async () => {
     try {
@@ -63,9 +39,8 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
             "Category updated successfully:",
             newCategoryTitle.trim(),
           );
-          setCategoryTitle(newCategoryTitle.trim());
           setNewCategoryTitle("");
-          setBottomSheetVisible(false);
+          closeBottomSheet();
         } else {
           console.error("Failed to update category:", newCategoryTitle.trim());
         }
@@ -79,34 +54,30 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
     try {
       const userId = user_id;
       const success = await deleteCategory(id, userId);
-
       if (success) {
         console.log("Category deleted successfully:", id);
-        // Handle successful category deletion, e.g., navigate back or update state
       } else {
         console.error("Failed to delete category:", id);
       }
     } catch (error) {
       console.error("Error deleting category:", error);
     }
-    setBottomSheetVisible(false);
+    closeBottomSheet();
   };
 
   const closeBottomSheet = () => {
-    setBottomSheetVisible(false);
+    setAddTaskBottomSheetVisible(false);
+    setEditBottomSheetVisible(false);
   };
 
   return (
     <CategoryContainer>
       <CategoryHeader>
-        <CategoryBox onPress={() => setModalVisible(true)}>
-          <CategoryText>{categoryTitle}</CategoryText>
+        <CategoryBox onPress={() => setAddTaskBottomSheetVisible(true)}>
+          <CategoryText>{text}</CategoryText>
           <PlusIcon width={16} height={16} />
         </CategoryBox>
-        <IconBox
-          onPress={() => {
-            setBottomSheetVisible(true);
-          }}>
+        <IconBox onPress={() => setEditBottomSheetVisible(true)}>
           <MenuDotsIcon width={24} height={24} />
         </IconBox>
       </CategoryHeader>
@@ -120,34 +91,17 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
         />
       ))}
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <ModalContainer>
-          <ModalView>
-            <TextInput
-              placeholder="할 일을 입력하세요"
-              onChangeText={text => setNewTaskTitle(text)}
-              value={newTaskTitle}
-            />
-            <TouchableOpacity onPress={handleAddTask}>
-              <Text>추가</Text>
-            </TouchableOpacity>
-          </ModalView>
-        </ModalContainer>
-      </Modal>
-
       <CustomBottomSheet
-        visible={bottomSheetVisible}
+        visible={editBottomSheetVisible}
         onClose={closeBottomSheet}>
-        <TextInput
-          placeholder="카테고리 이름을 입력하세요"
-          onChangeText={text => setNewCategoryTitle(text)}
-          value={newCategoryTitle}
-          style={{padding: 10, borderBottomWidth: 1, borderColor: "#ccc"}}
-        />
+        <BottomSheetBox>
+          <BottomSheetTitle>카테고리 수정하기</BottomSheetTitle>
+          <BottomSheetTextInput
+            placeholder="수정할 카테고리의 이름은?"
+            onChangeText={text => setNewCategoryTitle(text)}
+            value={newCategoryTitle}
+          />
+        </BottomSheetBox>
         <Button text="수정하기" onPress={handleEdit} size={"sm"} />
         <Button
           text="삭제하기"
@@ -156,6 +110,14 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
           variant="textGray"
         />
       </CustomBottomSheet>
+
+      <AddTaskBottomSheet
+        visible={addTaskBottomSheetVisible}
+        onClose={closeBottomSheet}
+        userId={user_id}
+        categoryId={id}
+        selectedDate={selectedDate}
+      />
     </CategoryContainer>
   );
 };
@@ -192,16 +154,25 @@ const CategoryText = styled.Text`
   font-family: ${({theme}) => theme.fonts.p2.fontFamily};
 `;
 
-const ModalContainer = styled.View`
-  flex: 1;
-  justify-content: center;
+const BottomSheetBox = styled.View`
+  width: 90%;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  gap: 10px;
+  margin-bottom: 10px;
 `;
 
-const ModalView = styled.View`
-  background-color: white;
-  padding: 20px;
+const BottomSheetTitle = styled.Text`
+  color: ${({theme}) => theme.colors.text};
+  font-size: ${({theme}) => theme.fonts.h1.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.h1.fontFamily};
+`;
+
+const BottomSheetTextInput = styled.TextInput`
+  align-self: flex-start;
+  background-color: ${({theme}) => theme.colors.card};
+  width: 100%;
   border-radius: 10px;
-  align-items: center;
+  font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.p2.fontFamily};
+  color: ${({theme}) => theme.colors.n3};
 `;

@@ -92,34 +92,24 @@ export const addTask = async (
   categoryId: number,
   selectedDate: Date,
 ) => {
-  const formattedDate = selectedDate.toISOString();
-
   try {
+    const isoDate = selectedDate.toISOString();
     const {data, error} = await supabase.from("todos").insert([
       {
         title: title.trim(),
         user_id: userId,
         category_id: categoryId,
         completed: false,
-        created_at: formattedDate,
+        created_at: isoDate,
       },
     ]);
-
     if (error) {
-      console.error("Error adding task:", error.message);
-      return null;
+      throw error;
     }
-
-    if (data && data.length > 0) {
-      console.log("Task added successfully:", data[0]);
-      return data[0]; // Return the inserted task data
-    } else {
-      console.error("Failed to add task.");
-      return null;
-    }
+    return data;
   } catch (error) {
     console.error("Error adding task:", error);
-    return null;
+    return {error};
   }
 };
 

@@ -44,6 +44,7 @@ const SheetContent = styled.View`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   max-height: 50%;
+  align-items: center;
 `;
 
 const Handle = styled.View`

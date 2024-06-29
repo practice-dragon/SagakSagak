@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
   View,
-  Modal,
   TextInput,
   Text,
 } from "react-native";
@@ -11,27 +10,19 @@ import styled from "styled-components/native";
 import PlusIcon from "@/assets/icons/PlusIcon";
 import {CategoryType} from "@/types/Profile";
 import {useAuth} from "@/context/AuthContext";
-import {
-  fetchCategories,
-  addCategory,
-  addTask,
-  deleteTask,
-  updateTask,
-} from "@/lib/supabaseAPI";
+import {fetchCategories, addCategory} from "@/lib/supabaseAPI";
 import Category from "@/components/Task/Category";
 import Calendar from "@/components/Task/Calendar";
+import CustomBottomSheet from "@/components/common/BottomSheet";
+import Button from "@/components/common/Button";
 
 function Home() {
   const [viewType, setViewType] = useState<"week" | "month">("week");
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const {userProfile} = useAuth();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null,
-  );
 
   useEffect(() => {
     fetchCategoriesData();
@@ -53,23 +44,7 @@ function Home() {
       );
       if (success) {
         setNewCategoryName("");
-        setModalVisible(false);
-        fetchCategoriesData();
-      }
-    }
-  };
-
-  const handleAddTask = async () => {
-    if (userProfile && newTaskTitle.trim() !== "" && selectedCategoryId) {
-      const success = await addTask(
-        userProfile.id.toString(),
-        newTaskTitle.trim(),
-        selectedCategoryId,
-        selectedDate,
-      );
-      if (success) {
-        setNewTaskTitle("");
-        setModalVisible(false);
+        setBottomSheetVisible(false);
         fetchCategoriesData();
       }
     }
@@ -84,12 +59,13 @@ function Home() {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-        <AddCategoryButton onPress={() => setModalVisible(true)}>
+        <AddCategoryButton onPress={() => setBottomSheetVisible(true)}>
           <AddCategoryButtonText>카테고리 만들기</AddCategoryButtonText>
           <PlusIcon width={16} height={16} />
         </AddCategoryButton>
         {categories?.map(category => (
           <Category
+            selectedDate={selectedDate}
             key={category.id}
             id={category.id}
             text={category.name}
@@ -98,35 +74,20 @@ function Home() {
           />
         ))}
         {/* 카테고리 추가 모달 */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(false);
-          }}>
-          <ModalContainer>
-            <ModalView>
-              <TextInput
-                placeholder={
-                  selectedCategoryId ? "할 일 입력" : "새 카테고리 이름 입력"
-                }
-                onChangeText={text =>
-                  selectedCategoryId
-                    ? setNewTaskTitle(text)
-                    : setNewCategoryName(text)
-                }
-                value={selectedCategoryId ? newTaskTitle : newCategoryName}
-              />
-              <TouchableOpacity
-                onPress={
-                  selectedCategoryId ? handleAddTask : handleAddCategory
-                }>
-                <Text>확인</Text>
-              </TouchableOpacity>
-            </ModalView>
-          </ModalContainer>
-        </Modal>
+        <CustomBottomSheet
+          visible={bottomSheetVisible}
+          onClose={() => setBottomSheetVisible(false)}>
+          <BottomSheetBox>
+            <BottomSheetTitle>카테고리 만들기</BottomSheetTitle>
+            <BottomSheetTextInput
+              placeholder="새 카테고리의 이름은?"
+              onChangeText={text => setNewCategoryName(text)}
+              value={newCategoryName}
+            />
+          </BottomSheetBox>
+          <Button onPress={handleAddCategory} size="lg" text="확인" />
+        </CustomBottomSheet>
+
         <View style={{height: 100}} />
       </Container>
     </SafeAreaView>
@@ -159,16 +120,25 @@ const AddCategoryButtonText = styled.Text`
   font-family: ${({theme}) => theme.fonts.p2.fontFamily};
 `;
 
-const ModalContainer = styled.View`
-  flex: 1;
-  justify-content: center;
+const BottomSheetBox = styled.View`
+  width: 90%;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  gap: 10px;
+  margin-bottom: 10px;
 `;
 
-const ModalView = styled.View`
-  background-color: white;
-  padding: 20px;
+const BottomSheetTitle = styled.Text`
+  color: ${({theme}) => theme.colors.text};
+  font-size: ${({theme}) => theme.fonts.h1.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.h1.fontFamily};
+`;
+
+const BottomSheetTextInput = styled.TextInput`
+  align-self: flex-start;
+  background-color: ${({theme}) => theme.colors.card};
+  width: 100%;
   border-radius: 10px;
-  align-items: center;
+  font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.p2.fontFamily};
+  color: ${({theme}) => theme.colors.n3};
 `;
