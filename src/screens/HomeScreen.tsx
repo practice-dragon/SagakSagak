@@ -10,7 +10,7 @@ import Button from "@/components/common/Button";
 import useStore from "@/context";
 
 function Home() {
-  const {categories, fetchCategories, addCategory, tasks} = useStore();
+  const {categories, fetchCategories, addCategory} = useStore();
   const {userProfile} = useAuth();
 
   const [viewType, setViewType] = useState<"week" | "month">("week");
@@ -69,7 +69,6 @@ function Home() {
           </BottomSheetBox>
           <Button onPress={handleAddCategory} size="lg" text="만들기" />
         </CustomBottomSheet>
-
         <View style={{height: 100}} />
       </Container>
     </SafeAreaView>

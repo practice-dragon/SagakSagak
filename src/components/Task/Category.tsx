@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components/native";
 import {Text, TouchableOpacity, TextInput} from "react-native";
 import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
@@ -10,7 +10,6 @@ import useStore from "@/context";
 import {TaskType} from "@/types/Profile";
 import CustomBottomSheet from "../common/BottomSheet";
 import Task from "./Task";
-import useStore from "@/context";
 
 interface CategoryProps {
   id: number;
@@ -69,11 +68,6 @@ const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
     );
   };
 
-  const filteredTasks = tasks.filter(
-    task =>
-      task.created_at && isSameDay(new Date(task.created_at), selectedDate),
-  );
-
   return (
     <CategoryContainer>
       <CategoryHeader>
@@ -86,7 +80,7 @@ const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
         </IconBox>
       </CategoryHeader>
 
-      {tasks?.map(task => (
+      {todos?.map(task => (
         <Task key={task.id} task={task} selectedDate={selectedDate} />
       ))}
 
