@@ -294,7 +294,7 @@ const generateCalendarWeeks = (currentDate: Date) => {
 };
 
 const generateCurrentWeek = (currentDate: Date) => {
-  const firstDayOfWeek = currentDate.getDate() - currentDate.getDay() + 1;
+  const firstDayOfWeek = currentDate.getDate() - currentDate.getDay();
   const week = [];
   for (let i = 0; i < 7; i++) {
     const day = new Date(
