@@ -1,9 +1,7 @@
 import {supabase} from "@/lib/supabase";
 import {CategoryType, TaskType} from "@/types/Profile";
 
-export const fetchCategories = async (
-  userId: string,
-): Promise<CategoryType[]> => {
+export const fetchCategories = async (userId: string) => {
   const {data, error} = await supabase
     .from("categories")
     .select("*, todos (*)")
@@ -13,7 +11,7 @@ export const fetchCategories = async (
     console.error(error);
     return [];
   } else {
-    return data as CategoryType[];
+    return data;
   }
 };
 
@@ -41,7 +39,7 @@ export const addCategory = async (
       return null;
     }
 
-    return data as CategoryType;
+    return data;
   } catch (error) {
     console.error("Error adding category:", error);
     return null;
@@ -52,7 +50,7 @@ export const updateCategory = async (
   categoryId: number,
   updatedCategoryName: string,
   userId: string,
-): Promise<CategoryType | null> => {
+) => {
   try {
     const {data, error} = await supabase
       .from("categories")
@@ -61,24 +59,21 @@ export const updateCategory = async (
       })
       .eq("id", categoryId)
       .eq("user_id", userId)
-      .select() // select()를 추가하여 업데이트된 데이터를 반환합니다.
+      .select()
       .single();
 
     if (error) {
       console.error("Error updating category:", error.message);
       return null;
     }
-    return data as CategoryType;
+    return data;
   } catch (error) {
     console.error("Error updating category:", error);
     return null;
   }
 };
 
-export const deleteCategory = async (
-  categoryId: number,
-  userId: string,
-): Promise<number | null> => {
+export const deleteCategory = async (categoryId: number, userId: string) => {
   try {
     const {error} = await supabase
       .from("categories")
@@ -90,7 +85,7 @@ export const deleteCategory = async (
       console.error("Error deleting category:", error.message);
       return null;
     }
-    return categoryId; // 삭제된 카테고리의 ID를 반환합니다.
+    return categoryId;
   } catch (error) {
     console.error("Error deleting category:", error);
     return null;
@@ -107,7 +102,7 @@ export const addTask = async (
   repeatInterval?: string,
   durationInterval?: string,
   deadlineTime?: Date,
-): Promise<boolean> => {
+): Promise<void> => {
   try {
     const isoSelectedDate = selectedDate.toISOString();
     const isoReminderTime = reminderTime
@@ -117,28 +112,31 @@ export const addTask = async (
       ? deadlineTime.toISOString()
       : undefined;
 
-    const {data, error} = await supabase.from("todos").insert([
-      {
-        title: title.trim(),
-        user_id: userId,
-        category_id: categoryId,
-        completed: false,
-        created_at: isoSelectedDate,
-        description: description?.trim(),
-        reminder_time: isoReminderTime,
-        repeat_interval: repeatInterval,
-        duration_interval: durationInterval,
-        deadline_time: isoDeadlineTime,
-      },
-    ]);
-
+    const {data, error} = await supabase
+      .from("todos")
+      .insert([
+        {
+          title: title.trim(),
+          user_id: userId,
+          category_id: categoryId,
+          completed: false,
+          created_at: isoSelectedDate,
+          description: description?.trim(),
+          reminder_time: isoReminderTime,
+          repeat_interval: repeatInterval,
+          duration_interval: durationInterval,
+          deadline_time: isoDeadlineTime,
+        },
+      ])
+      .select()
+      .single();
     if (error) {
       throw error;
     }
-    return true;
+    return data;
   } catch (error) {
     console.error("Error adding task:", error);
-    return false;
+    return;
   }
 };
 
@@ -225,12 +223,11 @@ export const fetchTasks = async (userId: string, categoryId: number) => {
 
     if (error) {
       console.error("Error fetching tasks:", error.message);
-      return [];
+      throw new Error("Failed to fetch tasks");
     }
-
-    return data as TaskType[];
+    return data;
   } catch (error) {
     console.error("Error fetching tasks:", error);
-    return [];
+    throw new Error("Failed to fetch tasks");
   }
 };

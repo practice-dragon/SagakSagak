@@ -14,13 +14,28 @@ import {
 import {CategoryType, TaskType} from "@/types/Profile";
 
 interface State {
-  categories: CategoryType[];
-  tasks: TaskType[];
-  loading: boolean;
-  error: string | null;
+  categories: any;
+  tasks: any;
+  loading: any;
+  error: any;
+  // categories: CategoryType[];
+  // tasks: TaskType[];
+  // loading: boolean;
+  // error: string;
 }
 
 interface Actions {
+  fetchCategories: any;
+  addCategory: any;
+  updateCategory: any;
+  deleteCategory: any;
+  fetchTasks: any;
+  addTask: any;
+  deleteTask: any;
+  updateTaskCompletedStatus: any;
+  updateTask: any;
+
+  /*
   fetchCategories: (userId: string) => Promise<void>;
   addCategory: (
     newCategoryName: string,
@@ -64,6 +79,9 @@ interface Actions {
     deadlineTime?: Date,
     completed?: boolean,
   ) => Promise<void>;
+  
+// 이거때매 시간 다잡아먹는다...
+  */
 }
 
 const useStore = create<State & Actions>()(
@@ -97,7 +115,11 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    addCategory: async (newCategoryName, userProfile, selectedDate) => {
+    addCategory: async (
+      newCategoryName: string,
+      userProfile: {id: string},
+      selectedDate: Date,
+    ) => {
       set({loading: true, error: null});
       try {
         const newCategory = await addCategory(
@@ -117,7 +139,11 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    updateCategory: async (categoryId, updatedCategoryName, userId) => {
+    updateCategory: async (
+      categoryId: number,
+      updatedCategoryName: string,
+      userId: string,
+    ) => {
       set({loading: true, error: null});
       try {
         console.log(`Updating category with ID ${categoryId}...`);
@@ -130,11 +156,10 @@ const useStore = create<State & Actions>()(
         if (updatedCategory) {
           set(state => ({
             ...state,
-            categories: state.categories.map(cat =>
+            categories: state.categories.map((cat: {id: number}) =>
               cat.id === categoryId ? updatedCategory : cat,
             ),
           }));
-          // 카테고리 업데이트 후 해당 카테고리의 tasks를 다시 fetch하여 업데이트
           const tasks = await fetchTasks(userId, categoryId);
           set({tasks});
         }
@@ -147,7 +172,7 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    deleteCategory: async (categoryId, userId) => {
+    deleteCategory: async (categoryId: number, userId: string) => {
       set({loading: true, error: null});
       try {
         const deletedCategoryId = await deleteCategory(categoryId, userId);
@@ -155,7 +180,7 @@ const useStore = create<State & Actions>()(
           set(state => ({
             ...state,
             categories: state.categories.filter(
-              cat => cat.id !== deletedCategoryId,
+              (cat: {id: number}) => cat.id !== deletedCategoryId,
             ),
           }));
         }
@@ -167,15 +192,15 @@ const useStore = create<State & Actions>()(
     },
 
     addTask: async (
-      userId,
-      categoryId,
-      title,
-      selectedDate,
-      description,
-      reminderTime,
-      repeatInterval,
-      durationInterval,
-      deadlineTime,
+      userId: string,
+      categoryId: number,
+      title: string,
+      selectedDate: Date,
+      description: string | undefined,
+      reminderTime: Date | undefined,
+      repeatInterval: string | undefined,
+      durationInterval: string | undefined,
+      deadlineTime: Date | undefined,
     ) => {
       set({loading: true, error: null});
       try {
@@ -190,9 +215,11 @@ const useStore = create<State & Actions>()(
           durationInterval,
           deadlineTime,
         );
-        if (success) {
+        if (success != null) {
           const tasks = await fetchTasks(userId, categoryId);
           set({tasks});
+          const data = await fetchCategories(userId);
+          set({categories: data});
         }
       } catch (error) {
         set({error: "Failed to add task"});
@@ -201,12 +228,12 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    deleteTask: async taskId => {
+    deleteTask: async (taskId: number) => {
       set({loading: true, error: null});
       try {
         await deleteTask(taskId);
         set(state => ({
-          tasks: state.tasks.filter(task => task.id !== taskId),
+          tasks: state.tasks.filter((task: {id: number}) => task.id !== taskId),
         }));
       } catch (error) {
         set({error: "Failed to delete task"});
@@ -215,12 +242,15 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    updateTaskCompletedStatus: async (taskId, currentCompletedStatus) => {
+    updateTaskCompletedStatus: async (
+      taskId: number,
+      currentCompletedStatus: boolean,
+    ) => {
       set({loading: true, error: null});
       try {
         await updateTaskCompletedStatus(taskId, currentCompletedStatus);
         set(state => ({
-          tasks: state.tasks.map(task =>
+          tasks: state.tasks.map((task: {id: number}) =>
             task.id === taskId
               ? {...task, completed: !currentCompletedStatus}
               : task,

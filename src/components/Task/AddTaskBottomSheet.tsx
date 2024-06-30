@@ -24,10 +24,7 @@ const AddTaskBottomSheet = ({
   categoryId,
   selectedDate,
 }: AddTaskBottomSheetProps) => {
-  const {addTask, fetchTasks} = useStore(state => ({
-    addTask: state.addTask,
-    fetchTasks: state.fetchTasks,
-  }));
+  const {addTask} = useStore();
 
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [description, setDescription] = useState("");

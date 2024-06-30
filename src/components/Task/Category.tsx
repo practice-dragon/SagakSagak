@@ -21,10 +21,8 @@ interface CategoryProps {
 
 const Category = ({text, todos, id, user_id}: CategoryProps) => {
   const {selectedDate} = useDateStore();
-  const {updateCategory, deleteCategory} = useStore(state => ({
-    updateCategory: state.updateCategory,
-    deleteCategory: state.deleteCategory,
-  }));
+
+  const {updateCategory, deleteCategory} = useStore();
 
   const [newCategoryTitle, setNewCategoryTitle] = useState(text);
   const [editBottomSheetVisible, setEditBottomSheetVisible] = useState(false);

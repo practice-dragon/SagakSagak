@@ -9,9 +9,10 @@ import CustomBottomSheet from "@/components/common/BottomSheet";
 import Button from "@/components/common/Button";
 import useStore from "@/context";
 import {useDateStore} from "@/context/DateStore";
+import {CategoryType} from "@/types/Profile";
 
 function Home() {
-  const {categories, fetchCategories, addCategory} = useStore();
+  const {categories, fetchCategories, addCategory, addTask} = useStore();
   const {userProfile} = useAuth();
   const {selectedDate} = useDateStore();
   const [viewType, setViewType] = useState<"week" | "month">("week");
@@ -40,7 +41,7 @@ function Home() {
           <AddCategoryButtonText>카테고리 만들기</AddCategoryButtonText>
           <PlusIcon width={16} height={16} />
         </AddCategoryButton>
-        {categories?.map(category => (
+        {categories?.map((category: CategoryType) => (
           <Category
             key={category.id}
             id={category.id}
