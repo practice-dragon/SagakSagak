@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import styled from "styled-components/native";
 import CalendarDay from "./CalendarDay";
 import ArrowIcon from "../../../src/assets/icons/ArrowIcon";
+import useStore from "@/context";
+import {Text} from "react-native";
 
 const Container = styled.View`
   flex-direction: column;
@@ -90,6 +92,7 @@ const Calendar = ({
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
 }) => {
+  const {tasks} = useStore();
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const handlePreviousPeriod = () => {
@@ -123,6 +126,29 @@ const Calendar = ({
   const weeks = generateCalendarWeeks(currentDate);
   const currentWeek = generateCurrentWeek(currentDate);
 
+  const isSameDay = (date1: Date, date2: Date) => {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+
+  const calculateTasksForDate = (date: Date) => {
+    const formattedDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+    );
+    const filteredTasks = tasks.filter(
+      task =>
+        task.created_at && isSameDay(new Date(task.created_at), formattedDate),
+    );
+    const completedTasks = filteredTasks.filter(task => task.completed).length;
+    const totalTasks = filteredTasks.length;
+    return {completedTasks, totalTasks};
+  };
+
   return (
     <Container>
       <ButtonContainer>
@@ -135,7 +161,6 @@ const Calendar = ({
               {currentDate.getFullYear()}년{currentDate.getMonth() + 1}월
             </DateText>
           </DateContainer>
-
           <Button onPress={handleNextPeriod}>
             <ArrowIcon width={24} height={24} direction="right" />
           </Button>
@@ -160,6 +185,24 @@ const Calendar = ({
                 <CalendarDayWrapper key={`${weekIndex}-${dayIndex}`}>
                   {day !== 0 ? (
                     <CalendarDay
+                      totalTasks={
+                        calculateTasksForDate(
+                          new Date(
+                            currentDate.getFullYear(),
+                            currentDate.getMonth(),
+                            day,
+                          ),
+                        ).totalTasks
+                      }
+                      completedTasks={
+                        calculateTasksForDate(
+                          new Date(
+                            currentDate.getFullYear(),
+                            currentDate.getMonth(),
+                            day,
+                          ),
+                        ).completedTasks
+                      }
                       day={day}
                       isSelected={
                         selectedDate.getDate() === day &&
@@ -186,6 +229,8 @@ const Calendar = ({
             {currentWeek.map((date, dayIndex) => (
               <CalendarDayWrapper key={dayIndex}>
                 <CalendarDay
+                  totalTasks={calculateTasksForDate(date).totalTasks}
+                  completedTasks={calculateTasksForDate(date).completedTasks}
                   day={date.getDate()}
                   isSelected={
                     selectedDate.getDate() === date.getDate() &&
@@ -223,12 +268,12 @@ const generateCalendarWeeks = (currentDate: Date) => {
   const weeks: number[][] = [];
   let days: number[] = [];
 
-  // 이전 달의 빈 칸
+  // Previous month's empty slots
   for (let i = 0; i < firstDayOfMonth; i++) {
     days.push(0);
   }
 
-  // 현재 달의 날짜
+  // Current month's days
   for (let day = 1; day <= daysInMonth; day++) {
     days.push(day);
     if (days.length === 7) {
@@ -237,7 +282,7 @@ const generateCalendarWeeks = (currentDate: Date) => {
     }
   }
 
-  // 마지막 주가 완성되지 않았을 경우 빈 칸으로 채우기
+  // Fill the last week with empty slots if necessary
   if (days.length > 0) {
     while (days.length < 7) {
       days.push(0);

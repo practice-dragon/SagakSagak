@@ -10,7 +10,7 @@ import Button from "@/components/common/Button";
 import useStore from "@/context";
 
 function Home() {
-  const {categories, fetchCategories, addCategory} = useStore();
+  const {categories, fetchCategories, addCategory, tasks} = useStore();
   const {userProfile} = useAuth();
 
   const [viewType, setViewType] = useState<"week" | "month">("week");
@@ -21,6 +21,7 @@ function Home() {
   useEffect(() => {
     if (userProfile) {
       fetchCategories(userProfile.id.toString());
+      setSelectedDate(new Date());
     }
   }, [userProfile]);
 
@@ -30,6 +31,15 @@ function Home() {
       setNewCategoryName("");
       setBottomSheetVisible(false);
     }
+  };
+
+  //
+  const isSameDay = (date1: Date, date2: Date) => {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
   };
 
   return (
