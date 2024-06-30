@@ -10,16 +10,17 @@ import useStore from "@/context";
 import {TaskType} from "@/types/Profile";
 import CustomBottomSheet from "../common/BottomSheet";
 import Task from "./Task";
+import {useDateStore} from "@/context/DateStore";
 
 interface CategoryProps {
   id: number;
   text: string;
   todos?: TaskType[];
-  selectedDate: Date;
   user_id: string;
 }
 
-const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
+const Category = ({text, todos, id, user_id}: CategoryProps) => {
+  const {selectedDate} = useDateStore();
   const {updateCategory, deleteCategory} = useStore(state => ({
     updateCategory: state.updateCategory,
     deleteCategory: state.deleteCategory,

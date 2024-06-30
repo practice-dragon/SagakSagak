@@ -4,6 +4,7 @@ import CalendarDay from "./CalendarDay";
 import ArrowIcon from "../../../src/assets/icons/ArrowIcon";
 import useStore from "@/context";
 import {Text} from "react-native";
+import {useDateStore} from "@/context/DateStore";
 
 const Container = styled.View`
   flex-direction: column;
@@ -84,17 +85,13 @@ const WeekdayText = styled.Text`
 const Calendar = ({
   viewType,
   setViewType,
-  selectedDate,
-  setSelectedDate,
 }: {
   viewType: "week" | "month";
   setViewType: (type: "week" | "month") => void;
-  selectedDate: Date;
-  setSelectedDate: (date: Date) => void;
 }) => {
   const {tasks} = useStore();
+  const {selectedDate, setSelectedDate} = useDateStore();
   const [currentDate, setCurrentDate] = useState(new Date());
-
   const handlePreviousPeriod = () => {
     setCurrentDate(prevDate => {
       const newDate = new Date(prevDate);

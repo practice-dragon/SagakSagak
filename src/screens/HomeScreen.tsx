@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {SafeAreaView, TouchableOpacity, View, Text} from "react-native";
 import styled from "styled-components/native";
 import PlusIcon from "@/assets/icons/PlusIcon";
@@ -8,20 +8,19 @@ import Calendar from "@/components/Task/Calendar";
 import CustomBottomSheet from "@/components/common/BottomSheet";
 import Button from "@/components/common/Button";
 import useStore from "@/context";
+import {useDateStore} from "@/context/DateStore";
 
 function Home() {
   const {categories, fetchCategories, addCategory} = useStore();
   const {userProfile} = useAuth();
-
+  const {selectedDate} = useDateStore();
   const [viewType, setViewType] = useState<"week" | "month">("week");
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
 
   useEffect(() => {
     if (userProfile) {
       fetchCategories(userProfile.id.toString());
-      setSelectedDate(new Date());
     }
   }, [userProfile]);
 
@@ -36,19 +35,13 @@ function Home() {
   return (
     <SafeAreaView>
       <Container>
-        <Calendar
-          viewType={viewType}
-          setViewType={setViewType}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-        />
+        <Calendar viewType={viewType} setViewType={setViewType} />
         <AddCategoryButton onPress={() => setBottomSheetVisible(true)}>
           <AddCategoryButtonText>카테고리 만들기</AddCategoryButtonText>
           <PlusIcon width={16} height={16} />
         </AddCategoryButton>
         {categories?.map(category => (
           <Category
-            selectedDate={selectedDate}
             key={category.id}
             id={category.id}
             text={category.name}
