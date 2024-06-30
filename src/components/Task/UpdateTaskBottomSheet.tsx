@@ -1,20 +1,15 @@
 import React, {useState, useEffect} from "react";
-import {
-  TextInput,
-  View,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-} from "react-native";
+import {TextInput, TouchableOpacity, Text, StyleSheet} from "react-native";
 import styled from "styled-components/native";
-import {updateTask} from "@/lib/supabaseAPI";
-import CustomBottomSheet from "../common/BottomSheet";
-import Button from "../common/Button";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {format} from "date-fns";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AlarmIcon from "@/assets/icons/AlarmIcon";
 import AlarmTurnOffIcon from "@/assets/icons/AlarmTurnOffIcon";
 import {TaskType} from "@/types/Profile";
+import {useAuth} from "@/context/AuthContext";
+import CustomBottomSheet from "../common/BottomSheet";
+import Button from "../common/Button";
+import useStore from "@/context";
 
 interface UpdateTaskBottomSheetProps {
   visible: boolean;
@@ -29,18 +24,15 @@ const UpdateTaskBottomSheet = ({
   selectedDate,
   task,
 }: UpdateTaskBottomSheetProps) => {
-  const [newTaskTitle, setNewTaskTitle] = useState(task.title || "");
-  const [description, setDescription] = useState(task.description || "");
-  const [reminderTime, setReminderTime] = useState(
-    task.reminder_time ? new Date(task.reminder_time) : new Date(),
-  );
-  const [deadlineTime, setDeadlineTime] = useState(
-    task.deadline_time ? new Date(task.deadline_time) : new Date(),
-  );
+  const {userProfile} = useAuth();
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [reminderTime, setReminderTime] = useState(new Date());
+  const [deadlineTime, setDeadlineTime] = useState(new Date());
   const [isReminderPickerVisible, setReminderPickerVisible] = useState(false);
   const [isDeadlinePickerVisible, setDeadlinePickerVisible] = useState(false);
-  const [completed, setCompleted] = useState(task.completed);
-
+  const [completed, setCompleted] = useState(false);
+  const {updateTask} = useStore();
   useEffect(() => {
     setNewTaskTitle(task.title || "");
     setDescription(task.description || "");
@@ -50,16 +42,17 @@ const UpdateTaskBottomSheet = ({
     setDeadlineTime(
       task.deadline_time ? new Date(task.deadline_time) : new Date(),
     );
-    setCompleted(task.completed);
+    setCompleted(task.completed || false);
   }, [task]);
 
   const handleUpdateTask = async () => {
     try {
       if (newTaskTitle.trim() !== "") {
         await updateTask(
+          userProfile?.id ?? "",
+          task.category_id,
           task.id,
           newTaskTitle.trim(),
-          task.category_id,
           selectedDate,
           description,
           reminderTime,

@@ -134,7 +134,6 @@ const useStore = create<State & Actions>()(
               cat.id === categoryId ? updatedCategory : cat,
             ),
           }));
-          // 카테고리 업데이트 후 해당 카테고리의 tasks를 다시 fetch하여 업데이트
           const tasks = await fetchTasks(userId, categoryId);
           set({tasks});
         }

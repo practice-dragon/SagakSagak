@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, TextInput, TouchableOpacity} from "react-native";
+import {TouchableOpacity} from "react-native";
 import styled from "styled-components/native";
 import ActiveCheckSquareIcon from "../../../src/assets/icons/ActiveCheckSquareIcon";
 import CheckSquareIcon from "../../../src/assets/icons/CheckSquareIcon";
@@ -7,7 +7,7 @@ import BinIcon from "@/assets/icons/BinIcon";
 import {TaskType} from "@/types/Profile";
 import EditIcon from "@/assets/icons/EditIcon";
 import {format} from "date-fns";
-import {deleteTask, updateTaskCompletedStatus} from "@/lib/supabaseAPI";
+import useStore from "@/context";
 import UpdateTaskBottomSheet from "./UpdateTaskBottomSheet";
 
 interface TaskProps {
@@ -16,9 +16,12 @@ interface TaskProps {
 }
 
 const Task = ({task, selectedDate}: TaskProps) => {
-  const {completed, title, description, deadline_time, reminder_time} = task;
-  const [newText, setNewText] = useState(title);
+  const {completed, title, deadline_time} = task;
   const [BottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const {updateTaskCompletedStatus, deleteTask} = useStore(state => ({
+    updateTaskCompletedStatus: state.updateTaskCompletedStatus,
+    deleteTask: state.deleteTask,
+  }));
 
   const toggleCompleted = async () => {
     await updateTaskCompletedStatus(task.id, completed);

@@ -109,7 +109,7 @@ export const addTask = async (
   deadlineTime?: Date,
 ): Promise<boolean> => {
   try {
-    const isoSelectedDate = selectedDate.toISOString();
+    const isoSelectedDate = selectedDate;
     const isoReminderTime = reminderTime
       ? reminderTime.toISOString()
       : undefined;
@@ -183,7 +183,7 @@ export const updateTask = async (
   completed?: boolean,
 ) => {
   try {
-    const isoSelectedDate = selectedDate.toISOString();
+    const isoSelectedDate = selectedDate;
     const isoReminderTime = reminderTime
       ? reminderTime.toISOString()
       : undefined;
@@ -194,6 +194,8 @@ export const updateTask = async (
     const {error} = await supabase
       .from("todos")
       .update({
+        id: taskId,
+        user_id: userId,
         title: title.trim(),
         category_id: categoryId,
         completed: completed || false,

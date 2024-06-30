@@ -1,44 +1,45 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components/native";
-import {Text, TouchableOpacity, TextInput} from "react-native";
 import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
-import AddTaskBottomSheet from "@/components/Task/AddTaskBottomSheet";
-import Button from "../common/Button";
-
 import PlusIcon from "@/assets/icons/PlusIcon";
+import useStore from "@/context";
 import {TaskType} from "@/types/Profile";
 import CustomBottomSheet from "../common/BottomSheet";
+import Button from "../common/Button";
 import Task from "./Task";
-import useStore from "@/context";
+import AddTaskBottomSheet from "./AddTaskBottomSheet";
 
 interface CategoryProps {
   id: number;
   text: string;
-  todos?: TaskType[];
   selectedDate: Date;
   user_id: string;
 }
 
-const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
-  const {updateCategory, deleteCategory} = useStore(state => ({
-    updateCategory: state.updateCategory,
-    deleteCategory: state.deleteCategory,
-  }));
+const Category = ({text, id, user_id, selectedDate}: CategoryProps) => {
+  const {updateCategory, deleteCategory, fetchTasks, tasks} = useStore();
 
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
   const [editBottomSheetVisible, setEditBottomSheetVisible] = useState(false);
   const [addTaskBottomSheetVisible, setAddTaskBottomSheetVisible] =
     useState(false);
 
+  useEffect(() => {
+    if (user_id) {
+      fetchTasks(user_id, id);
+    }
+  }, [user_id, id]);
+
   const handleEdit = async () => {
     try {
       if (newCategoryTitle.trim() !== "") {
-        const userId = user_id;
         const success = await updateCategory(
           id,
           newCategoryTitle.trim(),
-          userId,
+          user_id,
         );
+        setNewCategoryTitle("");
+        setEditBottomSheetVisible(false);
       }
     } catch (error) {
       console.error("Error updating category:", error);
@@ -47,8 +48,7 @@ const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
 
   const handleDeleteCategory = async () => {
     try {
-      const userId = user_id;
-      const success = await deleteCategory(id, userId);
+      const success = await deleteCategory(id, user_id);
     } catch (error) {
       console.error("Error deleting category:", error);
     }
@@ -72,7 +72,7 @@ const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
         </IconBox>
       </CategoryHeader>
 
-      {todos?.map(task => (
+      {tasks?.map(task => (
         <Task key={task.id} task={task} selectedDate={selectedDate} />
       ))}
 
@@ -87,11 +87,11 @@ const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
             value={newCategoryTitle}
           />
         </BottomSheetBox>
-        <Button text="수정하기" onPress={handleEdit} size={"sm"} />
+        <Button text="수정하기" onPress={handleEdit} size="sm" />
         <Button
           text="삭제하기"
           onPress={handleDeleteCategory}
-          size={"sm"}
+          size="sm"
           variant="textGray"
         />
       </CustomBottomSheet>
