@@ -52,6 +52,7 @@ function Home() {
             key={category.id}
             id={category.id}
             text={category.name}
+            todos={category.todos}
             user_id={userProfile?.id ?? ""}
           />
         ))}

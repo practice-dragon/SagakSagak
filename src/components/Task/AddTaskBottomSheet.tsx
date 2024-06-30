@@ -1,13 +1,19 @@
 import React, {useState} from "react";
-import {TextInput, TouchableOpacity, StyleSheet} from "react-native";
+import {
+  TextInput,
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+} from "react-native";
 import styled from "styled-components/native";
+import {addTask} from "@/lib/supabaseAPI";
+import CustomBottomSheet from "../common/BottomSheet";
+import Button from "../common/Button";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {format} from "date-fns";
 import AlarmIcon from "@/assets/icons/AlarmIcon";
 import AlarmTurnOffIcon from "@/assets/icons/AlarmTurnOffIcon";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import CustomBottomSheet from "../common/BottomSheet";
-import Button from "../common/Button";
-import useStore from "@/context";
 
 interface AddTaskBottomSheetProps {
   visible: boolean;
@@ -24,11 +30,6 @@ const AddTaskBottomSheet = ({
   categoryId,
   selectedDate,
 }: AddTaskBottomSheetProps) => {
-  const {addTask, fetchTasks} = useStore(state => ({
-    addTask: state.addTask,
-    fetchTasks: state.fetchTasks,
-  }));
-
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [description, setDescription] = useState("");
   const [reminderTime, setReminderTime] = useState(new Date());

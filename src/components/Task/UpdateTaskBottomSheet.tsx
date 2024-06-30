@@ -1,14 +1,21 @@
 import React, {useState, useEffect} from "react";
-import {TextInput, TouchableOpacity, Text, StyleSheet} from "react-native";
+import {
+  TextInput,
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+} from "react-native";
 import styled from "styled-components/native";
-import {format} from "date-fns";
+import {updateTask} from "@/lib/supabaseAPI";
+import CustomBottomSheet from "../common/BottomSheet";
+import Button from "../common/Button";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {format} from "date-fns";
 import AlarmIcon from "@/assets/icons/AlarmIcon";
 import AlarmTurnOffIcon from "@/assets/icons/AlarmTurnOffIcon";
 import {TaskType} from "@/types/Profile";
 import {useAuth} from "@/context/AuthContext";
-import CustomBottomSheet from "../common/BottomSheet";
-import Button from "../common/Button";
 import useStore from "@/context";
 
 interface UpdateTaskBottomSheetProps {
@@ -42,14 +49,14 @@ const UpdateTaskBottomSheet = ({
     setDeadlineTime(
       task.deadline_time ? new Date(task.deadline_time) : new Date(),
     );
-    setCompleted(task.completed || false);
+    setCompleted(task.completed);
   }, [task]);
 
   const handleUpdateTask = async () => {
     try {
       if (newTaskTitle.trim() !== "") {
         await updateTask(
-          userProfile?.id ?? "",
+          task.user_id,
           task.category_id,
           task.id,
           newTaskTitle.trim(),
