@@ -1,24 +1,30 @@
 import React, {useState} from "react";
 import styled from "styled-components/native";
-import {Text, Modal, TouchableOpacity, TextInput} from "react-native";
+import {Text, TouchableOpacity, TextInput} from "react-native";
 import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
 import AddTaskBottomSheet from "@/components/Task/AddTaskBottomSheet";
 import Button from "../common/Button";
-import {updateCategory, deleteCategory} from "@/lib/supabaseAPI";
+
 import PlusIcon from "@/assets/icons/PlusIcon";
-import {CategoryType, TaskType} from "@/types/Profile";
+import {TaskType} from "@/types/Profile";
 import CustomBottomSheet from "../common/BottomSheet";
 import Task from "./Task";
+import useStore from "@/context";
 
 interface CategoryProps {
+  id: number;
   text: string;
   todos?: TaskType[];
-  id: number;
-  user_id: string;
   selectedDate: Date;
+  user_id: string;
 }
 
 const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
+  const {updateCategory, deleteCategory} = useStore(state => ({
+    updateCategory: state.updateCategory,
+    deleteCategory: state.deleteCategory,
+  }));
+
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
   const [editBottomSheetVisible, setEditBottomSheetVisible] = useState(false);
   const [addTaskBottomSheetVisible, setAddTaskBottomSheetVisible] =
@@ -33,17 +39,6 @@ const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
           newCategoryTitle.trim(),
           userId,
         );
-
-        if (success) {
-          console.log(
-            "Category updated successfully:",
-            newCategoryTitle.trim(),
-          );
-          setNewCategoryTitle("");
-          closeBottomSheet();
-        } else {
-          console.error("Failed to update category:", newCategoryTitle.trim());
-        }
       }
     } catch (error) {
       console.error("Error updating category:", error);
@@ -54,11 +49,6 @@ const Category = ({text, todos, id, user_id, selectedDate}: CategoryProps) => {
     try {
       const userId = user_id;
       const success = await deleteCategory(id, userId);
-      if (success) {
-        console.log("Category deleted successfully:", id);
-      } else {
-        console.error("Failed to delete category:", id);
-      }
     } catch (error) {
       console.error("Error deleting category:", error);
     }

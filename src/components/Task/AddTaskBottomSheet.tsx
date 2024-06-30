@@ -42,8 +42,8 @@ const AddTaskBottomSheet = ({
       if (newTaskTitle.trim() !== "") {
         await addTask(
           userId,
-          newTaskTitle.trim(),
           categoryId,
+          newTaskTitle.trim(),
           selectedDate,
           description,
           reminderTime,

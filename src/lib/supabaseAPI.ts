@@ -1,7 +1,9 @@
 import {supabase} from "@/lib/supabase";
 import {CategoryType, TaskType} from "@/types/Profile";
 
-export const fetchCategories = async (userId: string) => {
+export const fetchCategories = async (
+  userId: string,
+): Promise<CategoryType[]> => {
   const {data, error} = await supabase
     .from("categories")
     .select("*, todos (*)")
@@ -19,27 +21,30 @@ export const addCategory = async (
   newCategoryName: string,
   userProfile: {id: string},
   selectedDate: Date,
-) => {
+): Promise<CategoryType | null> => {
   const formattedDate = selectedDate.toISOString();
 
   try {
-    const {error} = await supabase.from("categories").insert([
-      {
-        name: newCategoryName.trim(),
-        user_id: userProfile.id,
-        created_at: formattedDate,
-      },
-    ]);
-
+    const {data, error} = await supabase
+      .from("categories")
+      .insert([
+        {
+          name: newCategoryName.trim(),
+          user_id: userProfile.id,
+          created_at: formattedDate,
+        },
+      ])
+      .select()
+      .single();
     if (error) {
       console.error("Error adding category:", error.message);
-      return false;
+      return null;
     }
 
-    return true;
+    return data as CategoryType;
   } catch (error) {
     console.error("Error adding category:", error);
-    return false;
+    return null;
   }
 };
 
@@ -47,27 +52,33 @@ export const updateCategory = async (
   categoryId: number,
   updatedCategoryName: string,
   userId: string,
-) => {
+): Promise<CategoryType | null> => {
   try {
-    const {error} = await supabase
+    const {data, error} = await supabase
       .from("categories")
       .update({
         name: updatedCategoryName.trim(),
       })
       .eq("id", categoryId)
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .select() // select()를 추가하여 업데이트된 데이터를 반환합니다.
+      .single();
+
     if (error) {
       console.error("Error updating category:", error.message);
-      return false;
+      return null;
     }
-    return true;
+    return data as CategoryType;
   } catch (error) {
     console.error("Error updating category:", error);
-    return false;
+    return null;
   }
 };
 
-export const deleteCategory = async (categoryId: number, userId: string) => {
+export const deleteCategory = async (
+  categoryId: number,
+  userId: string,
+): Promise<number | null> => {
   try {
     const {error} = await supabase
       .from("categories")
@@ -77,26 +88,26 @@ export const deleteCategory = async (categoryId: number, userId: string) => {
 
     if (error) {
       console.error("Error deleting category:", error.message);
-      return false;
+      return null;
     }
-    return true;
+    return categoryId; // 삭제된 카테고리의 ID를 반환합니다.
   } catch (error) {
     console.error("Error deleting category:", error);
-    return false;
+    return null;
   }
 };
 
 export const addTask = async (
   userId: string,
-  title: string,
   categoryId: number,
+  title: string,
   selectedDate: Date,
   description?: string,
   reminderTime?: Date,
   repeatInterval?: string,
   durationInterval?: string,
   deadlineTime?: Date,
-) => {
+): Promise<boolean> => {
   try {
     const isoSelectedDate = selectedDate.toISOString();
     const isoReminderTime = reminderTime
@@ -105,6 +116,7 @@ export const addTask = async (
     const isoDeadlineTime = deadlineTime
       ? deadlineTime.toISOString()
       : undefined;
+
     const {data, error} = await supabase.from("todos").insert([
       {
         title: title.trim(),
@@ -119,12 +131,14 @@ export const addTask = async (
         deadline_time: isoDeadlineTime,
       },
     ]);
+
     if (error) {
       throw error;
     }
+    return true;
   } catch (error) {
     console.error("Error adding task:", error);
-    return {error};
+    return false;
   }
 };
 
@@ -156,9 +170,10 @@ export const updateTaskCompletedStatus = async (
 };
 
 export const updateTask = async (
+  userId: string,
+  categoryId: number,
   taskId: number,
   title: string,
-  categoryId: number,
   selectedDate: Date,
   description?: string,
   reminderTime?: Date,
@@ -197,5 +212,25 @@ export const updateTask = async (
   } catch (error) {
     console.error("Error updating task:", error);
     return {error};
+  }
+};
+
+export const fetchTasks = async (userId: string, categoryId: number) => {
+  try {
+    const {data, error} = await supabase
+      .from("todos")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("category_id", categoryId);
+
+    if (error) {
+      console.error("Error fetching tasks:", error.message);
+      return [];
+    }
+
+    return data as TaskType[];
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    return [];
   }
 };

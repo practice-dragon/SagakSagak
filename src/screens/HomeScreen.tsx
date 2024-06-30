@@ -1,52 +1,34 @@
 import React, {useState, useEffect} from "react";
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-  TextInput,
-  Text,
-} from "react-native";
+import {SafeAreaView, TouchableOpacity, View, Text} from "react-native";
 import styled from "styled-components/native";
 import PlusIcon from "@/assets/icons/PlusIcon";
-import {CategoryType} from "@/types/Profile";
 import {useAuth} from "@/context/AuthContext";
-import {fetchCategories, addCategory} from "@/lib/supabaseAPI";
 import Category from "@/components/Task/Category";
 import Calendar from "@/components/Task/Calendar";
 import CustomBottomSheet from "@/components/common/BottomSheet";
 import Button from "@/components/common/Button";
+import useStore from "@/context";
 
 function Home() {
-  const [viewType, setViewType] = useState<"week" | "month">("week");
-  const [categories, setCategories] = useState<CategoryType[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const {categories, fetchCategories, addCategory} = useStore();
   const {userProfile} = useAuth();
+
+  const [viewType, setViewType] = useState<"week" | "month">("week");
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
 
   useEffect(() => {
-    fetchCategoriesData();
-  }, []);
-
-  const fetchCategoriesData = async () => {
     if (userProfile) {
-      const data = await fetchCategories(userProfile.id.toString());
-      setCategories(data);
+      fetchCategories(userProfile.id.toString());
     }
-  };
+  }, [userProfile]);
 
   const handleAddCategory = async () => {
     if (userProfile && newCategoryName.trim() !== "") {
-      const success = await addCategory(
-        newCategoryName.trim(),
-        userProfile,
-        selectedDate,
-      );
-      if (success) {
-        setNewCategoryName("");
-        setBottomSheetVisible(false);
-        fetchCategoriesData();
-      }
+      await addCategory(newCategoryName.trim(), userProfile, selectedDate);
+      setNewCategoryName("");
+      setBottomSheetVisible(false);
     }
   };
 
