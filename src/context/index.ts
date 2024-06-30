@@ -152,7 +152,6 @@ const useStore = create<State & Actions>()(
           updatedCategoryName,
           userId,
         );
-        console.log(`Updated category:`, updatedCategory);
         if (updatedCategory) {
           set(state => ({
             ...state,
@@ -184,6 +183,8 @@ const useStore = create<State & Actions>()(
             ),
           }));
         }
+        const data = await fetchCategories(userId);
+        set({categories: data});
       } catch (error) {
         set({error: "Failed to delete category"});
       } finally {
@@ -228,13 +229,14 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    deleteTask: async (taskId: number) => {
+    deleteTask: async (taskId: number, userId: string, categoryId: number) => {
       set({loading: true, error: null});
       try {
         await deleteTask(taskId);
-        set(state => ({
-          tasks: state.tasks.filter((task: {id: number}) => task.id !== taskId),
-        }));
+        const tasks = await fetchTasks(userId, categoryId);
+        set({tasks});
+        const data = await fetchCategories(userId);
+        set({categories: data});
       } catch (error) {
         set({error: "Failed to delete task"});
       } finally {
@@ -244,6 +246,7 @@ const useStore = create<State & Actions>()(
 
     updateTaskCompletedStatus: async (
       taskId: number,
+      userId: string,
       currentCompletedStatus: boolean,
     ) => {
       set({loading: true, error: null});
@@ -256,6 +259,8 @@ const useStore = create<State & Actions>()(
               : task,
           ),
         }));
+        const data = await fetchCategories(userId);
+        set({categories: data});
       } catch (error) {
         set({error: "Failed to update task status"});
       } finally {
@@ -289,6 +294,8 @@ const useStore = create<State & Actions>()(
       );
       const tasks = await fetchTasks(userId, categoryId);
       set({tasks});
+      const data = await fetchCategories(userId);
+      set({categories: data});
     },
   })),
 );

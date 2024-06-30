@@ -141,10 +141,12 @@ export const addTask = async (
 };
 
 export const deleteTask = async (taskId: number) => {
-  const {error} = await supabase
+  const {data, error} = await supabase
     .from("todos")
     .delete()
-    .eq("id", taskId.toString());
+    .eq("id", taskId.toString())
+    .select()
+    .single();
   if (error) {
     console.error("Supabase delete error", error);
     return;
