@@ -25,13 +25,13 @@ const UpdateTaskBottomSheet = ({
   task,
 }: UpdateTaskBottomSheetProps) => {
   const {userProfile} = useAuth();
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [reminderTime, setReminderTime] = useState(new Date());
-  const [deadlineTime, setDeadlineTime] = useState(new Date());
+  const [newTaskTitle, setNewTaskTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.title);
+  const [reminderTime, setReminderTime] = useState(task.reminder_time);
+  const [deadlineTime, setDeadlineTime] = useState(task.deadline_time);
   const [isReminderPickerVisible, setReminderPickerVisible] = useState(false);
   const [isDeadlinePickerVisible, setDeadlinePickerVisible] = useState(false);
-  const [completed, setCompleted] = useState(false);
+  const [completed, setCompleted] = useState(task.completed);
   const {updateTask} = useStore();
   useEffect(() => {
     setNewTaskTitle(task.title || "");

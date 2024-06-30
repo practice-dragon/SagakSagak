@@ -19,7 +19,7 @@ interface CategoryProps {
 const Category = ({text, id, user_id, selectedDate}: CategoryProps) => {
   const {updateCategory, deleteCategory, fetchTasks, tasks} = useStore();
 
-  const [newCategoryTitle, setNewCategoryTitle] = useState("");
+  const [newCategoryTitle, setNewCategoryTitle] = useState(text);
   const [editBottomSheetVisible, setEditBottomSheetVisible] = useState(false);
   const [addTaskBottomSheetVisible, setAddTaskBottomSheetVisible] =
     useState(false);
