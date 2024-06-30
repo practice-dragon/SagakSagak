@@ -3,7 +3,6 @@ import styled from "styled-components/native";
 import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
 import PlusIcon from "@/assets/icons/PlusIcon";
 import useStore from "@/context";
-import {TaskType} from "@/types/Profile";
 import CustomBottomSheet from "../common/BottomSheet";
 import Button from "../common/Button";
 import Task from "./Task";
@@ -60,6 +59,19 @@ const Category = ({text, id, user_id, selectedDate}: CategoryProps) => {
     setEditBottomSheetVisible(false);
   };
 
+  const isSameDay = (date1: Date, date2: Date) => {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+
+  const filteredTasks = tasks.filter(
+    task =>
+      task.created_at && isSameDay(new Date(task.created_at), selectedDate),
+  );
+
   return (
     <CategoryContainer>
       <CategoryHeader>
@@ -72,7 +84,7 @@ const Category = ({text, id, user_id, selectedDate}: CategoryProps) => {
         </IconBox>
       </CategoryHeader>
 
-      {tasks?.map(task => (
+      {filteredTasks?.map(task => (
         <Task key={task.id} task={task} selectedDate={selectedDate} />
       ))}
 

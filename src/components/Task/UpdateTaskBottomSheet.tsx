@@ -104,7 +104,9 @@ const UpdateTaskBottomSheet = ({
           <InputWrapper>
             <AlarmIcon width={30} height={30} />
             <InputLabel>알림 시간</InputLabel>
-            <InputText>{format(reminderTime, "hh:mm a")}</InputText>
+            <InputText>
+              {reminderTime ? format(reminderTime, "hh:mm a") : ""}
+            </InputText>
           </InputWrapper>
         </TouchableOpacity>
         <DateTimePickerModal
@@ -117,7 +119,9 @@ const UpdateTaskBottomSheet = ({
           <InputWrapper>
             <AlarmTurnOffIcon width={30} height={30} />
             <InputLabel>마감 시간</InputLabel>
-            <InputText>{format(deadlineTime, "hh:mm a")}</InputText>
+            <InputText>
+              {deadlineTime ? format(deadlineTime, "hh:mm a") : ""}
+            </InputText>
           </InputWrapper>
         </TouchableOpacity>
         <DateTimePickerModal

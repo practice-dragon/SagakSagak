@@ -18,8 +18,8 @@ const DateContainer = styled.View`
 `;
 
 const DateText = styled.Text`
-  font-size: ${({theme}) => theme.fonts.h3.fontSize}px;
-  font-family: ${({theme}) => theme.fonts.h3.fontFamily};
+  font-size: ${({theme}) => theme.fonts.h2.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.h1.fontFamily};
   color: ${({theme}) => theme.colors.text};
   text-align: center;
 `;
@@ -35,15 +35,23 @@ const CalendarWeekRow = styled.View`
   width: 100%;
 `;
 
+const LeftContainer = styled.View`
+  flex-direction: row;
+`;
+
 const ButtonContainer = styled.View`
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
   margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Button = styled.TouchableOpacity`
+  padding: 8px;
+`;
+
+const ChangeViewButton = styled.TouchableOpacity`
   padding: 8px;
 `;
 
@@ -118,22 +126,24 @@ const Calendar = ({
   return (
     <Container>
       <ButtonContainer>
-        <Button onPress={handlePreviousPeriod}>
-          <ArrowIcon width={24} height={24} direction="left" />
-        </Button>
-        <DateContainer>
-          <DateText>
-            {currentDate.getFullYear()}.{currentDate.getMonth() + 1}
-          </DateText>
-        </DateContainer>
-        <Button onPress={handleNextPeriod}>
-          <ArrowIcon width={24} height={24} direction="right" />
-        </Button>
+        <LeftContainer>
+          <Button onPress={handlePreviousPeriod}>
+            <ArrowIcon width={24} height={24} direction="left" />
+          </Button>
+          <DateContainer>
+            <DateText>
+              {currentDate.getFullYear()}년{currentDate.getMonth() + 1}월
+            </DateText>
+          </DateContainer>
 
-        <Button
+          <Button onPress={handleNextPeriod}>
+            <ArrowIcon width={24} height={24} direction="right" />
+          </Button>
+        </LeftContainer>
+        <ChangeViewButton
           onPress={() => setViewType(viewType === "week" ? "month" : "week")}>
           <ButtonText>{viewType === "week" ? "달로" : "일주일로"}</ButtonText>
-        </Button>
+        </ChangeViewButton>
       </ButtonContainer>
 
       <WeekdayContainer>
