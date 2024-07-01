@@ -37,6 +37,7 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
           id,
           newCategoryTitle.trim(),
           userId,
+          selectedDate,
         );
       }
     } catch (error) {
@@ -47,7 +48,7 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
   const handleDeleteCategory = async () => {
     try {
       const userId = user_id;
-      const success = await deleteCategory(id, userId);
+      const success = await deleteCategory(id, userId, selectedDate);
     } catch (error) {
       console.error("Error deleting category:", error);
     }

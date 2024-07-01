@@ -2,32 +2,48 @@ import {supabase} from "@/lib/supabase";
 import {CategoryType, TaskType} from "@/types/Profile";
 
 export const fetchCategories = async (userId: string, selectedDate: Date) => {
-  const {data, error} = await supabase
-    .from("categories")
-    .select(
-      `
-      *,
-      todos (
-        *,
-        created_at
-      )
-    `,
-    )
-    .eq("user_id", userId)
-    .gte(
-      "todos.created_at",
-      new Date(selectedDate.setHours(0, 0, 0, 0)).toISOString(),
-    )
-    .lte(
-      "todos.created_at",
-      new Date(selectedDate.setHours(23, 59, 59, 999)).toISOString(),
+  try {
+    const {data: categories, error: categoriesError} = await supabase
+      .from("categories")
+      .select("*")
+      .eq("user_id", userId);
+
+    if (categoriesError) {
+      console.error("Error fetching categories:", categoriesError.message);
+      throw new Error("Failed to fetch categories");
+    }
+
+    const categoriesWithTodos = await Promise.all(
+      categories.map(async category => {
+        const {data: todos, error: todosError} = await supabase
+          .from("todos")
+          .select("*")
+          .eq("category_id", category.id)
+          .gte(
+            "created_at",
+            new Date(selectedDate.setHours(0, 0, 0, 0)).toISOString(),
+          )
+          .lte(
+            "created_at",
+            new Date(selectedDate.setHours(23, 59, 59, 999)).toISOString(),
+          );
+
+        if (todosError) {
+          console.error(
+            "Error fetching todos for category:",
+            todosError.message,
+          );
+          return {...category, todos: []};
+        }
+
+        return {...category, todos};
+      }),
     );
 
-  if (error) {
-    console.error(error);
-    return [];
-  } else {
-    return data;
+    return categoriesWithTodos;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw new Error("Failed to fetch categories");
   }
 };
 
@@ -238,7 +254,6 @@ export const fetchTasks = async (userId: string, categoryId: number) => {
       .select("*")
       .eq("user_id", userId)
       .eq("category_id", categoryId);
-
     if (error) {
       console.error("Error fetching tasks:", error.message);
       throw new Error("Failed to fetch tasks");

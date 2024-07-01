@@ -160,6 +160,8 @@ const useStore = create<State & Actions>()(
           }));
           const daytasksData = await fetchAllTasks(userProfile.id);
           set({daytasks: daytasksData});
+          const data = await fetchCategories(userProfile.id, selectedDate);
+          set({categories: data});
         }
       } catch (error) {
         set({error: "Failed to add category"});
@@ -172,6 +174,7 @@ const useStore = create<State & Actions>()(
       categoryId: number,
       updatedCategoryName: string,
       userId: string,
+      selectedDate: Date,
     ) => {
       set({loading: true, error: null});
       try {
@@ -192,6 +195,8 @@ const useStore = create<State & Actions>()(
           set({tasks});
           const daytasksData = await fetchAllTasks(userId);
           set({daytasks: daytasksData});
+          const data = await fetchCategories(userId, selectedDate);
+          set({categories: data});
         }
       } catch (error) {
         console.error("Error updating category:", error);
@@ -328,6 +333,7 @@ const useStore = create<State & Actions>()(
       repeatInterval?: string,
       durationInterval?: string,
       deadlineTime?: Date,
+      completed?: boolean,
     ) => {
       await updateTask(
         userId,
@@ -340,6 +346,7 @@ const useStore = create<State & Actions>()(
         repeatInterval,
         durationInterval,
         deadlineTime,
+        completed,
       );
       const tasks = await fetchTasks(userId, categoryId);
       set({tasks});

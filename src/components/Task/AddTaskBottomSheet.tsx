@@ -41,6 +41,7 @@ const AddTaskBottomSheet = ({
           categoryId,
           newTaskTitle.trim(),
           selectedDate,
+
           description,
           reminderTime,
           "",

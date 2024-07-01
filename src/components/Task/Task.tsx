@@ -35,7 +35,7 @@ const Task = ({task, selectedDate}: TaskProps) => {
   };
 
   const handleDelete = async () => {
-    await deleteTask(task.id, userProfile?.id, category_id);
+    await deleteTask(task.id, userProfile?.id, category_id, selectedDate);
   };
 
   const closeBottomSheet = () => {
