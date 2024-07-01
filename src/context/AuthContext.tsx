@@ -6,8 +6,8 @@ import React, {
   useEffect,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {supabase} from "@/lib/supabase";
 import {Profile} from "@/types/Profile";
+import {createProfile, fetchProfile} from "@/lib/Profile";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -31,11 +31,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
 
   const login = async (profile: Profile) => {
     try {
-      const {data: existingProfile, error} = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", profile.id)
-        .single();
+      const {data: existingProfile, error} = await fetchProfile(profile.id);
 
       if (error) {
         console.error("Supabase select error", error);
@@ -43,15 +39,9 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
       }
 
       if (!existingProfile) {
-        const {data: newProfile, error: insertError} = await supabase
-          .from("profiles")
-          .upsert([
-            {
-              id: profile.id,
-              username: profile.username,
-              joinedat: new Date().toISOString(),
-            },
-          ]);
+        const {data: newProfile, error: insertError} = await createProfile(
+          profile,
+        );
 
         if (insertError) {
           console.error("Error inserting profile into PostgreSQL", insertError);
