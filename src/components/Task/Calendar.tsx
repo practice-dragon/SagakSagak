@@ -4,8 +4,8 @@ import CalendarDay from "./CalendarDay";
 import ArrowIcon from "../../../src/assets/icons/ArrowIcon";
 import useStore from "@/context";
 import {useDateStore} from "@/context/DateStore";
-import {useAuth} from "@/context/AuthContext";
 import {TaskType} from "@/types/Profile";
+import {useAuthStore} from "@/context/authStore";
 
 const Container = styled.View`
   flex-direction: column;
@@ -91,7 +91,7 @@ const Calendar = ({
   setViewType: (type: "week" | "month") => void;
 }) => {
   const {daytasks, fetchAllTasks} = useStore();
-  const {userProfile} = useAuth();
+  const {userProfile} = useAuthStore();
   const {selectedDate, setSelectedDate} = useDateStore();
   const [currentDate, setCurrentDate] = useState(new Date());
 

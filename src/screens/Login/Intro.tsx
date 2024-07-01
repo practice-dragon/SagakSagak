@@ -9,8 +9,8 @@ import {
   KakaoProfile,
 } from "@react-native-seoul/kakao-login";
 import {supabase} from "@/lib/supabase";
-import {useAuth} from "@/context/AuthContext";
 import {Button} from "@story/stories/Button/Button";
+import {useAuthStore} from "@/context/authStore";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -41,18 +41,18 @@ const TextDescription = styled(Text)`
   font-family: ${({theme}) => theme.fonts.h2.fontFamily};
   color: ${({theme}) => theme.colors.text};
   text-align: center;
-  margin-bottom: 20px; /* 여백 추가 */
+  margin-bottom: 20px;
 `;
 
 const ButtonContainer = styled.View`
   width: 100%;
-  margin-bottom: 40px; /* 버튼과 하단 여백 추가 */
+  margin-bottom: 40px;
   align-items: center;
 `;
 
 const LoginScreen = () => {
   const [result, setResult] = useState<string>("");
-  const {login: authLogin, logout: authLogout} = useAuth();
+  const {login: authLogin, logout: authLogout} = useAuthStore();
 
   const signInWithKakao = async (): Promise<void> => {
     try {

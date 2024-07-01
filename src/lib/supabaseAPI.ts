@@ -14,7 +14,7 @@ export const fetchCategories = async (userId: string, selectedDate: Date) => {
     }
 
     const categoriesWithTodos = await Promise.all(
-      categories.map(async category => {
+      categories.map(async (category: {id: string}) => {
         const {data: todos, error: todosError} = await supabase
           .from("todos")
           .select("*")
@@ -35,16 +35,17 @@ export const fetchCategories = async (userId: string, selectedDate: Date) => {
           );
           return {...category, todos: []};
         }
+        console.log("todos", todos);
         return {...category, todos};
       }),
     );
+
     return categoriesWithTodos;
   } catch (error) {
     console.error("Error fetching categories:", error);
     throw new Error("Failed to fetch categories");
   }
 };
-
 export const addCategory = async (
   newCategoryName: string,
   userProfile: {id: string},

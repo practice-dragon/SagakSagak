@@ -9,7 +9,7 @@ import EditIcon from "@/assets/icons/EditIcon";
 import {format} from "date-fns";
 import useStore from "@/context";
 import UpdateTaskBottomSheet from "./UpdateTaskBottomSheet";
-import {useAuth} from "@/context/AuthContext";
+import {useAuthStore} from "@/context/authStore";
 
 interface TaskProps {
   task: TaskType;
@@ -18,7 +18,7 @@ interface TaskProps {
 
 const Task = ({task, selectedDate}: TaskProps) => {
   const {completed, title, deadline_time, category_id} = task;
-  const {userProfile} = useAuth();
+  const {userProfile} = useAuthStore();
   const [BottomSheetVisible, setBottomSheetVisible] = useState(false);
   const {updateTaskCompletedStatus, deleteTask} = useStore(state => ({
     updateTaskCompletedStatus: state.updateTaskCompletedStatus,
@@ -26,16 +26,20 @@ const Task = ({task, selectedDate}: TaskProps) => {
   }));
 
   const toggleCompleted = async () => {
-    await updateTaskCompletedStatus(
-      task.id,
-      userProfile?.id,
-      completed,
-      selectedDate,
-    );
+    if (userProfile) {
+      await updateTaskCompletedStatus(
+        task.id,
+        userProfile?.id,
+        completed,
+        selectedDate,
+      );
+    }
   };
 
   const handleDelete = async () => {
-    await deleteTask(task.id, userProfile?.id, category_id, selectedDate);
+    if (userProfile) {
+      await deleteTask(task.id, userProfile?.id, category_id, selectedDate);
+    }
   };
 
   const closeBottomSheet = () => {

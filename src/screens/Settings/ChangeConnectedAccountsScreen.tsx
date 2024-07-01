@@ -1,9 +1,9 @@
 import LogoutIcon from "@/assets/icons/LogoutIcon";
-import {useAuth} from "@/context/AuthContext";
 import React from "react";
 import {SafeAreaView, Text, TouchableOpacity} from "react-native";
 import styled from "styled-components/native";
 import {logout as kakaoLogout} from "@react-native-seoul/kakao-login";
+import {useAuthStore} from "@/context/authStore";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -24,8 +24,7 @@ const LogoutButtonText = styled.Text`
 `;
 
 const ChangeConnectedAccountsScreen = () => {
-  const {logout: authLogout} = useAuth();
-
+  const {logout: authLogout} = useAuthStore();
   const handleLogout = async () => {
     try {
       const message = await kakaoLogout();

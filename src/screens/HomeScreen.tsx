@@ -2,31 +2,31 @@ import React, {useEffect, useState} from "react";
 import {SafeAreaView, TouchableOpacity, View, Text} from "react-native";
 import styled from "styled-components/native";
 import PlusIcon from "@/assets/icons/PlusIcon";
-import {useAuth} from "@/context/AuthContext";
 import Category from "@/components/Task/Category";
 import Calendar from "@/components/Task/Calendar";
 import CustomBottomSheet from "@/components/common/BottomSheet";
 import Button from "@/components/common/Button";
-import useStore from "@/context";
 import {useDateStore} from "@/context/DateStore";
 import {CategoryType, TaskType} from "@/types/Profile";
+import {useAuthStore} from "@/context/authStore";
+import useStore from "@/context";
 
 function Home() {
-  const {categories, fetchCategories, addCategory} = useStore();
-  const {userProfile} = useAuth();
+  const {isAuthenticated, userProfile} = useAuthStore();
+  const {fetchCategories, addCategory, categories} = useStore();
   const {selectedDate} = useDateStore();
   const [viewType, setViewType] = useState<"week" | "month">("week");
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
 
   useEffect(() => {
-    if (userProfile) {
+    if (isAuthenticated && userProfile) {
       fetchCategories(userProfile.id.toString(), selectedDate);
     }
-  }, [userProfile, selectedDate]);
+  }, [isAuthenticated, userProfile, selectedDate, fetchCategories]);
 
   const handleAddCategory = async () => {
-    if (userProfile && newCategoryName.trim() !== "") {
+    if (isAuthenticated && userProfile && newCategoryName.trim() !== "") {
       await addCategory(newCategoryName.trim(), userProfile, selectedDate);
       setNewCategoryName("");
       setBottomSheetVisible(false);
@@ -73,6 +73,7 @@ function Home() {
           </BottomSheetBox>
           <Button onPress={handleAddCategory} size="lg" text="만들기" />
         </CustomBottomSheet>
+
         <View style={{height: 100}} />
       </Container>
     </SafeAreaView>

@@ -6,10 +6,10 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AlarmIcon from "@/assets/icons/AlarmIcon";
 import AlarmTurnOffIcon from "@/assets/icons/AlarmTurnOffIcon";
 import {TaskType} from "@/types/Profile";
-import {useAuth} from "@/context/AuthContext";
 import CustomBottomSheet from "../common/BottomSheet";
 import Button from "../common/Button";
 import useStore from "@/context";
+import {useAuthStore} from "@/context/authStore";
 
 interface UpdateTaskBottomSheetProps {
   visible: boolean;
@@ -24,7 +24,7 @@ const UpdateTaskBottomSheet = ({
   selectedDate,
   task,
 }: UpdateTaskBottomSheetProps) => {
-  const {userProfile} = useAuth();
+  const {userProfile} = useAuthStore();
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [description, setDescription] = useState("");
   const [reminderTime, setReminderTime] = useState(new Date());
