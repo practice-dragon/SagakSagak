@@ -29,7 +29,6 @@ const ChangeConnectedAccountsScreen = () => {
   const handleLogout = async () => {
     try {
       const message = await kakaoLogout();
-      console.log(message);
       await authLogout();
       console.log("로그아웃 성공");
     } catch (error) {

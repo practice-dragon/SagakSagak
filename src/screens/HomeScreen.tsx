@@ -12,7 +12,7 @@ import {useDateStore} from "@/context/DateStore";
 import {CategoryType} from "@/types/Profile";
 
 function Home() {
-  const {categories, fetchCategories, addCategory, addTask} = useStore();
+  const {categories, fetchCategories, addCategory} = useStore();
   const {userProfile} = useAuth();
   const {selectedDate} = useDateStore();
   const [viewType, setViewType] = useState<"week" | "month">("week");

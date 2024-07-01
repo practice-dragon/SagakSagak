@@ -6,7 +6,6 @@ export const fetchCategories = async (userId: string) => {
     .from("categories")
     .select("*, todos (*)")
     .eq("user_id", userId);
-
   if (error) {
     console.error(error);
     return [];
@@ -223,6 +222,23 @@ export const fetchTasks = async (userId: string, categoryId: number) => {
       .eq("user_id", userId)
       .eq("category_id", categoryId);
 
+    if (error) {
+      console.error("Error fetching tasks:", error.message);
+      throw new Error("Failed to fetch tasks");
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    throw new Error("Failed to fetch tasks");
+  }
+};
+
+export const fetchAllTasks = async (userId: string) => {
+  try {
+    const {data, error} = await supabase
+      .from("todos")
+      .select("*")
+      .eq("user_id", userId);
     if (error) {
       console.error("Error fetching tasks:", error.message);
       throw new Error("Failed to fetch tasks");

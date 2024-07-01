@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components/native";
 import CalendarDay from "./CalendarDay";
 import ArrowIcon from "../../../src/assets/icons/ArrowIcon";
 import useStore from "@/context";
-import {Text} from "react-native";
 import {useDateStore} from "@/context/DateStore";
+import {useAuth} from "@/context/AuthContext";
+import {TaskType} from "@/types/Profile";
 
 const Container = styled.View`
   flex-direction: column;
@@ -89,9 +90,11 @@ const Calendar = ({
   viewType: "week" | "month";
   setViewType: (type: "week" | "month") => void;
 }) => {
-  const {tasks} = useStore();
+  const {daytasks, fetchAllTasks} = useStore();
+  const {userProfile} = useAuth();
   const {selectedDate, setSelectedDate} = useDateStore();
   const [currentDate, setCurrentDate] = useState(new Date());
+
   const handlePreviousPeriod = () => {
     setCurrentDate(prevDate => {
       const newDate = new Date(prevDate);
@@ -123,6 +126,12 @@ const Calendar = ({
   const weeks = generateCalendarWeeks(currentDate);
   const currentWeek = generateCurrentWeek(currentDate);
 
+  useEffect(() => {
+    if (userProfile) {
+      fetchAllTasks(userProfile.id.toString());
+    }
+  }, [userProfile]);
+
   const isSameDay = (date1: Date, date2: Date) => {
     return (
       date1.getFullYear() === date2.getFullYear() &&
@@ -137,14 +146,18 @@ const Calendar = ({
       date.getMonth(),
       date.getDate(),
     );
-    const filteredTasks = tasks.filter(
-      task =>
+    const filteredTasks = daytasks.filter(
+      (task: TaskType) =>
         task.created_at && isSameDay(new Date(task.created_at), formattedDate),
     );
-    const completedTasks = filteredTasks.filter(task => task.completed).length;
+    const completedTasks = filteredTasks.filter(
+      (task: TaskType) => task.completed,
+    ).length;
     const totalTasks = filteredTasks.length;
     return {completedTasks, totalTasks};
   };
+
+  useEffect(() => console.log(daytasks), [selectedDate]);
 
   return (
     <Container>
@@ -155,7 +168,7 @@ const Calendar = ({
           </Button>
           <DateContainer>
             <DateText>
-              {currentDate.getFullYear()}년{currentDate.getMonth() + 1}월
+              {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
             </DateText>
           </DateContainer>
           <Button onPress={handleNextPeriod}>
@@ -178,66 +191,55 @@ const Calendar = ({
         {viewType === "month" ? (
           weeks.map((week, weekIndex) => (
             <CalendarWeekRow key={weekIndex}>
-              {week.map((day, dayIndex) => (
-                <CalendarDayWrapper key={`${weekIndex}-${dayIndex}`}>
-                  {day !== 0 ? (
-                    <CalendarDay
-                      totalTasks={
-                        calculateTasksForDate(
-                          new Date(
-                            currentDate.getFullYear(),
-                            currentDate.getMonth(),
-                            day,
-                          ),
-                        ).totalTasks
-                      }
-                      completedTasks={
-                        calculateTasksForDate(
-                          new Date(
-                            currentDate.getFullYear(),
-                            currentDate.getMonth(),
-                            day,
-                          ),
-                        ).completedTasks
-                      }
-                      day={day}
-                      isSelected={
-                        selectedDate.getDate() === day &&
-                        selectedDate.getMonth() === currentDate.getMonth() &&
-                        selectedDate.getFullYear() === currentDate.getFullYear()
-                      }
-                      onClick={() =>
-                        handleDateClick(
-                          new Date(
-                            currentDate.getFullYear(),
-                            currentDate.getMonth(),
-                            day,
-                          ),
-                        )
-                      }
-                    />
-                  ) : null}
-                </CalendarDayWrapper>
-              ))}
+              {week.map((day, dayIndex) => {
+                const date = new Date(
+                  currentDate.getFullYear(),
+                  currentDate.getMonth(),
+                  day,
+                );
+                const {completedTasks, totalTasks} =
+                  calculateTasksForDate(date);
+                return (
+                  <CalendarDayWrapper key={`${weekIndex}-${dayIndex}`}>
+                    {day !== 0 ? (
+                      <CalendarDay
+                        totalTasks={totalTasks}
+                        completedTasks={completedTasks}
+                        day={day}
+                        isSelected={
+                          selectedDate.getDate() === day &&
+                          selectedDate.getMonth() === currentDate.getMonth() &&
+                          selectedDate.getFullYear() ===
+                            currentDate.getFullYear()
+                        }
+                        onClick={() => handleDateClick(date)}
+                      />
+                    ) : null}
+                  </CalendarDayWrapper>
+                );
+              })}
             </CalendarWeekRow>
           ))
         ) : (
           <CalendarWeekRow>
-            {currentWeek.map((date, dayIndex) => (
-              <CalendarDayWrapper key={dayIndex}>
-                <CalendarDay
-                  totalTasks={calculateTasksForDate(date).totalTasks}
-                  completedTasks={calculateTasksForDate(date).completedTasks}
-                  day={date.getDate()}
-                  isSelected={
-                    selectedDate.getDate() === date.getDate() &&
-                    selectedDate.getMonth() === date.getMonth() &&
-                    selectedDate.getFullYear() === date.getFullYear()
-                  }
-                  onClick={() => handleDateClick(date)}
-                />
-              </CalendarDayWrapper>
-            ))}
+            {currentWeek.map((date, dayIndex) => {
+              const {completedTasks, totalTasks} = calculateTasksForDate(date);
+              return (
+                <CalendarDayWrapper key={dayIndex}>
+                  <CalendarDay
+                    totalTasks={totalTasks}
+                    completedTasks={completedTasks}
+                    day={date.getDate()}
+                    isSelected={
+                      selectedDate.getDate() === date.getDate() &&
+                      selectedDate.getMonth() === date.getMonth() &&
+                      selectedDate.getFullYear() === date.getFullYear()
+                    }
+                    onClick={() => handleDateClick(date)}
+                  />
+                </CalendarDayWrapper>
+              );
+            })}
           </CalendarWeekRow>
         )}
       </CalendarDayContainer>
@@ -265,12 +267,10 @@ const generateCalendarWeeks = (currentDate: Date) => {
   const weeks: number[][] = [];
   let days: number[] = [];
 
-  // Previous month's empty slots
   for (let i = 0; i < firstDayOfMonth; i++) {
     days.push(0);
   }
 
-  // Current month's days
   for (let day = 1; day <= daysInMonth; day++) {
     days.push(day);
     if (days.length === 7) {
@@ -279,7 +279,6 @@ const generateCalendarWeeks = (currentDate: Date) => {
     }
   }
 
-  // Fill the last week with empty slots if necessary
   if (days.length > 0) {
     while (days.length < 7) {
       days.push(0);

@@ -10,12 +10,14 @@ import {
   updateTaskCompletedStatus,
   updateTask,
   fetchTasks,
+  fetchAllTasks,
 } from "@/lib/supabaseAPI";
 import {CategoryType, TaskType} from "@/types/Profile";
 
 interface State {
   categories: any;
   tasks: any;
+  daytasks: any;
   loading: any;
   error: any;
   // categories: CategoryType[];
@@ -30,6 +32,7 @@ interface Actions {
   updateCategory: any;
   deleteCategory: any;
   fetchTasks: any;
+  fetchAllTasks: any;
   addTask: any;
   deleteTask: any;
   updateTaskCompletedStatus: any;
@@ -88,8 +91,21 @@ const useStore = create<State & Actions>()(
   devtools(set => ({
     categories: [],
     tasks: [],
+    daytasks: [],
     loading: false,
     error: null,
+
+    fetchAllTasks: async (userId: string) => {
+      set({loading: true, error: null});
+      try {
+        const data = await fetchAllTasks(userId);
+        set({daytasks: data});
+      } catch (error) {
+        set({error: "Failed to fetch tasks"});
+      } finally {
+        set({loading: false});
+      }
+    },
 
     fetchTasks: async (userId: string, categoryId: number) => {
       set({loading: true, error: null});
@@ -131,6 +147,8 @@ const useStore = create<State & Actions>()(
           set(state => ({
             categories: [...state.categories, newCategory],
           }));
+          const daytasksData = await fetchAllTasks(userProfile.id);
+          set({daytasks: daytasksData});
         }
       } catch (error) {
         set({error: "Failed to add category"});
@@ -161,6 +179,8 @@ const useStore = create<State & Actions>()(
           }));
           const tasks = await fetchTasks(userId, categoryId);
           set({tasks});
+          const daytasksData = await fetchAllTasks(userId);
+          set({daytasks: daytasksData});
         }
       } catch (error) {
         console.error("Error updating category:", error);
@@ -182,6 +202,8 @@ const useStore = create<State & Actions>()(
               (cat: {id: number}) => cat.id !== deletedCategoryId,
             ),
           }));
+          const daytasksData = await fetchAllTasks(userId);
+          set({daytasks: daytasksData});
         }
         const data = await fetchCategories(userId);
         set({categories: data});
@@ -221,6 +243,8 @@ const useStore = create<State & Actions>()(
           set({tasks});
           const data = await fetchCategories(userId);
           set({categories: data});
+          const daytasksData = await fetchAllTasks(userId);
+          set({daytasks: daytasksData});
         }
       } catch (error) {
         set({error: "Failed to add task"});
@@ -237,6 +261,8 @@ const useStore = create<State & Actions>()(
         set({tasks});
         const data = await fetchCategories(userId);
         set({categories: data});
+        const daytasksData = await fetchAllTasks(userId);
+        set({daytasks: daytasksData});
       } catch (error) {
         set({error: "Failed to delete task"});
       } finally {
@@ -261,6 +287,8 @@ const useStore = create<State & Actions>()(
         }));
         const data = await fetchCategories(userId);
         set({categories: data});
+        const daytasksData = await fetchAllTasks(userId);
+        set({daytasks: daytasksData});
       } catch (error) {
         set({error: "Failed to update task status"});
       } finally {
@@ -296,6 +324,8 @@ const useStore = create<State & Actions>()(
       set({tasks});
       const data = await fetchCategories(userId);
       set({categories: data});
+      const daytasksData = await fetchAllTasks(userId);
+      set({daytasks: daytasksData});
     },
   })),
 );
