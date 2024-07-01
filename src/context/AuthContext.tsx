@@ -15,6 +15,7 @@ interface AuthContextProps {
   login: (profile: Profile) => void;
   logout: () => void;
   checkAuthStatus: () => void;
+  bedtimeExists: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -22,42 +23,69 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider = ({children}: {children: ReactNode}) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userProfile, setUserProfile] = useState<Profile | null>(null);
+  const [bedtimeExists, setBedtimeExists] = useState<boolean>(false);
 
   useEffect(() => {
     checkAuthStatus();
   }, []);
 
   const login = async (profile: Profile) => {
-    const {data: existingProfile, error} = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", profile.id)
-      .single();
+    try {
+      const {data: existingProfile, error} = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", profile.id)
+        .single();
 
-    if (error) {
-      console.error("Supabase select error", error);
-      return;
-    }
-
-    if (!existingProfile) {
-      try {
-        await supabase.from("profiles").upsert([
-          {
-            id: profile.id,
-            username: profile.username,
-            joinedat: new Date().toISOString(),
-          },
-        ]);
-      } catch (error) {
-        console.error("Error inserting profile into PostgreSQL", error);
+      if (error) {
+        console.error("Supabase select error", error);
         return;
       }
-    }
 
-    setIsAuthenticated(true);
-    setUserProfile(profile);
-    await AsyncStorage.setItem("isAuthenticated", "true");
-    await AsyncStorage.setItem("userProfile", JSON.stringify(profile));
+      if (!existingProfile) {
+        const {data: newProfile, error: insertError} = await supabase
+          .from("profiles")
+          .upsert([
+            {
+              id: profile.id,
+              username: profile.username,
+              joinedat: new Date().toISOString(),
+            },
+          ]);
+
+        if (insertError) {
+          console.error("Error inserting profile into PostgreSQL", insertError);
+          return;
+        }
+
+        setUserProfile(newProfile);
+        setBedtimeExists(false);
+      } else {
+        setUserProfile(existingProfile);
+        setBedtimeExists(!!existingProfile.bedtimetime);
+      }
+
+      setIsAuthenticated(true);
+      await AsyncStorage.setItem("isAuthenticated", "true");
+      await AsyncStorage.setItem("userProfile", JSON.stringify(profile));
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
+
+  const checkAuthStatus = async () => {
+    try {
+      const isAuthenticated = await AsyncStorage.getItem("isAuthenticated");
+      const userProfileJson = await AsyncStorage.getItem("userProfile");
+      if (isAuthenticated === "true" && userProfileJson) {
+        const userProfile = JSON.parse(userProfileJson);
+        setIsAuthenticated(true);
+        setUserProfile(userProfile);
+        setBedtimeExists(!!userProfile.bedtimetime);
+      }
+    } catch (error) {
+      console.error("Error checking auth status:", error);
+    }
   };
 
   const logout = async () => {
@@ -65,20 +93,19 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
     setUserProfile(null);
     await AsyncStorage.removeItem("isAuthenticated");
     await AsyncStorage.removeItem("userProfile");
-  };
-
-  const checkAuthStatus = async () => {
-    const isAuthenticated = await AsyncStorage.getItem("isAuthenticated");
-    const userProfile = await AsyncStorage.getItem("userProfile");
-    if (isAuthenticated && userProfile) {
-      setIsAuthenticated(true);
-      setUserProfile(JSON.parse(userProfile));
-    }
+    setBedtimeExists(false);
   };
 
   return (
     <AuthContext.Provider
-      value={{isAuthenticated, userProfile, login, logout, checkAuthStatus}}>
+      value={{
+        isAuthenticated,
+        userProfile,
+        login,
+        logout,
+        checkAuthStatus,
+        bedtimeExists,
+      }}>
       {children}
     </AuthContext.Provider>
   );

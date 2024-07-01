@@ -15,7 +15,7 @@ const App = () => {
   const Stack = createStackNavigator();
 
   const AuthNavigator = () => {
-    const {isAuthenticated, checkAuthStatus} = useAuth();
+    const {isAuthenticated, checkAuthStatus, bedtimeExists} = useAuth();
     const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
     useEffect(() => {
@@ -25,10 +25,10 @@ const App = () => {
       };
 
       initializeAuth();
-    }, []);
+    }, [checkAuthStatus]);
 
     if (isCheckingAuth) {
-      return <SplashScreen />;
+      return <Stack.Screen name="Splash" component={SplashScreen} />;
     }
 
     return (
@@ -36,10 +36,12 @@ const App = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        {isAuthenticated ? (
+        {!isAuthenticated ? (
+          <Stack.Screen name="Login" component={LoginScreen} />
+        ) : bedtimeExists ? (
           <Stack.Screen name="Main" component={MainScreen} />
         ) : (
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Splash" component={SplashScreen} />
         )}
       </Stack.Navigator>
     );
