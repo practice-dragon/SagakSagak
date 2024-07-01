@@ -35,7 +35,6 @@ export const fetchCategories = async (userId: string, selectedDate: Date) => {
           );
           return {...category, todos: []};
         }
-        console.log("todos", todos);
         return {...category, todos};
       }),
     );

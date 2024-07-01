@@ -1,4 +1,4 @@
-import create from "zustand";
+import {create} from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Profile} from "@/types/Profile";
 import {createProfile, fetchProfile} from "@/lib/Profile";
@@ -8,7 +8,7 @@ interface AuthStore {
   userProfile: Profile | null;
   bedtimeExists: boolean;
   login: (profile: Profile) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   checkAuthStatus: () => Promise<void>;
 }
 
@@ -36,21 +36,27 @@ export const useAuthStore = create<AuthStore>(set => ({
           return;
         }
 
-        set(state => ({
+        set({
           isAuthenticated: true,
           userProfile: newProfile,
           bedtimeExists: false,
-        }));
+        });
+
+        await AsyncStorage.setItem("isAuthenticated", "true");
+        await AsyncStorage.setItem("userProfile", JSON.stringify(newProfile));
       } else {
-        set(state => ({
+        set({
           isAuthenticated: true,
           userProfile: existingProfile,
           bedtimeExists: !!existingProfile.bedtimetime,
-        }));
-      }
+        });
 
-      await AsyncStorage.setItem("isAuthenticated", "true");
-      await AsyncStorage.setItem("userProfile", JSON.stringify(profile));
+        await AsyncStorage.setItem("isAuthenticated", "true");
+        await AsyncStorage.setItem(
+          "userProfile",
+          JSON.stringify(existingProfile),
+        );
+      }
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -62,7 +68,6 @@ export const useAuthStore = create<AuthStore>(set => ({
       userProfile: null,
       bedtimeExists: false,
     });
-
     await AsyncStorage.removeItem("isAuthenticated");
     await AsyncStorage.removeItem("userProfile");
   },
@@ -75,14 +80,25 @@ export const useAuthStore = create<AuthStore>(set => ({
       if (isAuthenticated === "true" && userProfileJson) {
         const userProfile = JSON.parse(userProfileJson);
 
-        set(state => ({
+        set({
           isAuthenticated: true,
           userProfile,
           bedtimeExists: !!userProfile.bedtimetime,
-        }));
+        });
+      } else {
+        set({
+          isAuthenticated: false,
+          userProfile: null,
+          bedtimeExists: false,
+        });
       }
     } catch (error) {
       console.error("Error checking auth status:", error);
+      set({
+        isAuthenticated: false,
+        userProfile: null,
+        bedtimeExists: false,
+      });
     }
   },
 }));

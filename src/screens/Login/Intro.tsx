@@ -95,7 +95,7 @@ const LoginScreen = () => {
 
       setResult(JSON.stringify(token));
       authLogin({id: id.toString(), username: nickname});
-      console.log("로그인 성공", profile);
+      console.log("로그인 성공");
     } catch (err) {
       console.error("login err", err);
     }

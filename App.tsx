@@ -53,16 +53,14 @@ const App = () => {
       <ThemeProvider theme={lightTheme}>
         <NavigationContainer>
           <GestureHandlerRootView>
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-              }}>
+            <Stack.Navigator screenOptions={{headerShown: false}}>
               {!isAuthenticated ? (
                 <Stack.Screen name="Login" component={LoginScreen} />
-              ) : bedtimeExists ? (
-                <Stack.Screen name="Main" component={MainScreen} />
               ) : (
-                <Stack.Screen name="Splash" component={SplashScreen} />
+                <Stack.Screen
+                  name={bedtimeExists ? "Main" : "Splash"}
+                  component={bedtimeExists ? MainScreen : SplashScreen}
+                />
               )}
             </Stack.Navigator>
           </GestureHandlerRootView>
