@@ -18,6 +18,7 @@ import ActiveChecklistIcon from "@/assets/icons/ActiveChecklistIcon";
 import ActiveSettingsIcon from "@/assets/icons/ActiveSettingsIcon";
 import ActiveHeartIcon from "@/assets/icons/ActiveHeartIcon";
 import {lightTheme} from "@/styles/theme";
+import ChangeTimeScreen from "@/screens/Settings/ChangeTimeScreen";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 const SettingsStack = createStackNavigator<SettingsStackParamList>();
@@ -60,6 +61,11 @@ const SettingsStackNavigator = () => (
       name="ChangeConnectedAccounts"
       component={ChangeConnectedAccountsScreen}
       options={{title: "계정 설정하기"}}
+    />
+    <SettingsStack.Screen
+      name="Notifications"
+      component={ChangeTimeScreen}
+      options={{title: "알림 설정하기"}}
     />
   </SettingsStack.Navigator>
 );

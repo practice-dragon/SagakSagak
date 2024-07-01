@@ -1,5 +1,6 @@
 import {supabase} from "@/lib/supabase";
 import {Profile} from "@/types/Profile";
+import {format} from "date-fns";
 
 export const upsertProfile = async (profile: Profile) => {
   try {
@@ -13,17 +14,36 @@ export const upsertProfile = async (profile: Profile) => {
         bedtimetime: profile.bedtimetime,
       },
     ]);
-
-    console.log(data);
     if (error) {
       console.error("Error upserting profile:", error.message);
       throw new Error("Failed to upsert profile");
     }
-
     return data;
   } catch (error) {
     console.error("Error upserting profile:", error);
     throw new Error("Failed to upsert profile");
+  }
+};
+
+export const updateProfileTimes = async (
+  userId: string,
+  wakeUpTime: Date,
+  bedTime: Date,
+) => {
+  try {
+    const wakeUpTimeString = format(wakeUpTime, "HH:mm");
+    const bedTimeString = format(bedTime, "HH:mm");
+    const {data, error} = await supabase.from("profiles").upsert([
+      {
+        id: userId,
+        wakeuptime: wakeUpTimeString,
+        bedtimetime: bedTimeString,
+      },
+    ]);
+    return data;
+  } catch (error) {
+    console.error("Failed to update profile times:", error);
+    throw error;
   }
 };
 

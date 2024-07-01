@@ -6,6 +6,140 @@ import Button from "@/components/common/Button";
 import {AuthProvider, useAuth} from "@/context/AuthContext";
 import {format} from "date-fns";
 import {upsertProfile} from "@/lib/Profile";
+import {Profile} from "@/types/Profile";
+
+const SplashScreen = () => {
+  const {userProfile, login} = useAuth();
+  const [username, setUsername] = useState<string>("");
+  const [character, setCharacter] = useState<string>("수수");
+  const [wakeUpTime, setWakeUpTime] = useState<Date>(new Date());
+  const [bedTime, setBedTime] = useState<Date>(new Date());
+  const [isWakeUpTimePickerVisible, setIsWakeUpTimePickerVisible] =
+    useState<boolean>(false);
+  const [isBedTimePickerVisible, setIsBedTimePickerVisible] =
+    useState<boolean>(false);
+
+  const showWakeUpTimePicker = () => setIsWakeUpTimePickerVisible(true);
+  const hideWakeUpTimePicker = () => setIsWakeUpTimePickerVisible(false);
+  const handleWakeUpTimeConfirm = (time: Date) => {
+    setWakeUpTime(time);
+    hideWakeUpTimePicker();
+  };
+
+  const showBedTimePicker = () => setIsBedTimePickerVisible(true);
+  const hideBedTimePicker = () => setIsBedTimePickerVisible(false);
+  const handleBedTimeConfirm = (time: Date) => {
+    setBedTime(time);
+    hideBedTimePicker();
+  };
+
+  const handleCharacterSelect = (selectedCharacter: string) =>
+    setCharacter(selectedCharacter);
+
+  const handleStart = async () => {
+    try {
+      if (!userProfile) {
+        console.error("User profile not found.");
+        return;
+      }
+
+      const wakeUpTimeFormatted = format(wakeUpTime, "HH:mm:ss");
+      const bedTimeFormatted = format(bedTime, "HH:mm:ss");
+
+      const profile: Profile = {
+        id: userProfile.id,
+        username,
+        character,
+        joinedat: new Date().toISOString(),
+        wakeuptime: wakeUpTimeFormatted,
+        bedtimetime: bedTimeFormatted,
+      };
+
+      await upsertProfile(profile);
+      await login(profile);
+    } catch (error) {
+      console.error("Failed to start plan:", error);
+    }
+  };
+
+  return (
+    <AuthProvider>
+      <Container>
+        <InputContainer>
+          <LogoContainer>
+            <LogoImage />
+          </LogoContainer>
+          <CharacterLabel>캐릭터 선택</CharacterLabel>
+          <CharacterContainer>
+            <CharacterOption onPress={() => handleCharacterSelect("수수")}>
+              <CharacterName>수수</CharacterName>
+              <CharacterImage source={require("../assets/images/susu.png")} />
+            </CharacterOption>
+            <CharacterOption onPress={() => handleCharacterSelect("나비")}>
+              <CharacterName>나비</CharacterName>
+              <CharacterImage source={require("../assets/images/nabi.png")} />
+            </CharacterOption>
+          </CharacterContainer>
+          {character === "수수" && (
+            <CharacterDescription>
+              시골 개 수수는 늘 털끝이 물든 꼬리를 흔들며 주인을 기다리고
+              있어요.
+            </CharacterDescription>
+          )}
+          {character === "나비" && (
+            <CharacterDescription>
+              새침한 검은냥이 나비는 언제나 눈을 동그랗게 뜨고 다녀요.
+            </CharacterDescription>
+          )}
+          <InputBox>
+            <Label>이름</Label>
+            <StyledTextInput
+              placeholder="이름을 입력하세요"
+              value={username}
+              onChangeText={setUsername}
+            />
+          </InputBox>
+          <InputBox>
+            <Label>일어날 시간</Label>
+            <TouchableOpacity onPress={showWakeUpTimePicker}>
+              <InputWrapper>
+                <InputText>{format(wakeUpTime, "hh:mm a")}</InputText>
+              </InputWrapper>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={isWakeUpTimePickerVisible}
+              mode="time"
+              onConfirm={handleWakeUpTimeConfirm}
+              onCancel={hideWakeUpTimePicker}
+            />
+          </InputBox>
+          <InputBox>
+            <Label>잘 시간</Label>
+            <TouchableOpacity onPress={showBedTimePicker}>
+              <InputWrapper>
+                <InputText>{format(bedTime, "hh:mm a")}</InputText>
+              </InputWrapper>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={isBedTimePickerVisible}
+              mode="time"
+              onConfirm={handleBedTimeConfirm}
+              onCancel={hideBedTimePicker}
+            />
+          </InputBox>
+        </InputContainer>
+        <Button
+          text="계획 시작하기!"
+          onPress={handleStart}
+          size="lg"
+          style={{marginBottom: 30}}
+        />
+      </Container>
+    </AuthProvider>
+  );
+};
+
+export default SplashScreen;
 
 const Container = styled.ScrollView`
   background-color: ${({theme}) => theme.colors.background};
@@ -114,136 +248,3 @@ const InputText = styled.Text`
   font-family: ${({theme}) => theme.fonts.p2.fontFamily};
   color: ${({theme}) => theme.colors.n4};
 `;
-
-const SplashScreen = () => {
-  const {userProfile, login} = useAuth();
-  const [username, setUsername] = useState<string>("");
-  const [character, setCharacter] = useState<string>("수수");
-  const [wakeUpTime, setWakeUpTime] = useState<Date>(new Date());
-  const [bedTime, setBedTime] = useState<Date>(new Date());
-  const [isWakeUpTimePickerVisible, setIsWakeUpTimePickerVisible] =
-    useState<boolean>(false);
-  const [isBedTimePickerVisible, setIsBedTimePickerVisible] =
-    useState<boolean>(false);
-
-  const showWakeUpTimePicker = () => setIsWakeUpTimePickerVisible(true);
-  const hideWakeUpTimePicker = () => setIsWakeUpTimePickerVisible(false);
-  const handleWakeUpTimeConfirm = (time: Date) => {
-    setWakeUpTime(time);
-    hideWakeUpTimePicker();
-  };
-
-  const showBedTimePicker = () => setIsBedTimePickerVisible(true);
-  const hideBedTimePicker = () => setIsBedTimePickerVisible(false);
-  const handleBedTimeConfirm = (time: Date) => {
-    setBedTime(time);
-    hideBedTimePicker();
-  };
-
-  const handleCharacterSelect = (selectedCharacter: string) =>
-    setCharacter(selectedCharacter);
-
-  const handleStart = async () => {
-    try {
-      if (!userProfile) {
-        console.error("User profile not found.");
-        return;
-      }
-
-      const wakeUpTimeFormatted = format(wakeUpTime, "HH:mm:ss");
-      const bedTimeFormatted = format(bedTime, "HH:mm:ss");
-
-      const profile = {
-        id: userProfile.id,
-        username,
-        character,
-        joinedat: new Date().toISOString(),
-        wakeuptime: wakeUpTimeFormatted,
-        bedtimetime: bedTimeFormatted,
-      };
-
-      await upsertProfile(profile);
-      await login(profile);
-    } catch (error) {
-      console.error("Failed to start plan:", error);
-    }
-  };
-
-  return (
-    <AuthProvider>
-      <Container>
-        <InputContainer>
-          <LogoContainer>
-            <LogoImage />
-          </LogoContainer>
-          <CharacterLabel>캐릭터 선택</CharacterLabel>
-          <CharacterContainer>
-            <CharacterOption onPress={() => handleCharacterSelect("수수")}>
-              <CharacterName>수수</CharacterName>
-              <CharacterImage source={require("../assets/images/susu.png")} />
-            </CharacterOption>
-            <CharacterOption onPress={() => handleCharacterSelect("나비")}>
-              <CharacterName>나비</CharacterName>
-              <CharacterImage source={require("../assets/images/nabi.png")} />
-            </CharacterOption>
-          </CharacterContainer>
-          {character === "수수" && (
-            <CharacterDescription>
-              시골 개 수수는 늘 털끝이 물든 꼬리를 흔들며 주인을 기다리고
-              있어요.
-            </CharacterDescription>
-          )}
-          {character === "나비" && (
-            <CharacterDescription>
-              새침한 검은냥이 나비는 언제나 눈을 동그랗게 뜨고 다녀요.
-            </CharacterDescription>
-          )}
-          <InputBox>
-            <Label>이름</Label>
-            <StyledTextInput
-              placeholder="이름을 입력하세요"
-              value={username}
-              onChangeText={setUsername}
-            />
-          </InputBox>
-          <InputBox>
-            <Label>일어날 시간</Label>
-            <TouchableOpacity onPress={showWakeUpTimePicker}>
-              <InputWrapper>
-                <InputText>{format(wakeUpTime, "hh:mm a")}</InputText>
-              </InputWrapper>
-            </TouchableOpacity>
-            <DateTimePickerModal
-              isVisible={isWakeUpTimePickerVisible}
-              mode="time"
-              onConfirm={handleWakeUpTimeConfirm}
-              onCancel={hideWakeUpTimePicker}
-            />
-          </InputBox>
-          <InputBox>
-            <Label>잘 시간</Label>
-            <TouchableOpacity onPress={showBedTimePicker}>
-              <InputWrapper>
-                <InputText>{format(bedTime, "hh:mm a")}</InputText>
-              </InputWrapper>
-            </TouchableOpacity>
-            <DateTimePickerModal
-              isVisible={isBedTimePickerVisible}
-              mode="time"
-              onConfirm={handleBedTimeConfirm}
-              onCancel={hideBedTimePicker}
-            />
-          </InputBox>
-        </InputContainer>
-        <Button
-          text="계획 시작하기!"
-          onPress={handleStart}
-          size="lg"
-          style={{marginBottom: 30}}
-        />
-      </Container>
-    </AuthProvider>
-  );
-};
-
-export default SplashScreen;

@@ -8,4 +8,5 @@ export type RootTabParamList = {
 export type SettingsStackParamList = {
   Settings: undefined;
   ChangeConnectedAccounts: undefined;
+  Notifications: undefined;
 };

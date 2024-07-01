@@ -56,7 +56,7 @@ const SettingsScreen = () => {
   };
 
   const handleAdjustPushNotifications = () => {
-    console.log("Adjust push notifications clicked");
+    navigation.navigate("Notifications");
   };
 
   const handleSendFeedback = () => {
