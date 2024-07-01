@@ -13,8 +13,8 @@ const Container = styled.View`
 `;
 
 const LogoContainer = styled.View`
-  flex: 1;
-  margin-top: 10px;
+  position: absolute;
+  top: 15px;
 `;
 
 const LogoImage = styled(Image).attrs({

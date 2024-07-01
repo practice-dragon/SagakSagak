@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Image, Pressable, Text} from "react-native";
+import {Image, Text} from "react-native";
 import styled from "styled-components/native";
 import {
   login as kakaoLogin,
@@ -14,15 +14,13 @@ import {Button} from "@story/stories/Button/Button";
 
 const Container = styled.SafeAreaView`
   flex: 1;
-  justify-content: flex-end;
   align-items: center;
-  padding-bottom: 100px;
+  justify-content: space-between;
   background-color: ${({theme}) => theme.colors.background};
 `;
 
 const LogoContainer = styled.View`
-  flex: 1;
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 const LogoImage = styled(Image).attrs({
@@ -36,8 +34,6 @@ const TextContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  width: 80%;
-  margin-top: 200px;
 `;
 
 const TextDescription = styled(Text)`
@@ -45,13 +41,13 @@ const TextDescription = styled(Text)`
   font-family: ${({theme}) => theme.fonts.h2.fontFamily};
   color: ${({theme}) => theme.colors.text};
   text-align: center;
+  margin-bottom: 20px; /* 여백 추가 */
 `;
 
 const ButtonContainer = styled.View`
-  flex: 1;
-  justify-content: flex-end;
-  align-items: center;
   width: 100%;
+  margin-bottom: 40px; /* 버튼과 하단 여백 추가 */
+  align-items: center;
 `;
 
 const LoginScreen = () => {
@@ -132,7 +128,7 @@ const LoginScreen = () => {
         <LogoImage />
       </LogoContainer>
       <TextContainer>
-        <TextDescription>오늘 하루를 계획해봅시다~</TextDescription>
+        <TextDescription>오늘 하루를 계획해봐요!</TextDescription>
       </TextContainer>
       <ButtonContainer>
         <Button
