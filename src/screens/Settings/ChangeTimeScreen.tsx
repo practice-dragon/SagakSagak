@@ -5,8 +5,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Button from "@/components/common/Button";
 import {format} from "date-fns";
 import {updateProfileTimes} from "@/lib/Profile";
-import {TaskType} from "@/types/Profile";
 import useStore from "@/context";
+import {useAuthStore} from "@/context/authStore";
 
 const Container = styled.View`
   flex: 1;
@@ -37,22 +37,57 @@ const Label = styled.Text`
   margin-bottom: 8px;
 `;
 
+const parseTimeString = (timeString: string) => {
+  const [time, offset] = timeString.split("+");
+  const [hours, minutes, seconds] = time.split(":");
+  const date = new Date();
+  date.setUTCHours(parseInt(hours, 10));
+  date.setUTCMinutes(parseInt(minutes, 10));
+  date.setUTCSeconds(parseInt(seconds, 10));
+  return date;
+};
+
 const ChangeTimeScreen = () => {
+  const {userProfile} = useAuthStore();
   const [wakeUpTime, setWakeUpTime] = useState(new Date());
   const [bedTime, setBedTime] = useState(new Date());
   const [isWakeUpTimePickerVisible, setIsWakeUpTimePickerVisible] =
     useState(false);
   const [isBedTimePickerVisible, setIsBedTimePickerVisible] = useState(false);
 
-  const {fetchCategories, updateCategory, fetchTasks} = useStore(state => ({
+  const {fetchCategories} = useStore(state => ({
     fetchCategories: state.fetchCategories,
-    updateCategory: state.updateCategory,
-    fetchTasks: state.fetchTasks,
   }));
 
   useEffect(() => {
+    console.log(userProfile);
+    if (userProfile) {
+      try {
+        if (userProfile.wakeuptime) {
+          setWakeUpTime(parseTimeString(userProfile.wakeuptime));
+        }
+        if (userProfile.bedtimetime) {
+          setBedTime(parseTimeString(userProfile.bedtimetime));
+        }
+      } catch (error) {
+        console.error("Failed to parse wakeup or bedtime:", error);
+      }
+    }
+  }, [userProfile]);
+
+  useEffect(() => {
     fetchCategories("userId", new Date());
-  }, [fetchCategories]);
+    // PushNotification.localNotificationSchedule({
+    //   title: "일어날 시간입니다!",
+    //   message: "오늘도 하루를 계획해보는 건 어때요?",
+    //   date: new Date(wakeUpTime),
+    // });
+    // PushNotification.localNotificationSchedule({
+    //   title: "잘 시간입니다!",
+    //   message: "오늘 달성한 목표를 기록해봐요!",
+    //   date: new Date(bedTime),
+    // });
+  }, [fetchCategories, wakeUpTime, bedTime]);
 
   const handleWakeUpTimeConfirm = (time: Date) => {
     setWakeUpTime(time);
