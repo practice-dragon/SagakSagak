@@ -1,11 +1,28 @@
 import {supabase} from "@/lib/supabase";
 import {CategoryType, TaskType} from "@/types/Profile";
 
-export const fetchCategories = async (userId: string) => {
+export const fetchCategories = async (userId: string, selectedDate: Date) => {
   const {data, error} = await supabase
     .from("categories")
-    .select("*, todos (*)")
-    .eq("user_id", userId);
+    .select(
+      `
+      *,
+      todos (
+        *,
+        created_at
+      )
+    `,
+    )
+    .eq("user_id", userId)
+    .gte(
+      "todos.created_at",
+      new Date(selectedDate.setHours(0, 0, 0, 0)).toISOString(),
+    )
+    .lte(
+      "todos.created_at",
+      new Date(selectedDate.setHours(23, 59, 59, 999)).toISOString(),
+    );
+
   if (error) {
     console.error(error);
     return [];

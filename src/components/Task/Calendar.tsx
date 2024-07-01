@@ -157,8 +157,6 @@ const Calendar = ({
     return {completedTasks, totalTasks};
   };
 
-  useEffect(() => console.log(daytasks), [selectedDate]);
-
   return (
     <Container>
       <ButtonContainer>

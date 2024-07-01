@@ -107,11 +107,22 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    fetchTasks: async (userId: string, categoryId: number) => {
+    fetchTasks: async (
+      userId: string,
+      categoryId: number,
+      selectedDate: Date,
+    ) => {
       set({loading: true, error: null});
       try {
-        const data = await fetchTasks(userId, categoryId);
-        set({tasks: data});
+        const allTasks = await fetchTasks(userId, categoryId);
+        const filteredTasks = allTasks.filter((task: TaskType) => {
+          if (task.created_at) {
+            const taskDate = new Date(task.created_at).toDateString();
+            return taskDate === selectedDate.toDateString();
+          }
+          return false;
+        });
+        set({tasks: filteredTasks});
       } catch (error) {
         set({error: "Failed to fetch tasks"});
       } finally {
@@ -119,10 +130,10 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    fetchCategories: async (userId: string) => {
+    fetchCategories: async (userId: string, selectedDate: Date) => {
       set({loading: true, error: null});
       try {
-        const data = await fetchCategories(userId);
+        const data = await fetchCategories(userId, selectedDate);
         set({categories: data});
       } catch (error) {
         set({error: "Failed to fetch categories"});
@@ -191,7 +202,11 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    deleteCategory: async (categoryId: number, userId: string) => {
+    deleteCategory: async (
+      categoryId: number,
+      userId: string,
+      selectedDate: Date,
+    ) => {
       set({loading: true, error: null});
       try {
         const deletedCategoryId = await deleteCategory(categoryId, userId);
@@ -205,7 +220,7 @@ const useStore = create<State & Actions>()(
           const daytasksData = await fetchAllTasks(userId);
           set({daytasks: daytasksData});
         }
-        const data = await fetchCategories(userId);
+        const data = await fetchCategories(userId, selectedDate);
         set({categories: data});
       } catch (error) {
         set({error: "Failed to delete category"});
@@ -241,7 +256,7 @@ const useStore = create<State & Actions>()(
         if (success != null) {
           const tasks = await fetchTasks(userId, categoryId);
           set({tasks});
-          const data = await fetchCategories(userId);
+          const data = await fetchCategories(userId, selectedDate);
           set({categories: data});
           const daytasksData = await fetchAllTasks(userId);
           set({daytasks: daytasksData});
@@ -253,13 +268,18 @@ const useStore = create<State & Actions>()(
       }
     },
 
-    deleteTask: async (taskId: number, userId: string, categoryId: number) => {
+    deleteTask: async (
+      taskId: number,
+      userId: string,
+      categoryId: number,
+      selectedDate: Date,
+    ) => {
       set({loading: true, error: null});
       try {
         await deleteTask(taskId);
         const tasks = await fetchTasks(userId, categoryId);
         set({tasks});
-        const data = await fetchCategories(userId);
+        const data = await fetchCategories(userId, selectedDate);
         set({categories: data});
         const daytasksData = await fetchAllTasks(userId);
         set({daytasks: daytasksData});
@@ -274,6 +294,7 @@ const useStore = create<State & Actions>()(
       taskId: number,
       userId: string,
       currentCompletedStatus: boolean,
+      selectedDate: Date,
     ) => {
       set({loading: true, error: null});
       try {
@@ -285,7 +306,7 @@ const useStore = create<State & Actions>()(
               : task,
           ),
         }));
-        const data = await fetchCategories(userId);
+        const data = await fetchCategories(userId, selectedDate);
         set({categories: data});
         const daytasksData = await fetchAllTasks(userId);
         set({daytasks: daytasksData});
@@ -322,7 +343,7 @@ const useStore = create<State & Actions>()(
       );
       const tasks = await fetchTasks(userId, categoryId);
       set({tasks});
-      const data = await fetchCategories(userId);
+      const data = await fetchCategories(userId, selectedDate);
       set({categories: data});
       const daytasksData = await fetchAllTasks(userId);
       set({daytasks: daytasksData});

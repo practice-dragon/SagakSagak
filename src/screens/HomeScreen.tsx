@@ -9,7 +9,7 @@ import CustomBottomSheet from "@/components/common/BottomSheet";
 import Button from "@/components/common/Button";
 import useStore from "@/context";
 import {useDateStore} from "@/context/DateStore";
-import {CategoryType} from "@/types/Profile";
+import {CategoryType, TaskType} from "@/types/Profile";
 
 function Home() {
   const {categories, fetchCategories, addCategory} = useStore();
@@ -21,9 +21,9 @@ function Home() {
 
   useEffect(() => {
     if (userProfile) {
-      fetchCategories(userProfile.id.toString());
+      fetchCategories(userProfile.id.toString(), selectedDate);
     }
-  }, [userProfile]);
+  }, [userProfile, selectedDate]);
 
   const handleAddCategory = async () => {
     if (userProfile && newCategoryName.trim() !== "") {
@@ -31,6 +31,16 @@ function Home() {
       setNewCategoryName("");
       setBottomSheetVisible(false);
     }
+  };
+
+  const filterTodosByDate = (todos: TaskType[]) => {
+    return todos.filter(todo => {
+      if (todo.created_at) {
+        const todoDate = new Date(todo.created_at).setHours(0, 0, 0, 0);
+        const selectedDateOnly = new Date(selectedDate).setHours(0, 0, 0, 0);
+        return todoDate === selectedDateOnly;
+      }
+    });
   };
 
   return (
@@ -46,7 +56,7 @@ function Home() {
             key={category.id}
             id={category.id}
             text={category.name}
-            todos={category.todos}
+            todos={filterTodosByDate(category.todos ?? [])}
             user_id={userProfile?.id ?? ""}
           />
         ))}

@@ -26,7 +26,12 @@ const Task = ({task, selectedDate}: TaskProps) => {
   }));
 
   const toggleCompleted = async () => {
-    await updateTaskCompletedStatus(task.id, userProfile?.id, completed);
+    await updateTaskCompletedStatus(
+      task.id,
+      userProfile?.id,
+      completed,
+      selectedDate,
+    );
   };
 
   const handleDelete = async () => {
