@@ -41,6 +41,9 @@ const DayText = styled.Text<{isSelected: boolean}>`
     isSelected ? theme.colors.primary : theme.colors.text};
 `;
 
+const CircleBox = styled.View`
+  transform: rotate(-90deg);
+`;
 const StyledCircle = styled(SvgCircle)<{strokeColor: string}>`
   stroke: ${({strokeColor}) => strokeColor};
 `;
@@ -53,7 +56,12 @@ const CalendarDay = ({
   onClick,
 }: CalendarDayProps) => {
   const theme = useTheme();
-  const percentage = totalTasks > 0 ? completedTasks / totalTasks : 0;
+  const percentage =
+    totalTasks > 0
+      ? completedTasks === 0
+        ? 0.05
+        : completedTasks / totalTasks
+      : 0;
   const radius = 10;
   const strokeWidth = 7;
   const diameter = radius * 2;
@@ -69,26 +77,28 @@ const CalendarDay = ({
   return (
     <Wrapper>
       <TaskStatusWrapper onPress={handleClick}>
-        <Svg height={diameter + strokeWidth} width={diameter + strokeWidth}>
-          <StyledCircle
-            cx={(diameter + strokeWidth) / 2}
-            cy={(diameter + strokeWidth) / 2}
-            r={radius}
-            strokeColor={theme.colors.n2}
-            strokeWidth={strokeWidth}
-            fill="none"
-          />
-          <StyledCircle
-            cx={(diameter + strokeWidth) / 2}
-            cy={(diameter + strokeWidth) / 2}
-            r={radius}
-            strokeColor={theme.colors.primary}
-            strokeWidth={strokeWidth}
-            fill="none"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-          />
-        </Svg>
+        <CircleBox>
+          <Svg height={diameter + strokeWidth} width={diameter + strokeWidth}>
+            <StyledCircle
+              cx={(diameter + strokeWidth) / 2}
+              cy={(diameter + strokeWidth) / 2}
+              r={radius}
+              strokeColor={theme.colors.n2}
+              strokeWidth={strokeWidth}
+              fill="none"
+            />
+            <StyledCircle
+              cx={(diameter + strokeWidth) / 2}
+              cy={(diameter + strokeWidth) / 2}
+              r={radius}
+              strokeColor={theme.colors.primary}
+              strokeWidth={strokeWidth}
+              fill="none"
+              strokeDasharray={circumference}
+              strokeDashoffset={strokeDashoffset}
+            />
+          </Svg>
+        </CircleBox>
         {completedTasks >= 1 && totalTasks === completedTasks ? (
           <ActiveCheckIcon
             width={24}
