@@ -35,11 +35,9 @@ export const fetchCategories = async (userId: string, selectedDate: Date) => {
           );
           return {...category, todos: []};
         }
-
         return {...category, todos};
       }),
     );
-
     return categoriesWithTodos;
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -53,7 +51,6 @@ export const addCategory = async (
   selectedDate: Date,
 ): Promise<CategoryType | null> => {
   const formattedDate = selectedDate.toISOString();
-
   try {
     const {data, error} = await supabase
       .from("categories")
@@ -70,7 +67,6 @@ export const addCategory = async (
       console.error("Error adding category:", error.message);
       return null;
     }
-
     return data;
   } catch (error) {
     console.error("Error adding category:", error);
