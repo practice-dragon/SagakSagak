@@ -36,20 +36,14 @@ const App = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
+        {!isAuthenticated ? (
+          <Stack.Screen name="Login" component={LoginScreen} />
+        ) : bedtimeExists ? (
+          <Stack.Screen name="Main" component={MainScreen} />
+        ) : (
+          <Stack.Screen name="Splash" component={SplashScreen} />
+        )}
       </Stack.Navigator>
-      // <Stack.Navigator
-      //   screenOptions={{
-      //     headerShown: false,
-      //   }}>
-      //   {!isAuthenticated ? (
-      //     <Stack.Screen name="Login" component={LoginScreen} />
-      //   ) : bedtimeExists ? (
-      //     <Stack.Screen name="Main" component={MainScreen} />
-      //   ) : (
-      //     <Stack.Screen name="Splash" component={SplashScreen} />
-      //   )}
-      // </Stack.Navigator>
     );
   };
 
