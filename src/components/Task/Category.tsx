@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import styled from "styled-components/native";
-import {Text, TouchableOpacity, TextInput} from "react-native";
 import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
 import AddTaskBottomSheet from "@/components/Task/AddTaskBottomSheet";
 import Button from "../common/Button";
@@ -21,7 +20,10 @@ interface CategoryProps {
 const Category = ({text, todos, id, user_id}: CategoryProps) => {
   const {selectedDate} = useDateStore();
 
-  const {updateCategory, deleteCategory} = useStore();
+  const {updateCategory, deleteCategory} = useStore(state => ({
+    updateCategory: state.updateCategory,
+    deleteCategory: state.deleteCategory,
+  }));
 
   const [newCategoryTitle, setNewCategoryTitle] = useState(text);
   const [editBottomSheetVisible, setEditBottomSheetVisible] = useState(false);
@@ -31,13 +33,14 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
   const handleEdit = async () => {
     try {
       if (newCategoryTitle.trim() !== "") {
-        const userId = user_id;
-        const success = await updateCategory(
+        await updateCategory(
           id,
           newCategoryTitle.trim(),
-          userId,
+          user_id,
           selectedDate,
         );
+        setNewCategoryTitle(newCategoryTitle);
+        setEditBottomSheetVisible(false);
       }
     } catch (error) {
       console.error("Error updating category:", error);
@@ -46,25 +49,16 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
 
   const handleDeleteCategory = async () => {
     try {
-      const userId = user_id;
-      const success = await deleteCategory(id, userId, selectedDate);
+      await deleteCategory(id, user_id, selectedDate);
+      setEditBottomSheetVisible(false);
     } catch (error) {
       console.error("Error deleting category:", error);
     }
-    closeBottomSheet();
   };
 
   const closeBottomSheet = () => {
     setAddTaskBottomSheetVisible(false);
     setEditBottomSheetVisible(false);
-  };
-
-  const isSameDay = (date1: Date, date2: Date) => {
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    );
   };
 
   return (
