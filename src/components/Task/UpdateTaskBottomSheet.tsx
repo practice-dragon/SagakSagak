@@ -14,14 +14,12 @@ import {useAuthStore} from "@/context/authStore";
 interface UpdateTaskBottomSheetProps {
   visible: boolean;
   onClose: () => void;
-  selectedDate: Date;
   task: TaskType;
 }
 
 const UpdateTaskBottomSheet = ({
   visible,
   onClose,
-  selectedDate,
   task,
 }: UpdateTaskBottomSheetProps) => {
   const {userProfile} = useAuthStore();
@@ -53,7 +51,6 @@ const UpdateTaskBottomSheet = ({
           task.category_id,
           task.id,
           newTaskTitle.trim(),
-          selectedDate,
           description,
           reminderTime,
           "",

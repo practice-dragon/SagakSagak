@@ -7,7 +7,6 @@ import PlusIcon from "@/assets/icons/PlusIcon";
 import {TaskType} from "@/types/Profile";
 import CustomBottomSheet from "../common/BottomSheet";
 import Task from "./Task";
-import {useDateStore} from "@/context/DateStore";
 import useStore from "@/context";
 
 interface CategoryProps {
@@ -18,8 +17,6 @@ interface CategoryProps {
 }
 
 const Category = ({text, todos, id, user_id}: CategoryProps) => {
-  const {selectedDate} = useDateStore();
-
   const {updateCategory, deleteCategory} = useStore(state => ({
     updateCategory: state.updateCategory,
     deleteCategory: state.deleteCategory,
@@ -33,12 +30,7 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
   const handleEdit = async () => {
     try {
       if (newCategoryTitle.trim() !== "") {
-        await updateCategory(
-          id,
-          newCategoryTitle.trim(),
-          user_id,
-          selectedDate,
-        );
+        await updateCategory(id, newCategoryTitle.trim(), user_id);
         setNewCategoryTitle(newCategoryTitle);
         setEditBottomSheetVisible(false);
       }
@@ -49,7 +41,7 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
 
   const handleDeleteCategory = async () => {
     try {
-      await deleteCategory(id, user_id, selectedDate);
+      await deleteCategory(id, user_id);
       setEditBottomSheetVisible(false);
     } catch (error) {
       console.error("Error deleting category:", error);
@@ -74,7 +66,7 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
       </CategoryHeader>
 
       {todos?.map(task => (
-        <Task key={task.id} task={task} selectedDate={selectedDate} />
+        <Task key={task.id} task={task} />
       ))}
 
       <CustomBottomSheet
@@ -102,7 +94,6 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
         onClose={closeBottomSheet}
         userId={user_id}
         categoryId={id}
-        selectedDate={selectedDate}
       />
     </CategoryContainer>
   );

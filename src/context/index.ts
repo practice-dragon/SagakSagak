@@ -14,6 +14,7 @@ import {
   fetchAllTasks,
 } from "@/lib/supabaseAPI";
 import {CategoryType, TaskType} from "@/types/Profile";
+import {useDateStore} from "./DateStore";
 
 interface State {
   categories: CategoryType[];
@@ -24,34 +25,23 @@ interface State {
 }
 
 interface Actions {
-  fetchCategories: (userId: string, selectedDate: Date) => Promise<void>;
+  fetchCategories: (userId: string) => Promise<void>;
   addCategory: (
     newCategoryName: string,
     userProfile: {id: string},
-    selectedDate: Date,
   ) => Promise<void>;
   updateCategory: (
     categoryId: number,
     updatedCategoryName: string,
     userId: string,
-    selectedDate: Date,
   ) => Promise<void>;
-  deleteCategory: (
-    categoryId: number,
-    userId: string,
-    selectedDate: Date,
-  ) => Promise<void>;
-  fetchTasks: (
-    userId: string,
-    categoryId: number,
-    selectedDate: Date,
-  ) => Promise<void>;
+  deleteCategory: (categoryId: number, userId: string) => Promise<void>;
+  fetchTasks: (userId: string, categoryId: number) => Promise<void>;
   fetchAllTasks: (userId: string) => Promise<void>;
   addTask: (
     userId: string,
     categoryId: number,
     title: string,
-    selectedDate: Date,
     description?: string,
     reminderTime?: Date,
     repeatInterval?: string,
@@ -62,20 +52,17 @@ interface Actions {
     taskId: number,
     userId: string,
     categoryId: number,
-    selectedDate: Date,
   ) => Promise<void>;
   updateTaskCompletedStatus: (
     taskId: number,
     userId: string,
     currentCompletedStatus: boolean,
-    selectedDate: Date,
   ) => Promise<void>;
   updateTask: (
     userId: string,
     categoryId: number,
     taskId: number,
     title: string,
-    selectedDate: Date,
     description?: string,
     reminderTime?: Date,
     repeatInterval?: string,
@@ -84,9 +71,10 @@ interface Actions {
     completed?: boolean,
   ) => Promise<void>;
 }
+
 const useStore = create(
   persist<State & Actions>(
-    set => ({
+    (set, get) => ({
       categories: [],
       tasks: [],
       daytasks: [],
@@ -105,11 +93,8 @@ const useStore = create(
         }
       },
 
-      fetchTasks: async (
-        userId: string,
-        categoryId: number,
-        selectedDate: Date,
-      ) => {
+      fetchTasks: async (userId: string, categoryId: number) => {
+        const {selectedDate} = useDateStore.getState();
         set(state => ({...state, loading: true, error: null}));
         try {
           const allTasks = await fetchTasks(userId, categoryId);
@@ -126,7 +111,8 @@ const useStore = create(
         }
       },
 
-      fetchCategories: async (userId: string, selectedDate: Date) => {
+      fetchCategories: async (userId: string) => {
+        const {selectedDate} = useDateStore.getState();
         set(state => ({...state, loading: true, error: null}));
         try {
           const data = await fetchCategories(userId, selectedDate);
@@ -141,8 +127,8 @@ const useStore = create(
       addCategory: async (
         newCategoryName: string,
         userProfile: {id: string},
-        selectedDate: Date,
       ) => {
+        const {selectedDate} = useDateStore.getState();
         set(state => ({...state, loading: true, error: null}));
         try {
           const newCategory = await addCategory(
@@ -171,8 +157,8 @@ const useStore = create(
         categoryId: number,
         updatedCategoryName: string,
         userId: string,
-        selectedDate: Date,
       ) => {
+        const {selectedDate} = useDateStore.getState();
         set(state => ({...state, loading: true, error: null}));
         try {
           const updatedCategory = await updateCategory(
@@ -187,12 +173,7 @@ const useStore = create(
                 cat.id === categoryId ? updatedCategory : cat,
               ),
             }));
-            updateTasksAndCategoriesAndDayTasks(
-              set,
-              userId,
-              categoryId,
-              selectedDate,
-            );
+            updateTasksAndCategoriesAndDayTasks(set, userId, categoryId);
           }
         } catch (error) {
           set(state => ({...state, error: "Failed to update category"}));
@@ -201,11 +182,8 @@ const useStore = create(
         }
       },
 
-      deleteCategory: async (
-        categoryId: number,
-        userId: string,
-        selectedDate: Date,
-      ) => {
+      deleteCategory: async (categoryId: number, userId: string) => {
+        const {selectedDate} = useDateStore.getState();
         set(state => ({...state, loading: true, error: null}));
         try {
           const deletedCategoryId = await deleteCategory(categoryId, userId);
@@ -231,13 +209,13 @@ const useStore = create(
         userId: string,
         categoryId: number,
         title: string,
-        selectedDate: Date,
         description?: string,
         reminderTime?: Date,
         repeatInterval?: string,
         durationInterval?: string,
         deadlineTime?: Date,
       ) => {
+        const {selectedDate} = useDateStore.getState();
         set(state => ({...state, loading: true, error: null}));
         try {
           const newTask = await addTask(
@@ -269,8 +247,8 @@ const useStore = create(
         taskId: number,
         userId: string,
         categoryId: number,
-        selectedDate: Date,
       ) => {
+        const {selectedDate} = useDateStore.getState();
         set(state => ({...state, loading: true, error: null}));
         try {
           const deletedTask = await deleteTask(taskId);
@@ -292,8 +270,8 @@ const useStore = create(
         taskId: number,
         userId: string,
         currentCompletedStatus: boolean,
-        selectedDate: Date,
       ) => {
+        const {selectedDate} = useDateStore.getState();
         set(state => ({...state, loading: true, error: null}));
         try {
           const updatedTask = await updateTaskCompletedStatus(
@@ -321,7 +299,6 @@ const useStore = create(
         categoryId: number,
         taskId: number,
         title: string,
-        selectedDate: Date,
         description?: string,
         reminderTime?: Date,
         repeatInterval?: string,
@@ -329,6 +306,7 @@ const useStore = create(
         deadlineTime?: Date,
         completed?: boolean,
       ) => {
+        const {selectedDate} = useDateStore.getState();
         set(state => ({...state, loading: true, error: null}));
         try {
           const updatedTask = await updateTask(
@@ -370,9 +348,10 @@ const useStore = create(
 export default useStore;
 
 const updateDayTasks = async (set: any, userId: string, selectedDate: Date) => {
+  const {selectedDate: currentDate} = useDateStore.getState();
   set((state: any) => ({...state, loading: true, error: null}));
   try {
-    const data = await fetchCategories(userId, selectedDate);
+    const data = await fetchCategories(userId, currentDate);
     set((state: any) => ({
       ...state,
       categories: data,
@@ -388,8 +367,8 @@ const updateTasksAndCategoriesAndDayTasks = async (
   set: any,
   userId: string,
   categoryId: number,
-  selectedDate: Date,
 ) => {
+  const {selectedDate} = useDateStore.getState();
   set((state: any) => ({...state, loading: true, error: null}));
   try {
     const data = await fetchTasks(userId, categoryId);

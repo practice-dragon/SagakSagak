@@ -21,13 +21,13 @@ function Home() {
 
   useEffect(() => {
     if (isAuthenticated && userProfile) {
-      fetchCategories(userProfile.id.toString(), selectedDate);
+      fetchCategories(userProfile.id.toString());
     }
   }, [isAuthenticated, userProfile, selectedDate, fetchCategories]);
 
   const handleAddCategory = async () => {
     if (isAuthenticated && userProfile && newCategoryName.trim() !== "") {
-      await addCategory(newCategoryName.trim(), userProfile, selectedDate);
+      await addCategory(newCategoryName.trim(), userProfile);
       setNewCategoryName("");
       setBottomSheetVisible(false);
     }

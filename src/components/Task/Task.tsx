@@ -13,10 +13,9 @@ import {useAuthStore} from "@/context/authStore";
 
 interface TaskProps {
   task: TaskType;
-  selectedDate: Date;
 }
 
-const Task = ({task, selectedDate}: TaskProps) => {
+const Task = ({task}: TaskProps) => {
   const {completed, title, deadline_time, category_id} = task;
   const {userProfile} = useAuthStore();
   const [BottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -27,18 +26,13 @@ const Task = ({task, selectedDate}: TaskProps) => {
 
   const toggleCompleted = async () => {
     if (userProfile) {
-      await updateTaskCompletedStatus(
-        task.id,
-        userProfile?.id,
-        completed,
-        selectedDate,
-      );
+      await updateTaskCompletedStatus(task.id, userProfile?.id, completed);
     }
   };
 
   const handleDelete = async () => {
     if (userProfile) {
-      await deleteTask(task.id, userProfile?.id, category_id, selectedDate);
+      await deleteTask(task.id, userProfile?.id, category_id);
     }
   };
 
@@ -79,7 +73,6 @@ const Task = ({task, selectedDate}: TaskProps) => {
       <UpdateTaskBottomSheet
         task={task}
         onClose={closeBottomSheet}
-        selectedDate={selectedDate}
         visible={BottomSheetVisible}
       />
     </TaskContainer>

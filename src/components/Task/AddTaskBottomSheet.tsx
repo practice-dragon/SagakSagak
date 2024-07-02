@@ -14,7 +14,6 @@ interface AddTaskBottomSheetProps {
   onClose: () => void;
   userId: string;
   categoryId: number;
-  selectedDate: Date;
 }
 
 const AddTaskBottomSheet = ({
@@ -22,7 +21,6 @@ const AddTaskBottomSheet = ({
   onClose,
   userId,
   categoryId,
-  selectedDate,
 }: AddTaskBottomSheetProps) => {
   const {addTask} = useStore();
 
@@ -40,8 +38,6 @@ const AddTaskBottomSheet = ({
           userId,
           categoryId,
           newTaskTitle.trim(),
-          selectedDate,
-
           description,
           reminderTime,
           "",
