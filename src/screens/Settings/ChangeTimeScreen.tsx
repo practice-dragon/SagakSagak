@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {TouchableOpacity} from "react-native";
+import {TouchableOpacity, Alert} from "react-native";
 import styled from "styled-components/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Button from "@/components/common/Button";
@@ -7,6 +7,7 @@ import {format} from "date-fns";
 import {updateProfileTimes} from "@/lib/Profile";
 import useStore from "@/context";
 import {useAuthStore} from "@/context/authStore";
+import {OneSignal} from "react-native-onesignal";
 
 const parseTimeString = (timeString: string) => {
   const [time, offset] = timeString.split("+");
@@ -26,10 +27,6 @@ const ChangeTimeScreen = () => {
     useState(false);
   const [isBedTimePickerVisible, setIsBedTimePickerVisible] = useState(false);
 
-  const {fetchCategories} = useStore(state => ({
-    fetchCategories: state.fetchCategories,
-  }));
-
   useEffect(() => {
     if (userProfile) {
       try {
@@ -44,10 +41,6 @@ const ChangeTimeScreen = () => {
       }
     }
   }, [userProfile]);
-
-  useEffect(() => {
-    fetchCategories("userId", new Date());
-  }, [fetchCategories, wakeUpTime, bedTime]);
 
   const handleWakeUpTimeConfirm = (time: Date) => {
     setWakeUpTime(time);
@@ -69,19 +62,28 @@ const ChangeTimeScreen = () => {
     try {
       await updateProfileTimes("userId", wakeUpTime, bedTime);
       console.log("Updated profile times successfully");
-      // scheduleNotification(
-      //   "일어날 시간입니다!",
-      //   "오늘도 하루를 계획해보는 건 어때요?",
-      //   wakeUpTime,
-      // );
-      // scheduleNotification(
-      //   "잘 시간입니다!",
-      //   "오늘 달성한 목표를 기록해봐요!",
-      //   bedTime,
-      // );
+      schedulePushNotification();
     } catch (error) {
       console.error("Failed to update profile times:", error);
     }
+  };
+
+  const schedulePushNotification = async () => {
+    const response = await fetch("https://onesignal.com/api/v1/notifications", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic YzI1ZDllNmEtMmQ2My00MTU4LTliNmQtNzQxNWY4MzRhNzVj",
+      },
+      body: JSON.stringify({
+        app_id: "7804ee6b-77fe-4e0f-a2e5-874cb0f02fdf",
+        included_segments: ["All"],
+        contents: {en: "Happy New Year!"},
+        send_after: "2024-07-02 11:00:15 GMT-0830",
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
   };
 
   return (

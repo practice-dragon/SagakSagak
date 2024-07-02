@@ -13,9 +13,6 @@ import useStore from "./src/context";
 import {OneSignal} from "react-native-onesignal";
 
 const App = () => {
-  OneSignal.initialize("7804ee6b-77fe-4e0f-a2e5-874cb0f02fdf");
-  OneSignal.Notifications.requestPermission(true);
-
   const queryClient = new QueryClient();
   const Stack = createStackNavigator();
   const {isAuthenticated, checkAuthStatus, bedtimeExists, userProfile} =
@@ -25,6 +22,11 @@ const App = () => {
     fetchCategories: state.fetchCategories,
   }));
   const [isCheckingAuth, setIsCheckingAuth] = React.useState(true);
+
+  useEffect(() => {
+    OneSignal.initialize("7804ee6b-77fe-4e0f-a2e5-874cb0f02fdf");
+    OneSignal.Notifications.requestPermission(true);
+  }, []);
 
   useEffect(() => {
     const initializeAuth = async () => {
