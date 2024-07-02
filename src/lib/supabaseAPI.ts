@@ -14,7 +14,7 @@ export const fetchCategories = async (userId: string, selectedDate: Date) => {
     }
 
     const categoriesWithTodos = await Promise.all(
-      categories.map(async (category: {id: string}) => {
+      categories.map(async (category: {id: number}) => {
         const {data: todos, error: todosError} = await supabase
           .from("todos")
           .select("*")
@@ -45,6 +45,7 @@ export const fetchCategories = async (userId: string, selectedDate: Date) => {
     throw new Error("Failed to fetch categories");
   }
 };
+
 export const addCategory = async (
   newCategoryName: string,
   userProfile: {id: string},
@@ -61,8 +62,9 @@ export const addCategory = async (
           created_at: formattedDate,
         },
       ])
-      .select()
-      .single();
+      .single()
+      .select();
+
     if (error) {
       console.error("Error adding category:", error.message);
       return null;
@@ -78,18 +80,15 @@ export const updateCategory = async (
   categoryId: number,
   updatedCategoryName: string,
   userId: string,
-) => {
+): Promise<CategoryType | null> => {
   try {
     const {data, error} = await supabase
       .from("categories")
-      .update({
-        name: updatedCategoryName.trim(),
-      })
+      .update({name: updatedCategoryName.trim()})
       .eq("id", categoryId)
       .eq("user_id", userId)
-      .select()
-      .single();
-
+      .single()
+      .select();
     if (error) {
       console.error("Error updating category:", error.message);
       return null;
@@ -101,7 +100,10 @@ export const updateCategory = async (
   }
 };
 
-export const deleteCategory = async (categoryId: number, userId: string) => {
+export const deleteCategory = async (
+  categoryId: number,
+  userId: string,
+): Promise<number | null> => {
   try {
     const {error} = await supabase
       .from("categories")
@@ -130,7 +132,7 @@ export const addTask = async (
   repeatInterval?: string,
   durationInterval?: string,
   deadlineTime?: Date,
-): Promise<void> => {
+): Promise<TaskType | null> => {
   try {
     const isoSelectedDate = selectedDate.toISOString();
     const isoReminderTime = reminderTime
@@ -156,44 +158,51 @@ export const addTask = async (
           deadline_time: isoDeadlineTime,
         },
       ])
-      .select()
       .single();
+
     if (error) {
-      throw error;
+      console.error("Error adding task:", error.message);
+      return null;
     }
     return data;
   } catch (error) {
     console.error("Error adding task:", error);
-    return;
+    return null;
   }
 };
 
-export const deleteTask = async (taskId: number) => {
-  const {data, error} = await supabase
-    .from("todos")
-    .delete()
-    .eq("id", taskId.toString())
-    .select()
-    .single();
-  if (error) {
-    console.error("Supabase delete error", error);
-    return;
+export const deleteTask = async (taskId: number): Promise<void> => {
+  try {
+    const {error} = await supabase
+      .from("todos")
+      .delete()
+      .eq("id", taskId.toString())
+      .single();
+
+    if (error) {
+      console.error("Error deleting task:", error.message);
+      throw new Error("Failed to delete task");
+    }
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    throw new Error("Failed to delete task");
   }
 };
 
 export const updateTaskCompletedStatus = async (
   taskId: number,
   currentCompletedStatus: boolean,
-) => {
-  const {error} = await supabase
-    .from("todos")
-    .update({completed: !currentCompletedStatus})
-    .eq("id", taskId.toString())
-    .single();
-
-  if (error) {
-    console.error("Supabase delete error", error);
-    return;
+): Promise<void> => {
+  try {
+    const {data, error} = await supabase
+      .from("todos")
+      .update({completed: !currentCompletedStatus})
+      .eq("id", taskId)
+      .single();
+    return data;
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    throw new Error("Failed to update task status");
   }
 };
 
@@ -209,7 +218,7 @@ export const updateTask = async (
   durationInterval?: string,
   deadlineTime?: Date,
   completed?: boolean,
-) => {
+): Promise<void> => {
   try {
     const isoSelectedDate = selectedDate.toISOString();
     const isoReminderTime = reminderTime
@@ -232,14 +241,16 @@ export const updateTask = async (
         duration_interval: durationInterval,
         deadline_time: isoDeadlineTime,
       })
-      .eq("id", taskId.toString());
+      .eq("id", taskId)
+      .single();
 
     if (error) {
-      throw error;
+      console.error("Error updating task:", error.message);
+      throw new Error("Failed to update task");
     }
   } catch (error) {
     console.error("Error updating task:", error);
-    return {error};
+    throw new Error("Failed to update task");
   }
 };
 
@@ -250,11 +261,12 @@ export const fetchTasks = async (userId: string, categoryId: number) => {
       .select("*")
       .eq("user_id", userId)
       .eq("category_id", categoryId);
+
     if (error) {
       console.error("Error fetching tasks:", error.message);
       throw new Error("Failed to fetch tasks");
     }
-    return data;
+    return data || [];
   } catch (error) {
     console.error("Error fetching tasks:", error);
     throw new Error("Failed to fetch tasks");
@@ -267,13 +279,14 @@ export const fetchAllTasks = async (userId: string) => {
       .from("todos")
       .select("*")
       .eq("user_id", userId);
+
     if (error) {
-      console.error("Error fetching tasks:", error.message);
-      throw new Error("Failed to fetch tasks");
+      console.error("Error fetching all tasks:", error.message);
+      throw new Error("Failed to fetch all tasks");
     }
-    return data;
+    return data || [];
   } catch (error) {
-    console.error("Error fetching tasks:", error);
-    throw new Error("Failed to fetch tasks");
+    console.error("Error fetching all tasks:", error);
+    throw new Error("Failed to fetch all tasks");
   }
 };

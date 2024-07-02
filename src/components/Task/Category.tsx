@@ -4,13 +4,12 @@ import {Text, TouchableOpacity, TextInput} from "react-native";
 import MenuDotsIcon from "@/assets/icons/MenuDotsIcon";
 import AddTaskBottomSheet from "@/components/Task/AddTaskBottomSheet";
 import Button from "../common/Button";
-
 import PlusIcon from "@/assets/icons/PlusIcon";
-import useStore from "@/context";
 import {TaskType} from "@/types/Profile";
 import CustomBottomSheet from "../common/BottomSheet";
 import Task from "./Task";
 import {useDateStore} from "@/context/DateStore";
+import useStore from "@/context";
 
 interface CategoryProps {
   id: number;
