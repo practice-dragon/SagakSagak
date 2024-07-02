@@ -8,35 +8,6 @@ import {updateProfileTimes} from "@/lib/Profile";
 import useStore from "@/context";
 import {useAuthStore} from "@/context/authStore";
 
-const Container = styled.View`
-  flex: 1;
-  align-items: center;
-  background-color: ${({theme}) => theme.colors.background};
-  gap: 20px;
-`;
-
-const InputWrapper = styled.View`
-  width: 80%;
-  margin-top: 10px;
-  gap: 20px;
-`;
-
-const InputText = styled.Text`
-  font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
-  font-family: ${({theme}) => theme.fonts.p2.fontFamily};
-  color: ${({theme}) => theme.colors.text};
-  padding: 10px;
-  background-color: ${({theme}) => theme.colors.card};
-  border-radius: 10px;
-`;
-
-const Label = styled.Text`
-  font-size: ${({theme}) => theme.fonts.h2.fontSize}px;
-  font-family: ${({theme}) => theme.fonts.h2.fontFamily};
-  color: ${({theme}) => theme.colors.text};
-  margin-bottom: 8px;
-`;
-
 const parseTimeString = (timeString: string) => {
   const [time, offset] = timeString.split("+");
   const [hours, minutes, seconds] = time.split(":");
@@ -60,7 +31,6 @@ const ChangeTimeScreen = () => {
   }));
 
   useEffect(() => {
-    console.log(userProfile);
     if (userProfile) {
       try {
         if (userProfile.wakeuptime) {
@@ -77,16 +47,6 @@ const ChangeTimeScreen = () => {
 
   useEffect(() => {
     fetchCategories("userId", new Date());
-    // PushNotification.localNotificationSchedule({
-    //   title: "일어날 시간입니다!",
-    //   message: "오늘도 하루를 계획해보는 건 어때요?",
-    //   date: new Date(wakeUpTime),
-    // });
-    // PushNotification.localNotificationSchedule({
-    //   title: "잘 시간입니다!",
-    //   message: "오늘 달성한 목표를 기록해봐요!",
-    //   date: new Date(bedTime),
-    // });
   }, [fetchCategories, wakeUpTime, bedTime]);
 
   const handleWakeUpTimeConfirm = (time: Date) => {
@@ -109,6 +69,16 @@ const ChangeTimeScreen = () => {
     try {
       await updateProfileTimes("userId", wakeUpTime, bedTime);
       console.log("Updated profile times successfully");
+      // scheduleNotification(
+      //   "일어날 시간입니다!",
+      //   "오늘도 하루를 계획해보는 건 어때요?",
+      //   wakeUpTime,
+      // );
+      // scheduleNotification(
+      //   "잘 시간입니다!",
+      //   "오늘 달성한 목표를 기록해봐요!",
+      //   bedTime,
+      // );
     } catch (error) {
       console.error("Failed to update profile times:", error);
     }
@@ -144,3 +114,32 @@ const ChangeTimeScreen = () => {
 };
 
 export default ChangeTimeScreen;
+
+const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  background-color: ${({theme}) => theme.colors.background};
+  gap: 20px;
+`;
+
+const InputWrapper = styled.View`
+  width: 80%;
+  margin-top: 10px;
+  gap: 20px;
+`;
+
+const InputText = styled.Text`
+  font-size: ${({theme}) => theme.fonts.p2.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.p2.fontFamily};
+  color: ${({theme}) => theme.colors.text};
+  padding: 10px;
+  background-color: ${({theme}) => theme.colors.card};
+  border-radius: 10px;
+`;
+
+const Label = styled.Text`
+  font-size: ${({theme}) => theme.fonts.h2.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.h2.fontFamily};
+  color: ${({theme}) => theme.colors.text};
+  margin-bottom: 8px;
+`;

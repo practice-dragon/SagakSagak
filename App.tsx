@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {createStackNavigator} from "@react-navigation/stack";
 import SplashScreen from "./src/screens/SplashScreen";
@@ -10,8 +10,12 @@ import {NavigationContainer} from "@react-navigation/native";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {useAuthStore} from "./src/context/authStore";
 import useStore from "./src/context";
+import {OneSignal} from "react-native-onesignal";
 
 const App = () => {
+  OneSignal.initialize("7804ee6b-77fe-4e0f-a2e5-874cb0f02fdf");
+  OneSignal.Notifications.requestPermission(true);
+
   const queryClient = new QueryClient();
   const Stack = createStackNavigator();
   const {isAuthenticated, checkAuthStatus, bedtimeExists, userProfile} =
@@ -20,7 +24,7 @@ const App = () => {
     fetchAllTasks: state.fetchAllTasks,
     fetchCategories: state.fetchCategories,
   }));
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isCheckingAuth, setIsCheckingAuth] = React.useState(true);
 
   useEffect(() => {
     const initializeAuth = async () => {
