@@ -272,14 +272,14 @@ const useStore = create(
       ) => {
         set(state => ({...state, loading: true, error: null}));
         try {
-          const deletedTaskId = await deleteTask(taskId);
-          //  if (deletedTaskId !== null) {
-          //   set(state => ({
-          //     ...state,
-          //     tasks: state.tasks.filter(task => task.id !== deletedTaskId),
-          //   }));
-          //   updateDayTasks(set, userId);
-          // }
+          const deletedTask = await deleteTask(taskId);
+          if (deletedTask) {
+            set(state => ({
+              ...state,
+              tasks: state.tasks.filter(task => task.id !== deletedTask.id),
+            }));
+            updateDayTasks(set, userId);
+          }
         } catch (error) {
           set(state => ({...state, error: "Failed to delete task"}));
         } finally {
@@ -299,16 +299,15 @@ const useStore = create(
             taskId,
             currentCompletedStatus,
           );
-          console.log(updatedTask);
-          // if (updatedTask) {
-          //   set(state => ({
-          //     ...state,
-          //     tasks: state.tasks.map(task =>
-          //       task.id === taskId ? updatedTask : task,
-          //     ),
-          //   }));
-          //   updateDayTasks(set, userId);
-          // }
+          if (updatedTask) {
+            set(state => ({
+              ...state,
+              tasks: state.tasks.map(task =>
+                task.id === taskId ? updatedTask : task,
+              ),
+            }));
+            updateDayTasks(set, userId);
+          }
         } catch (error) {
           set(state => ({...state, error: "Failed to update task status"}));
         } finally {
@@ -344,16 +343,15 @@ const useStore = create(
             deadlineTime,
             completed,
           );
-          console.log(updatedTask);
-          // if (updatedTask) {
-          //   set(state => ({
-          //     ...state,
-          //     tasks: state.tasks.map(task =>
-          //       task.id === taskId ? updatedTask : task,
-          //     ),
-          //   }));
-          //   updateDayTasks(set, userId);
-          // }
+          if (updatedTask) {
+            set(state => ({
+              ...state,
+              tasks: state.tasks.map(task =>
+                task.id === taskId ? updatedTask : task,
+              ),
+            }));
+            updateDayTasks(set, userId);
+          }
         } catch (error) {
           set(state => ({...state, error: "Failed to update task"}));
         } finally {

@@ -158,7 +158,8 @@ export const addTask = async (
           deadline_time: isoDeadlineTime,
         },
       ])
-      .single();
+      .single()
+      .select();
 
     if (error) {
       console.error("Error adding task:", error.message);
@@ -171,18 +172,20 @@ export const addTask = async (
   }
 };
 
-export const deleteTask = async (taskId: number): Promise<void> => {
+export const deleteTask = async (taskId: number): Promise<TaskType | null> => {
   try {
-    const {error} = await supabase
+    const {data, error} = await supabase
       .from("todos")
       .delete()
       .eq("id", taskId.toString())
-      .single();
+      .single()
+      .select();
 
     if (error) {
       console.error("Error deleting task:", error.message);
       throw new Error("Failed to delete task");
     }
+    return data;
   } catch (error) {
     console.error("Error deleting task:", error);
     throw new Error("Failed to delete task");
@@ -192,13 +195,14 @@ export const deleteTask = async (taskId: number): Promise<void> => {
 export const updateTaskCompletedStatus = async (
   taskId: number,
   currentCompletedStatus: boolean,
-): Promise<void> => {
+): Promise<TaskType | null> => {
   try {
     const {data, error} = await supabase
       .from("todos")
       .update({completed: !currentCompletedStatus})
       .eq("id", taskId)
-      .single();
+      .single()
+      .select();
     return data;
   } catch (error) {
     console.error("Error updating task status:", error);
@@ -218,7 +222,7 @@ export const updateTask = async (
   durationInterval?: string,
   deadlineTime?: Date,
   completed?: boolean,
-): Promise<void> => {
+): Promise<TaskType | null> => {
   try {
     const isoSelectedDate = selectedDate.toISOString();
     const isoReminderTime = reminderTime
@@ -228,7 +232,7 @@ export const updateTask = async (
       ? deadlineTime.toISOString()
       : undefined;
 
-    const {error} = await supabase
+    const {data, error} = await supabase
       .from("todos")
       .update({
         title: title.trim(),
@@ -242,12 +246,14 @@ export const updateTask = async (
         deadline_time: isoDeadlineTime,
       })
       .eq("id", taskId)
-      .single();
+      .single()
+      .select();
 
     if (error) {
       console.error("Error updating task:", error.message);
       throw new Error("Failed to update task");
     }
+    return data;
   } catch (error) {
     console.error("Error updating task:", error);
     throw new Error("Failed to update task");
@@ -261,7 +267,7 @@ export const fetchTasks = async (userId: string, categoryId: number) => {
       .select("*")
       .eq("user_id", userId)
       .eq("category_id", categoryId);
-
+    console.log(fetchTasks);
     if (error) {
       console.error("Error fetching tasks:", error.message);
       throw new Error("Failed to fetch tasks");
