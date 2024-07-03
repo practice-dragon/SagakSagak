@@ -5,6 +5,9 @@ import {useAuthStore} from "@/context/authStore";
 import SUSU from "@/assets/images/susu.png";
 import NABI from "@/assets/images/nabi.png";
 import {updateCharacter} from "@/lib/Profile";
+import OpenAI from "openai";
+
+const openai = new OpenAI();
 
 interface Message {
   text: string;
@@ -64,7 +67,7 @@ const CustomScreen = () => {
         )}
         {selectedCharacter === "나비" && (
           <CharacterDescription>
-            새침한 검은냥이 나비는 언제나 눈을 동그랗게 뜨고 다녀요.
+            새침한 검은냥이 나비는 언제나 눈을 세모나개 뜨고 다녀요.
           </CharacterDescription>
         )}
         <FlatList

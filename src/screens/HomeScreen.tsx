@@ -101,6 +101,7 @@ function Home() {
           </BottomSheetBox>
           <Button onPress={handleAddCategory} size="lg" text="만들기" />
         </CustomBottomSheet>
+        <View style={{height: 100}} />
       </Container>
       <CharacterFloatingButton
         imageSource={userProfile?.character === "수수" ? SUSU : NABI}
