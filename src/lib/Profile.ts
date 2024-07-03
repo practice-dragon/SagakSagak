@@ -40,6 +40,10 @@ export const updateProfileTimes = async (
         bedtimetime: bedTimeString,
       },
     ]);
+    if (error) {
+      console.error("Error updating profile times:", error.message);
+      throw new Error("Failed to update profile times");
+    }
     return data;
   } catch (error) {
     console.error("Failed to update profile times:", error);
@@ -55,6 +59,10 @@ export const fetchProfile = async (userId: string) => {
       .eq("id", userId)
       .single();
 
+    if (error) {
+      console.error("Error fetching profile:", error.message);
+      throw new Error("Failed to fetch profile");
+    }
     return {data, error};
   } catch (error) {
     console.error("Error fetching profile:", error);
@@ -72,9 +80,32 @@ export const createProfile = async (profile: Profile) => {
       },
     ]);
 
+    if (error) {
+      console.error("Error creating profile:", error.message);
+      throw new Error("Failed to create profile");
+    }
     return {data, error};
   } catch (error) {
     console.error("Error creating profile:", error);
     return {data: null, error};
+  }
+};
+
+export const updateCharacter = async (userId: string, character: string) => {
+  try {
+    const {data, error} = await supabase.from("profiles").upsert([
+      {
+        id: userId,
+        character: character,
+      },
+    ]);
+    if (error) {
+      console.error("Error updating character:", error.message);
+      throw new Error("Failed to update character");
+    }
+    return data;
+  } catch (error) {
+    console.error("Failed to update character:", error);
+    throw error;
   }
 };

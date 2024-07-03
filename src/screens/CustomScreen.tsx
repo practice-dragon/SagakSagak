@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {
-  View,
-  Image,
-  TextInput,
-  FlatList,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import {View, TextInput, FlatList, TouchableOpacity, Text} from "react-native";
 import styled, {useTheme} from "styled-components/native";
 import {useAuthStore} from "@/context/authStore";
 import SUSU from "@/assets/images/susu.png";
@@ -21,6 +14,7 @@ const CustomScreen = () => {
   const {userProfile} = useAuthStore();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
+  const [selectedCharacter, setSelectedCharacter] = useState<string>("수수");
 
   const theme = useTheme();
 
@@ -39,6 +33,26 @@ const CustomScreen = () => {
   return (
     <Container>
       <ChatContainer>
+        <CharacterSelectionContainer>
+          <CharacterOption onPress={() => setSelectedCharacter("수수")}>
+            <CharacterImageOption source={SUSU} />
+            <CharacterSelectionName>수수</CharacterSelectionName>
+          </CharacterOption>
+          <CharacterOption onPress={() => setSelectedCharacter("나비")}>
+            <CharacterImageOption source={NABI} />
+            <CharacterSelectionName>나비</CharacterSelectionName>
+          </CharacterOption>
+        </CharacterSelectionContainer>
+        {selectedCharacter === "수수" && (
+          <CharacterDescription>
+            시골 개 수수는 늘 느긋하게 살아요.
+          </CharacterDescription>
+        )}
+        {selectedCharacter === "나비" && (
+          <CharacterDescription>
+            새침한 검은냥이 나비는 언제나 눈을 세모나게 뜨고 다녀요.
+          </CharacterDescription>
+        )}
         <FlatList
           data={messages}
           keyExtractor={(item, index) => index.toString()}
@@ -86,6 +100,42 @@ const ChatContainer = styled.View`
   background-color: ${({theme}) => theme.colors.background};
 `;
 
+const CharacterSelectionContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 16px;
+`;
+
+const CharacterSelectionName = styled.Text`
+  font-size: ${({theme}) => theme.fonts.p3.fontSize}px;
+  color: ${({theme}) => theme.colors.text};
+  font-family: ${({theme}) => theme.fonts.p3.fontFamily};
+`;
+
+const CharacterOption = styled.TouchableOpacity`
+  align-items: center;
+  gap: 3px;
+`;
+
+const CharacterImageOption = styled.Image`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+`;
+
+const CharacterDescription = styled.Text`
+  text-align: center;
+  align-self: flex-start;
+  margin-top: 8px;
+  font-size: ${({theme}) => theme.fonts.p3.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.p3.fontFamily};
+  color: ${({theme}) => theme.colors.text};
+  word-break: keep-all;
+  margin-bottom: 10px;
+`;
+
 const MessageContainer = styled.View<{isUser: boolean}>`
   flex-direction: row;
   margin-bottom: 12px;
@@ -101,7 +151,7 @@ const MessageText = styled.Text<{isUser: boolean}>`
   padding: 12px;
   border-radius: 16px;
   background-color: ${({theme, isUser}) =>
-    isUser ? theme.colors.primary : theme.colors.n2};
+    isUser ? theme.colors.primary : theme.colors.n1};
   max-width: 70%;
   margin-left: ${({isUser}) => (isUser ? "auto" : "8px")};
   margin-right: ${({isUser}) => (isUser ? "8px" : "auto")};
@@ -147,9 +197,9 @@ const CharacterContainer = styled.View`
 `;
 
 const CharacterImage = styled.Image`
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
 `;
 
 const CharacterName = styled.Text`

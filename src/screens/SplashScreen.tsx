@@ -90,7 +90,7 @@ const SplashScreen = () => {
         )}
         {character === "나비" && (
           <CharacterDescription>
-            새침한 검은냥이 나비는 언제나 눈을 동그랗게 뜨고 다녀요.
+            새침한 검은냥이 나비는 언제나 눈을 세모나게 뜨고 다녀요.
           </CharacterDescription>
         )}
         <InputBox>
