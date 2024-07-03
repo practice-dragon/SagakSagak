@@ -40,7 +40,7 @@ const App = () => {
   useEffect(() => {
     if (isAuthenticated && userProfile) {
       fetchAllTasks(userProfile.id);
-      fetchCategories(userProfile.id, new Date());
+      fetchCategories(userProfile.id);
     }
   }, [isAuthenticated, fetchAllTasks, fetchCategories, userProfile]);
 

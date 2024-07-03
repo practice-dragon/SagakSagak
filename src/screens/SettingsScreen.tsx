@@ -1,5 +1,11 @@
 import React from "react";
-import {SafeAreaView, ScrollView, Text, TouchableOpacity} from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import styled from "styled-components/native";
 import ChangeIcon from "@/assets/icons/ChangeIcon";
 import ChatIcon from "@/assets/icons/ChatIcon";
@@ -60,7 +66,7 @@ const SettingsScreen = () => {
   };
 
   const handleSendFeedback = () => {
-    console.log("Send feedback clicked");
+    Linking.openURL("https://forms.gle/L47oUi2mt6NP48AF7");
   };
 
   return (
