@@ -1,4 +1,4 @@
-import {create} from "zustand";
+import {create, StateCreator} from "zustand";
 import {persist} from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -19,7 +19,6 @@ import {useDateStore} from "./DateStore";
 interface State {
   categories: CategoryType[];
   tasks: TaskType[];
-  daytasks: TaskType[];
   loading: boolean;
   error: string | null;
 }
@@ -48,14 +47,9 @@ interface Actions {
     durationInterval?: string,
     deadlineTime?: Date,
   ) => Promise<void>;
-  deleteTask: (
-    taskId: number,
-    userId: string,
-    categoryId: number,
-  ) => Promise<void>;
+  deleteTask: (taskId: number) => Promise<void>;
   updateTaskCompletedStatus: (
     taskId: number,
-    userId: string,
     currentCompletedStatus: boolean,
   ) => Promise<void>;
   updateTask: (
@@ -72,94 +66,51 @@ interface Actions {
   ) => Promise<void>;
 }
 
-const useStore = create(
+const useStore = create<State & Actions>(
   persist<State & Actions>(
     (set, get) => ({
       categories: [],
       tasks: [],
-      daytasks: [],
       loading: false,
       error: null,
 
-      fetchAllTasks: async (userId: string) => {
-        set(state => ({...state, loading: true, error: null}));
+      fetchCategories: async userId => {
+        set({loading: true, error: null});
         try {
-          const data = await fetchAllTasks(userId);
-          set(state => ({...state, daytasks: data}));
-        } catch (error) {
-          set(state => ({...state, error: "Failed to fetch tasks"}));
-        } finally {
-          set(state => ({...state, loading: false}));
-        }
-      },
-
-      fetchTasks: async (userId: string, categoryId: number) => {
-        const {selectedDate} = useDateStore.getState();
-        set(state => ({...state, loading: true, error: null}));
-        try {
-          const allTasks = await fetchTasks(userId, categoryId);
-          const filteredTasks = allTasks.filter(
-            (task: TaskType) =>
-              new Date(task.created_at || "").toDateString() ===
-              selectedDate.toDateString(),
-          );
-          set(state => ({...state, tasks: filteredTasks}));
-        } catch (error) {
-          set(state => ({...state, error: "Failed to fetch tasks"}));
-        } finally {
-          set(state => ({...state, loading: false}));
-        }
-      },
-
-      fetchCategories: async (userId: string) => {
-        const {selectedDate} = useDateStore.getState();
-        set(state => ({...state, loading: true, error: null}));
-        try {
+          const {selectedDate} = useDateStore.getState();
           const data = await fetchCategories(userId, selectedDate);
-          set(state => ({...state, categories: data}));
+          set((state: State) => ({...state, categories: data}));
         } catch (error) {
-          set(state => ({...state, error: "Failed to fetch categories"}));
+          set({error: "Failed to fetch categories"});
         } finally {
-          set(state => ({...state, loading: false}));
+          set({loading: false});
         }
       },
 
-      addCategory: async (
-        newCategoryName: string,
-        userProfile: {id: string},
-      ) => {
-        const {selectedDate} = useDateStore.getState();
-        set(state => ({...state, loading: true, error: null}));
+      addCategory: async (newCategoryName, userProfile) => {
+        set({loading: true, error: null});
         try {
+          const {selectedDate} = useDateStore.getState();
           const newCategory = await addCategory(
             newCategoryName,
             userProfile,
             selectedDate,
           );
           if (newCategory) {
-            set(state => ({
+            set((state: State) => ({
               ...state,
               categories: [...state.categories, newCategory],
             }));
-
-            updateDayTasks(set, userProfile.id, selectedDate);
-            const data = await fetchCategories(userProfile.id, selectedDate);
-            set(state => ({...state, categories: data}));
           }
         } catch (error) {
-          set(state => ({...state, error: "Failed to add category"}));
+          set({error: "Failed to add category"});
         } finally {
-          set(state => ({...state, loading: false}));
+          set({loading: false});
         }
       },
 
-      updateCategory: async (
-        categoryId: number,
-        updatedCategoryName: string,
-        userId: string,
-      ) => {
-        const {selectedDate} = useDateStore.getState();
-        set(state => ({...state, loading: true, error: null}));
+      updateCategory: async (categoryId, updatedCategoryName, userId) => {
+        set({loading: true, error: null});
         try {
           const updatedCategory = await updateCategory(
             categoryId,
@@ -167,57 +118,78 @@ const useStore = create(
             userId,
           );
           if (updatedCategory) {
-            set(state => ({
+            set((state: State) => ({
               ...state,
               categories: state.categories.map(cat =>
                 cat.id === categoryId ? updatedCategory : cat,
               ),
             }));
-            updateTasksAndCategoriesAndDayTasks(set, userId, categoryId);
           }
         } catch (error) {
-          set(state => ({...state, error: "Failed to update category"}));
+          set({error: "Failed to update category"});
         } finally {
-          set(state => ({...state, loading: false}));
+          set({loading: false});
         }
       },
 
-      deleteCategory: async (categoryId: number, userId: string) => {
-        const {selectedDate} = useDateStore.getState();
-        set(state => ({...state, loading: true, error: null}));
+      deleteCategory: async (categoryId, userId) => {
+        set({loading: true, error: null});
         try {
-          const deletedCategoryId = await deleteCategory(categoryId, userId);
-          if (deletedCategoryId !== null) {
-            set(state => ({
-              ...state,
-              categories: state.categories.filter(
-                cat => cat.id !== deletedCategoryId,
-              ),
-            }));
-            updateDayTasks(set, userId, selectedDate);
-          }
-          const data = await fetchCategories(userId, selectedDate);
-          set(state => ({...state, categories: data}));
+          await deleteCategory(categoryId, userId);
+          set((state: State) => ({
+            ...state,
+            categories: state.categories.filter(cat => cat.id !== categoryId),
+          }));
         } catch (error) {
-          set(state => ({...state, error: "Failed to delete category"}));
+          set({error: "Failed to delete category"});
         } finally {
-          set(state => ({...state, loading: false}));
+          set({loading: false});
+        }
+      },
+
+      fetchTasks: async (userId, categoryId) => {
+        set({loading: true, error: null});
+        try {
+          const allTasks = await fetchTasks(userId, categoryId);
+          const {selectedDate} = useDateStore.getState();
+          const filteredTasks = allTasks.filter(
+            (task: {created_at: any}) =>
+              new Date(task.created_at || "").toDateString() ===
+              selectedDate.toDateString(),
+          );
+          set((state: State) => ({...state, tasks: filteredTasks}));
+        } catch (error) {
+          set({error: "Failed to fetch tasks"});
+        } finally {
+          set({loading: false});
+        }
+      },
+
+      fetchAllTasks: async userId => {
+        set({loading: true, error: null});
+        try {
+          const data = await fetchAllTasks(userId);
+          set((state: State) => ({...state, tasks: data}));
+        } catch (error) {
+          set({error: "Failed to fetch tasks"});
+        } finally {
+          set({loading: false});
         }
       },
 
       addTask: async (
-        userId: string,
-        categoryId: number,
-        title: string,
-        description?: string,
-        reminderTime?: Date,
-        repeatInterval?: string,
-        durationInterval?: string,
-        deadlineTime?: Date,
+        userId,
+        categoryId,
+        title,
+        description,
+        reminderTime,
+        repeatInterval,
+        durationInterval,
+        deadlineTime,
       ) => {
-        const {selectedDate} = useDateStore.getState();
-        set(state => ({...state, loading: true, error: null}));
+        set({loading: true, error: null});
         try {
+          const {selectedDate} = useDateStore.getState();
           const newTask = await addTask(
             userId,
             categoryId,
@@ -230,85 +202,70 @@ const useStore = create(
             deadlineTime,
           );
           if (newTask) {
-            set(state => ({
+            set((state: State) => ({
               ...state,
               tasks: [...state.tasks, newTask],
             }));
-            updateDayTasks(set, userId, selectedDate);
           }
         } catch (error) {
-          set(state => ({...state, error: "Failed to add task"}));
+          set({error: "Failed to add task"});
         } finally {
-          set(state => ({...state, loading: false}));
+          set({loading: false});
         }
       },
 
-      deleteTask: async (
-        taskId: number,
-        userId: string,
-        categoryId: number,
-      ) => {
-        const {selectedDate} = useDateStore.getState();
-        set(state => ({...state, loading: true, error: null}));
+      deleteTask: async taskId => {
+        set({loading: true, error: null});
         try {
-          const deletedTask = await deleteTask(taskId);
-          if (deletedTask) {
-            set(state => ({
-              ...state,
-              tasks: state.tasks.filter(task => task.id !== deletedTask.id),
-            }));
-            updateDayTasks(set, userId, selectedDate);
-          }
+          await deleteTask(taskId);
+          set((state: State) => ({
+            ...state,
+            tasks: state.tasks.filter(task => task.id !== taskId),
+          }));
         } catch (error) {
-          set(state => ({...state, error: "Failed to delete task"}));
+          set({error: "Failed to delete task"});
         } finally {
-          set(state => ({...state, loading: false}));
+          set({loading: false});
         }
       },
 
-      updateTaskCompletedStatus: async (
-        taskId: number,
-        userId: string,
-        currentCompletedStatus: boolean,
-      ) => {
-        const {selectedDate} = useDateStore.getState();
-        set(state => ({...state, loading: true, error: null}));
+      updateTaskCompletedStatus: async (taskId, currentCompletedStatus) => {
+        set({loading: true, error: null});
         try {
           const updatedTask = await updateTaskCompletedStatus(
             taskId,
             currentCompletedStatus,
           );
           if (updatedTask) {
-            set(state => ({
+            set((state: State) => ({
               ...state,
               tasks: state.tasks.map(task =>
                 task.id === taskId ? updatedTask : task,
               ),
             }));
-            updateDayTasks(set, userId, selectedDate);
           }
         } catch (error) {
-          set(state => ({...state, error: "Failed to update task status"}));
+          set({error: "Failed to update task status"});
         } finally {
-          set(state => ({...state, loading: false}));
+          set({loading: false});
         }
       },
 
       updateTask: async (
-        userId: string,
-        categoryId: number,
-        taskId: number,
-        title: string,
-        description?: string,
-        reminderTime?: Date,
-        repeatInterval?: string,
-        durationInterval?: string,
-        deadlineTime?: Date,
-        completed?: boolean,
+        userId,
+        categoryId,
+        taskId,
+        title,
+        description,
+        reminderTime,
+        repeatInterval,
+        durationInterval,
+        deadlineTime,
+        completed,
       ) => {
-        const {selectedDate} = useDateStore.getState();
-        set(state => ({...state, loading: true, error: null}));
+        set({loading: true, error: null});
         try {
+          const {selectedDate} = useDateStore.getState();
           const updatedTask = await updateTask(
             userId,
             categoryId,
@@ -323,66 +280,25 @@ const useStore = create(
             completed,
           );
           if (updatedTask) {
-            set(state => ({
+            set((state: State) => ({
               ...state,
               tasks: state.tasks.map(task =>
                 task.id === taskId ? updatedTask : task,
               ),
             }));
-            updateDayTasks(set, userId, selectedDate);
           }
         } catch (error) {
-          set(state => ({...state, error: "Failed to update task"}));
+          set({error: "Failed to update task"});
         } finally {
-          set(state => ({...state, loading: false}));
+          set({loading: false});
         }
       },
     }),
     {
-      name: "dailyTask",
+      name: "gogo",
       getStorage: () => AsyncStorage,
     },
-  ),
+  ) as unknown as StateCreator<State & Actions>,
 );
 
 export default useStore;
-
-const updateDayTasks = async (set: any, userId: string, selectedDate: Date) => {
-  const {selectedDate: currentDate} = useDateStore.getState();
-  set((state: any) => ({...state, loading: true, error: null}));
-  try {
-    const data = await fetchCategories(userId, currentDate);
-    set((state: any) => ({
-      ...state,
-      categories: data,
-    }));
-  } catch (error) {
-    set((state: any) => ({...state, error: "Failed to fetch day tasks"}));
-  } finally {
-    set((state: any) => ({...state, loading: false}));
-  }
-};
-
-const updateTasksAndCategoriesAndDayTasks = async (
-  set: any,
-  userId: string,
-  categoryId: number,
-) => {
-  const {selectedDate} = useDateStore.getState();
-  set((state: any) => ({...state, loading: true, error: null}));
-  try {
-    const data = await fetchTasks(userId, categoryId);
-    set((state: any) => ({
-      ...state,
-      tasks: data,
-    }));
-    updateDayTasks(set, userId, selectedDate);
-  } catch (error) {
-    set((state: any) => ({
-      ...state,
-      error: "Failed to update tasks, categories and day tasks",
-    }));
-  } finally {
-    set((state: any) => ({...state, loading: false}));
-  }
-};

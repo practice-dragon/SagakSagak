@@ -18,7 +18,8 @@ interface TaskProps {
 const Task = ({task}: TaskProps) => {
   const {completed, title, deadline_time, category_id} = task;
   const {userProfile} = useAuthStore();
-  const [BottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
+
   const {updateTaskCompletedStatus, deleteTask} = useStore(state => ({
     updateTaskCompletedStatus: state.updateTaskCompletedStatus,
     deleteTask: state.deleteTask,
@@ -26,13 +27,13 @@ const Task = ({task}: TaskProps) => {
 
   const toggleCompleted = async () => {
     if (userProfile) {
-      await updateTaskCompletedStatus(task.id, userProfile?.id, completed);
+      await updateTaskCompletedStatus(task.id, task.completed);
     }
   };
 
   const handleDelete = async () => {
     if (userProfile) {
-      await deleteTask(task.id, userProfile?.id, category_id);
+      await deleteTask(task.id);
     }
   };
 
@@ -57,7 +58,7 @@ const Task = ({task}: TaskProps) => {
         <TaskTitle completed={completed}>{title}</TaskTitle>
         {deadline_time && (
           <DeadlineText completed={completed}>
-            {format(deadline_time, "hh:mm a")} 까지
+            {format(new Date(deadline_time), "hh:mm a")} 까지
           </DeadlineText>
         )}
       </MiddleContainer>
@@ -73,7 +74,7 @@ const Task = ({task}: TaskProps) => {
       <UpdateTaskBottomSheet
         task={task}
         onClose={closeBottomSheet}
-        visible={BottomSheetVisible}
+        visible={bottomSheetVisible}
       />
     </TaskContainer>
   );

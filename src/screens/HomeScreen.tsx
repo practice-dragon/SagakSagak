@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from "react";
-import {SafeAreaView, TouchableOpacity, View, Text} from "react-native";
+import React, {useEffect, useState, useCallback} from "react";
+import {SafeAreaView, View, Text} from "react-native";
 import styled from "styled-components/native";
 import PlusIcon from "@/assets/icons/PlusIcon";
 import Category from "@/components/Task/Category";
 import Calendar from "@/components/Task/Calendar";
 import CustomBottomSheet from "@/components/common/BottomSheet";
 import Button from "@/components/common/Button";
-import {useDateStore} from "@/context/DateStore";
-import {CategoryType, TaskType} from "@/types/Profile";
 import {useAuthStore} from "@/context/authStore";
 import useStore from "@/context";
+import {useDateStore} from "@/context/DateStore";
 
 function Home() {
   const {isAuthenticated, userProfile} = useAuthStore();
-  const {fetchCategories, addCategory, categories} = useStore();
+  const {fetchCategories, addCategory, categories, tasks, fetchAllTasks} =
+    useStore();
   const {selectedDate} = useDateStore();
   const [viewType, setViewType] = useState<"week" | "month">("week");
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -21,27 +21,48 @@ function Home() {
 
   useEffect(() => {
     if (isAuthenticated && userProfile) {
+      const userId = userProfile.id.toString();
+      fetchCategories(userId);
+      fetchAllTasks(userId);
+    }
+  }, [isAuthenticated, userProfile]);
+
+  useEffect(() => {
+    if (isAuthenticated && userProfile) {
       fetchCategories(userProfile.id.toString());
     }
-  }, [isAuthenticated, userProfile, selectedDate, fetchCategories]);
+  }, [selectedDate]);
 
   const handleAddCategory = async () => {
-    if (isAuthenticated && userProfile && newCategoryName.trim() !== "") {
+    if (isAuthenticated && userProfile && newCategoryName.trim()) {
       await addCategory(newCategoryName.trim(), userProfile);
       setNewCategoryName("");
       setBottomSheetVisible(false);
     }
   };
 
-  const filterTodosByDate = (todos: TaskType[]) => {
-    return todos.filter(todo => {
-      if (todo.created_at) {
-        const todoDate = new Date(todo.created_at).setHours(0, 0, 0, 0);
-        const selectedDateOnly = new Date(selectedDate).setHours(0, 0, 0, 0);
-        return todoDate === selectedDateOnly;
-      }
-    });
-  };
+  const filterTodosByDate = useCallback(
+    (todos: any[]) => {
+      return todos.filter((todo: {created_at: string | number | Date}) => {
+        if (todo.created_at) {
+          const todoDate = new Date(todo.created_at).setHours(0, 0, 0, 0);
+          const selectedDateOnly = new Date(selectedDate).setHours(0, 0, 0, 0);
+          return todoDate === selectedDateOnly;
+        }
+        return false;
+      });
+    },
+    [selectedDate],
+  );
+
+  const getCategoryTasks = useCallback(
+    (categoryId: number) => {
+      return filterTodosByDate(
+        tasks.filter(task => task.category_id === categoryId),
+      );
+    },
+    [tasks, filterTodosByDate],
+  );
 
   return (
     <SafeAreaView>
@@ -51,12 +72,12 @@ function Home() {
           <AddCategoryButtonText>카테고리 만들기</AddCategoryButtonText>
           <PlusIcon width={16} height={16} />
         </AddCategoryButton>
-        {categories?.map((category: CategoryType) => (
+        {categories?.map(category => (
           <Category
             key={category.id}
             id={category.id}
             text={category.name}
-            todos={filterTodosByDate(category.todos ?? [])}
+            todos={getCategoryTasks(category.id)}
             user_id={userProfile?.id ?? ""}
           />
         ))}
@@ -73,7 +94,6 @@ function Home() {
           </BottomSheetBox>
           <Button onPress={handleAddCategory} size="lg" text="만들기" />
         </CustomBottomSheet>
-
         <View style={{height: 100}} />
       </Container>
     </SafeAreaView>
@@ -90,7 +110,7 @@ const Container = styled.ScrollView`
   padding-bottom: 70px;
 `;
 
-const AddCategoryButton = styled(TouchableOpacity)`
+const AddCategoryButton = styled.TouchableOpacity`
   background-color: ${({theme}) => theme.colors.card};
   border-radius: 8px;
   flex-direction: row;
