@@ -20,15 +20,8 @@ const CharacterFloatingButton = ({
 
 const ButtonContainer = styled(TouchableOpacity)`
   position: absolute;
-  bottom: 30px;
-  left: 30px;
-  width: 70px;
-  height: 70px;
-  border-radius: 35px;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  background-color: red;
+  bottom: 20px;
+  left: 20px;
 `;
 
 const CharacterImage = styled(Image)`

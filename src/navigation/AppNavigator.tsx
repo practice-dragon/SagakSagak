@@ -30,7 +30,7 @@ const getTabBarIcon = (
   let IconComponent = focused ? ActiveCalendarIcon : CalendarIcon;
   if (routeName === "캘린더") {
     IconComponent = focused ? ActiveCalendarIcon : CalendarIcon;
-  } else if (routeName === "커스텀") {
+  } else if (routeName === "캐릭터") {
     IconComponent = focused ? ActiveHeartIcon : HeartIcon;
   } else if (routeName === "설정") {
     IconComponent = focused ? ActiveSettingsIcon : SettingsIcon;
@@ -89,7 +89,7 @@ const MainScreen = () => {
         },
       })}>
       <Tab.Screen name="캘린더" component={HomeScreen} />
-      <Tab.Screen name="커스텀" component={CustomScreen} />
+      <Tab.Screen name="캐릭터" component={CustomScreen} />
       <Tab.Screen name="설정" component={SettingsStackNavigator} />
     </Tab.Navigator>
   );

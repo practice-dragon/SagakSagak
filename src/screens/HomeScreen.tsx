@@ -9,8 +9,15 @@ import Button from "@/components/common/Button";
 import {useAuthStore} from "@/context/authStore";
 import useStore from "@/context";
 import {useDateStore} from "@/context/DateStore";
+import CharacterFloatingButton from "@/components/Character/CharacterFloatingButton";
+import {NavigationProp, useNavigation} from "@react-navigation/native";
+import {RootTabParamList} from "@/types/route";
+
+import SUSU from "@/assets/images/susu.png";
+import NABI from "@/assets/images/nabi.png";
 
 function Home() {
+  const navigation = useNavigation<NavigationProp<RootTabParamList>>();
   const {isAuthenticated, userProfile} = useAuthStore();
   const {fetchCategories, addCategory, categories, tasks, fetchAllTasks} =
     useStore();
@@ -96,6 +103,10 @@ function Home() {
         </CustomBottomSheet>
         <View style={{height: 100}} />
       </Container>
+      <CharacterFloatingButton
+        imageSource={SUSU}
+        onPress={() => navigation.navigate("캐릭터")}
+      />
     </SafeAreaView>
   );
 }
@@ -105,6 +116,7 @@ export default Home;
 const Container = styled.ScrollView`
   background-color: ${({theme}) => theme.colors.background};
   height: 100%;
+
   padding: 0 16px;
   box-sizing: border-box;
   padding-bottom: 70px;

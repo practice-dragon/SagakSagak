@@ -23,7 +23,7 @@ const DateContainer = styled.View`
 
 const DateText = styled.Text`
   font-size: ${({theme}) => theme.fonts.h2.fontSize}px;
-  font-family: ${({theme}) => theme.fonts.h1.fontFamily};
+  font-family: ${({theme}) => theme.fonts.h2.fontFamily};
   color: ${({theme}) => theme.colors.text};
   text-align: center;
 `;
