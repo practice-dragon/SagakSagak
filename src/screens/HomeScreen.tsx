@@ -22,13 +22,7 @@ function Home() {
   useEffect(() => {
     if (isAuthenticated && userProfile) {
       const userId = userProfile.id.toString();
-      fetchCategories(userId)
-        .then(() => {
-          console.log("categories");
-        })
-        .catch(error => {
-          console.error("Failed to fetch categories:", error);
-        });
+      fetchCategories(userId);
       fetchAllTasks(userId);
     }
   }, [isAuthenticated, userProfile]);

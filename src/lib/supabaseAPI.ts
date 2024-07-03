@@ -203,7 +203,6 @@ export const updateTaskCompletedStatus = async (
       .eq("id", taskId)
       .single()
       .select();
-    console.log(data);
     if (error) throw error;
     return data;
   } catch (error) {
