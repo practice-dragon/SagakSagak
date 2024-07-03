@@ -4,6 +4,7 @@ import styled, {useTheme} from "styled-components/native";
 import {useAuthStore} from "@/context/authStore";
 import SUSU from "@/assets/images/susu.png";
 import NABI from "@/assets/images/nabi.png";
+import {updateCharacter} from "@/lib/Profile";
 
 interface Message {
   text: string;
@@ -14,13 +15,26 @@ const CustomScreen = () => {
   const {userProfile} = useAuthStore();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
-  const [selectedCharacter, setSelectedCharacter] = useState<string>("수수");
+  const [selectedCharacter, setSelectedCharacter] = useState<string>(
+    userProfile?.character || "수수",
+  );
 
   const theme = useTheme();
 
   useEffect(() => {
     setMessages([{text: "안녕? 오늘 하루도 힘내!", isUser: false}]);
   }, []);
+
+  const handleCharacterChange = async (character: string) => {
+    setSelectedCharacter(character);
+    if (userProfile) {
+      try {
+        const updatedProfile = await updateCharacter(userProfile.id, character);
+      } catch (error) {
+        console.error("Failed to update character", error);
+      }
+    }
+  };
 
   const handleSendMessage = () => {
     if (inputText.trim() !== "") {
@@ -34,11 +48,11 @@ const CustomScreen = () => {
     <Container>
       <ChatContainer>
         <CharacterSelectionContainer>
-          <CharacterOption onPress={() => setSelectedCharacter("수수")}>
+          <CharacterOption onPress={() => handleCharacterChange("수수")}>
             <CharacterImageOption source={SUSU} />
             <CharacterSelectionName>수수</CharacterSelectionName>
           </CharacterOption>
-          <CharacterOption onPress={() => setSelectedCharacter("나비")}>
+          <CharacterOption onPress={() => handleCharacterChange("나비")}>
             <CharacterImageOption source={NABI} />
             <CharacterSelectionName>나비</CharacterSelectionName>
           </CharacterOption>
@@ -50,7 +64,7 @@ const CustomScreen = () => {
         )}
         {selectedCharacter === "나비" && (
           <CharacterDescription>
-            새침한 검은냥이 나비는 언제나 눈을 세모나게 뜨고 다녀요.
+            새침한 검은냥이 나비는 언제나 눈을 동그랗게 뜨고 다녀요.
           </CharacterDescription>
         )}
         <FlatList
@@ -61,9 +75,9 @@ const CustomScreen = () => {
               {!item.isUser && (
                 <CharacterContainer>
                   <CharacterImage
-                    source={userProfile?.character === "수수" ? SUSU : NABI}
+                    source={selectedCharacter === "수수" ? SUSU : NABI}
                   />
-                  <CharacterName>{userProfile?.character}</CharacterName>
+                  <CharacterName>{selectedCharacter}</CharacterName>
                 </CharacterContainer>
               )}
               <MessageText isUser={item.isUser}>{item.text}</MessageText>

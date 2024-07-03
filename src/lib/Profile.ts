@@ -93,12 +93,15 @@ export const createProfile = async (profile: Profile) => {
 
 export const updateCharacter = async (userId: string, character: string) => {
   try {
-    const {data, error} = await supabase.from("profiles").upsert([
-      {
-        id: userId,
-        character: character,
-      },
-    ]);
+    const {data, error} = await supabase
+      .from("profiles")
+      .upsert([
+        {
+          id: userId,
+          character: character,
+        },
+      ])
+      .select();
     if (error) {
       console.error("Error updating character:", error.message);
       throw new Error("Failed to update character");
