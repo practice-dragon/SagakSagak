@@ -90,7 +90,7 @@ const Calendar = ({
   viewType: "week" | "month";
   setViewType: (type: "week" | "month") => void;
 }) => {
-  const {daytasks, fetchAllTasks} = useStore();
+  const {fetchAllTasks, tasks} = useStore();
   const {userProfile} = useAuthStore();
   const {selectedDate, setSelectedDate} = useDateStore();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -132,6 +132,8 @@ const Calendar = ({
     }
   }, [userProfile]);
 
+  // useEffect(() => {}, [tasks]);
+
   const isSameDay = (date1: Date, date2: Date) => {
     return (
       date1.getFullYear() === date2.getFullYear() &&
@@ -146,7 +148,7 @@ const Calendar = ({
       date.getMonth(),
       date.getDate(),
     );
-    const filteredTasks = daytasks.filter(
+    const filteredTasks = tasks.filter(
       (task: TaskType) =>
         task.created_at && isSameDay(new Date(task.created_at), formattedDate),
     );

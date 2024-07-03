@@ -101,9 +101,14 @@ const Category = ({text, todos, id, user_id}: CategoryProps) => {
             onChangeText={text => setNewCategoryTitle(text)}
             value={newCategoryTitle}
           />
+          <Button onPress={handleEdit} size="lg" text="수정하기" />
+          <Button
+            onPress={handleDeleteCategory}
+            size="lg"
+            text="삭제하기"
+            variant="textGray"
+          />
         </BottomSheetBox>
-        <Button onPress={handleEdit} size="lg" text="수정하기" />
-        <Button onPress={handleDeleteCategory} size="lg" text="삭제하기" />
       </CustomBottomSheet>
 
       <AddTaskBottomSheet
