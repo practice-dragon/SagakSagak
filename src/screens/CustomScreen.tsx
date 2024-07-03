@@ -1,13 +1,23 @@
 import React, {useState, useEffect} from "react";
-import {View, TextInput, FlatList, TouchableOpacity, Text} from "react-native";
+import {
+  View,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import styled, {useTheme} from "styled-components/native";
 import {useAuthStore} from "@/context/authStore";
 import SUSU from "@/assets/images/susu.png";
 import NABI from "@/assets/images/nabi.png";
 import {updateCharacter} from "@/lib/Profile";
 import OpenAI from "openai";
+import {OpenAI_KEY} from "@env";
 
-const openai = new OpenAI();
+const openai = new OpenAI({
+  apiKey: OpenAI_KEY,
+});
 
 interface Message {
   text: string;
@@ -21,6 +31,7 @@ const CustomScreen = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<string>(
     userProfile?.character || "수수",
   );
+  const [loading, setLoading] = useState(false);
 
   const theme = useTheme();
 
@@ -39,12 +50,45 @@ const CustomScreen = () => {
     }
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputText.trim() !== "") {
       const newMessage = {text: inputText, isUser: true};
       setMessages([...messages, newMessage]);
       setInputText("");
+      setLoading(true);
+
+      try {
+        const completion = await openai.chat.completions.create({
+          model: "gpt-3.5-turbo",
+          messages: [
+            {
+              role: "system",
+              content: generatePrompt(inputText, selectedCharacter),
+            },
+          ],
+          max_tokens: 150,
+          temperature: 0.7,
+        });
+        const aiMessage = {
+          text: completion.choices[0]?.message?.content || "",
+          isUser: false,
+        };
+        setMessages(prevMessages => [...prevMessages, aiMessage]);
+      } catch (error) {
+        console.error("Failed to get response from OpenAI", error);
+      } finally {
+        setLoading(false);
+      }
     }
+  };
+
+  const generatePrompt = (userInput: string, character: string) => {
+    if (character === "수수") {
+      return `너는 이름이 수수인 느긋한 강아지야. 수수는 항상 여유롭고 천천히 행동해. 말을 할 때는 반말로 이야기하고, 친근하고 다정하게 말해줘. 수수는 게으른 사람을 보면 같이 느긋하게 있으면서도 도와주려는 마음을 가지고 있어. 다음 질문에 답해줘: ${userInput}`;
+    } else if (character === "나비") {
+      return `너는 이름이 나비인 새침한 검은 고양이야. 나비는 항상 눈을 세모나게 뜨고 다녀. 말을 할 때는 반말로 이야기하고, 조금 도도한 말투를 사용해줘. 나비처럼 행동하면서 다음 질문에 답해줘: ${userInput}`;
+    }
+    return userInput;
   };
 
   return (
@@ -87,6 +131,9 @@ const CustomScreen = () => {
             </MessageContainer>
           )}
         />
+        {loading && (
+          <ActivityIndicator size="large" color={theme.colors.primary} />
+        )}
         <InputContainer>
           <Input
             onChangeText={setInputText}
