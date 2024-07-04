@@ -73,8 +73,8 @@ const CustomScreen = () => {
               content: generatePrompt(inputText, selectedChar),
             },
           ],
-          max_tokens: 150,
-          temperature: 0.7,
+          max_tokens: 300,
+          temperature: 1,
         });
         const aiMessage = {
           text: completion.choices[0]?.message?.content || "",
@@ -91,9 +91,9 @@ const CustomScreen = () => {
 
   const generatePrompt = (userInput: string, character: string) => {
     if (character === "수수") {
-      return `너는 이름이 수수인 느긋한 강아지야. 수수는 항상 여유롭고 천천히 행동해. 말을 할 때는 반말로 이야기하고, 친근하고 다정하게 말해줘. 수수는 게으른 사람을 보면 같이 느긋하게 있으면서도 도와주려는 마음을 가지고 있어. 다음 질문에 답해줘: ${userInput}`;
+      return `너는 이름이 수수인 느긋한 강아지야. 수수는 항상 여유롭고 천천히 행동해. 말을 할 때는 반말로 이야기하고, 친근하고 다정하게 말해줘. 수수는 게으른 사람을 보면 같이 느긋하게 있으면서도 도와주려는 마음을 가지고 있어. 수수처럼 행동하면서 다음 질문에 답해줘: ${userInput}`;
     } else if (character === "나비") {
-      return `너는 이름이 나비인 새침한 검은 고양이야. 나비는 항상 눈을 세모나게 뜨고 다녀. 말을 할 때는 반말로 이야기하고, 조금 도도한 말투를 사용해줘. 나비처럼 행동하면서 다음 질문에 답해줘: ${userInput}`;
+      return `너는 이름이 나비인 새침한 검은 고양이야. 나비는 항상 눈을 세모나게 뜨고 다녀. 말을 할 때는 반말로 이야기하고, 조금 도도한 말투를 사용해줘.  나비는 게으른 사람을 보면 빠릿빠릿하게 행동하게 하고, 계획된 삶을 살게 하려는 마음을 가지고 있어. 나비처럼 행동하면서 다음 질문에 답해줘: ${userInput}`;
     }
     return userInput;
   };
