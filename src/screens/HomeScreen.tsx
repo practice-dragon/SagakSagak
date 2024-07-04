@@ -15,12 +15,14 @@ import {RootTabParamList} from "@/types/route";
 
 import SUSU from "@/assets/images/susu.png";
 import NABI from "@/assets/images/nabi.png";
+import {useCharStore} from "@/context/\bcharStore";
 
 function Home() {
   const navigation = useNavigation<NavigationProp<RootTabParamList>>();
   const {isAuthenticated, userProfile} = useAuthStore();
   const {fetchCategories, addCategory, categories, tasks, fetchAllTasks} =
     useStore();
+  const {selectedChar, setSelectedChar} = useCharStore();
   const {selectedDate} = useDateStore();
   const [viewType, setViewType] = useState<"week" | "month">("week");
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -104,7 +106,7 @@ function Home() {
         <View style={{height: 100}} />
       </Container>
       <CharacterFloatingButton
-        imageSource={userProfile?.character === "수수" ? SUSU : NABI}
+        imageSource={selectedChar === "수수" ? SUSU : NABI}
         onPress={() => navigation.navigate("캐릭터")}
       />
     </SafeAreaView>

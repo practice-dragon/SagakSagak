@@ -14,6 +14,7 @@ import NABI from "@/assets/images/nabi.png";
 import {updateCharacter} from "@/lib/Profile";
 import OpenAI from "openai";
 import {OpenAI_KEY} from "@env";
+import {useCharStore} from "@/context/\bcharStore";
 
 const openai = new OpenAI({
   apiKey: OpenAI_KEY,
@@ -26,32 +27,30 @@ interface Message {
 
 const CustomScreen = () => {
   const {userProfile} = useAuthStore();
+  const {selectedChar, setSelectedChar} = useCharStore();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
-  const [selectedCharacter, setSelectedCharacter] = useState<string>(
-    userProfile?.character || "수수",
-  );
   const [loading, setLoading] = useState(false);
 
   const theme = useTheme();
 
   useEffect(() => {
-    if (selectedCharacter === "수수") {
+    if (selectedChar === "수수") {
       setMessages([{text: "안녕? 오늘 하루도 힘내!", isUser: false}]);
-    } else if (selectedCharacter === "나비") {
+    } else if (selectedChar === "나비") {
       setMessages([{text: "오늘 하루도 힘내서 살아봐", isUser: false}]);
     }
   }, []);
 
   useEffect(() => {
     setMessages([]);
-  }, [selectedCharacter]);
+  }, [selectedChar]);
 
   const handleCharacterChange = async (character: string) => {
-    setSelectedCharacter(character);
+    setSelectedChar(character);
     if (userProfile) {
       try {
-        const updatedProfile = await updateCharacter(userProfile.id, character);
+        await updateCharacter(userProfile.id, character);
       } catch (error) {
         console.error("Failed to update character", error);
       }
@@ -71,7 +70,7 @@ const CustomScreen = () => {
           messages: [
             {
               role: "system",
-              content: generatePrompt(inputText, selectedCharacter),
+              content: generatePrompt(inputText, selectedChar),
             },
           ],
           max_tokens: 150,
@@ -112,12 +111,12 @@ const CustomScreen = () => {
             <CharacterSelectionName>나비</CharacterSelectionName>
           </CharacterOption>
         </CharacterSelectionContainer>
-        {selectedCharacter === "수수" && (
+        {selectedChar === "수수" && (
           <CharacterDescription>
             시골 개 수수는 늘 느긋하게 살아요.
           </CharacterDescription>
         )}
-        {selectedCharacter === "나비" && (
+        {selectedChar === "나비" && (
           <CharacterDescription>
             새침한 검은냥이 나비는 언제나 눈을 세모나개 뜨고 다녀요.
           </CharacterDescription>
@@ -130,9 +129,9 @@ const CustomScreen = () => {
               {!item.isUser && (
                 <CharacterContainer>
                   <CharacterImage
-                    source={selectedCharacter === "수수" ? SUSU : NABI}
+                    source={selectedChar === "수수" ? SUSU : NABI}
                   />
-                  <CharacterName>{selectedCharacter}</CharacterName>
+                  <CharacterName>{selectedChar}</CharacterName>
                 </CharacterContainer>
               )}
               <MessageText isUser={item.isUser}>{item.text}</MessageText>
@@ -245,38 +244,37 @@ const Input = styled.TextInput`
   font-size: ${({theme}) => theme.fonts.p3.fontSize}px;
   font-family: ${({theme}) => theme.fonts.p3.fontFamily};
   color: ${({theme}) => theme.colors.text};
-  height: 100%;
+  border-width: 1px;
+  border-color: ${({theme}) => theme.colors.n4};
 `;
 
 const SendButton = styled.TouchableOpacity`
   background-color: ${({theme}) => theme.colors.primary};
-  padding: 12px 16px;
   border-radius: 8px;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+  padding: 12px;
 `;
 
 const SendButtonText = styled.Text`
   color: ${({theme}) => theme.colors.textInverse};
-  font-weight: bold;
+  font-size: ${({theme}) => theme.fonts.p3.fontSize}px;
+  font-family: ${({theme}) => theme.fonts.p3.fontFamily};
 `;
 
 const CharacterContainer = styled.View`
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
   margin-right: 8px;
 `;
 
 const CharacterImage = styled.Image`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
 `;
 
 const CharacterName = styled.Text`
   font-size: ${({theme}) => theme.fonts.p3.fontSize}px;
-  color: ${({theme}) => theme.colors.text};
   font-family: ${({theme}) => theme.fonts.p3.fontFamily};
-  margin-top: 4px;
+  color: ${({theme}) => theme.colors.text};
+  margin-left: 8px;
 `;
