@@ -261,9 +261,8 @@ const SendButtonText = styled.Text`
 `;
 
 const CharacterContainer = styled.View`
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  margin-right: 8px;
 `;
 
 const CharacterImage = styled.Image`
@@ -276,5 +275,4 @@ const CharacterName = styled.Text`
   font-size: ${({theme}) => theme.fonts.p3.fontSize}px;
   font-family: ${({theme}) => theme.fonts.p3.fontFamily};
   color: ${({theme}) => theme.colors.text};
-  margin-left: 8px;
 `;
