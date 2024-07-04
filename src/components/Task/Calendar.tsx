@@ -253,11 +253,8 @@ const CalendarDayWrapper = styled.View`
 `;
 
 const generateCalendarWeeks = (currentDate: Date) => {
-  const firstDayOfMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    1,
-  ).getDay();
+  const firstDayOfMonth =
+    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1;
   const daysInMonth = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + 1,
@@ -290,7 +287,8 @@ const generateCalendarWeeks = (currentDate: Date) => {
 };
 
 const generateCurrentWeek = (currentDate: Date) => {
-  const firstDayOfWeek = currentDate.getDate() - currentDate.getDay();
+  const dayOfWeek = currentDate.getDay() - 1;
+  const firstDayOfWeek = currentDate.getDate() - dayOfWeek;
   const week = [];
   for (let i = 0; i < 7; i++) {
     const day = new Date(
