@@ -36,8 +36,16 @@ const CustomScreen = () => {
   const theme = useTheme();
 
   useEffect(() => {
-    setMessages([{text: "안녕? 오늘 하루도 힘내!", isUser: false}]);
+    if (selectedCharacter === "수수") {
+      setMessages([{text: "안녕? 오늘 하루도 힘내!", isUser: false}]);
+    } else if (selectedCharacter === "나비") {
+      setMessages([{text: "오늘 하루도 힘내서 살아봐", isUser: false}]);
+    }
   }, []);
+
+  useEffect(() => {
+    setMessages([]);
+  }, [selectedCharacter]);
 
   const handleCharacterChange = async (character: string) => {
     setSelectedCharacter(character);
