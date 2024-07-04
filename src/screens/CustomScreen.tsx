@@ -14,7 +14,7 @@ import NABI from "@/assets/images/nabi.png";
 import {updateCharacter} from "@/lib/Profile";
 import OpenAI from "openai";
 import {OpenAI_KEY} from "@env";
-import {useCharStore} from "@/context/\bcharStore";
+import {useCharStore} from "@/context/charStore";
 
 const openai = new OpenAI({
   apiKey: OpenAI_KEY,

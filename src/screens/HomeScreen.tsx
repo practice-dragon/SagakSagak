@@ -15,7 +15,7 @@ import {RootTabParamList} from "@/types/route";
 
 import SUSU from "@/assets/images/susu.png";
 import NABI from "@/assets/images/nabi.png";
-import {useCharStore} from "@/context/\bcharStore";
+import {useCharStore} from "@/context/charStore";
 
 function Home() {
   const navigation = useNavigation<NavigationProp<RootTabParamList>>();
