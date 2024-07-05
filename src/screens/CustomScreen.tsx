@@ -70,7 +70,7 @@ const CustomScreen = () => {
             },
           ],
           max_tokens: 450,
-          temperature: 1,
+          temperature: 0.7,
         });
         const aiMessage = {
           text: completion.choices[0]?.message?.content || "",
