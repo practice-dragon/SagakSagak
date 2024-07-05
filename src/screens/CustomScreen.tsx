@@ -40,10 +40,6 @@ const CustomScreen = () => {
     } else if (selectedChar === "나비") {
       setMessages([{text: "오늘 하루도 힘내서 살아봐", isUser: false}]);
     }
-  }, []);
-
-  useEffect(() => {
-    setMessages([]);
   }, [selectedChar]);
 
   const handleCharacterChange = async (character: string) => {
@@ -73,7 +69,7 @@ const CustomScreen = () => {
               content: generatePrompt(inputText, selectedChar),
             },
           ],
-          max_tokens: 300,
+          max_tokens: 450,
           temperature: 1,
         });
         const aiMessage = {
@@ -111,6 +107,7 @@ const CustomScreen = () => {
             <CharacterSelectionName>나비</CharacterSelectionName>
           </CharacterOption>
         </CharacterSelectionContainer>
+
         {selectedChar === "수수" && (
           <CharacterDescription>
             시골 개 수수는 늘 느긋하게 살아요.
@@ -263,6 +260,8 @@ const SendButtonText = styled.Text`
 const CharacterContainer = styled.View`
   justify-content: center;
   align-items: center;
+  align-self: flex-start;
+  margin-top: 5px;
 `;
 
 const CharacterImage = styled.Image`

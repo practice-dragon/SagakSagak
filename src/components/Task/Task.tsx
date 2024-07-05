@@ -64,10 +64,10 @@ const Task = ({task}: TaskProps) => {
       </MiddleContainer>
       <RightContainer>
         <TouchableOpacity onPress={() => setBottomSheetVisible(true)}>
-          <EditIcon width={20} height={20} />
+          <EditIcon width={22} height={22} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleDelete}>
-          <BinIcon width={20} height={20} />
+          <BinIcon width={22} height={22} />
         </TouchableOpacity>
       </RightContainer>
 
