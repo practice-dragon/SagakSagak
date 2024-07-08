@@ -5,8 +5,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@const/*": ["./src/const/*"],
-      "@story/*": ["./.storybook/*"]
+      "@const/*": ["./src/const/*"]
     },
     "types": ["react-native-dotenv"]
   },

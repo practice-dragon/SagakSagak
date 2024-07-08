@@ -21,10 +21,8 @@ const config = {
     assetExts: defaultConfig.resolver.assetExts.filter(ext => ext !== "svg"),
     sourceExts: [...defaultConfig.resolver.sourceExts, "svg"],
     extraNodeModules: {
-      "@storybook/react-native": require.resolve("@storybook/react-native"),
       "@": "./src",
       "@const": "./src/const",
-      "@story": "./.storybook",
     },
   },
 };

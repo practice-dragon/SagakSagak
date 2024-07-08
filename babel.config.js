@@ -20,7 +20,6 @@ module.exports = {
         alias: {
           "@": "./src",
           "@const": "./src/const",
-          "@story": "./.storybook",
         },
       },
     ],

@@ -9,8 +9,8 @@ import {
   KakaoProfile,
 } from "@react-native-seoul/kakao-login";
 import {supabase} from "@/lib/supabase";
-import {Button} from "@story/stories/Button/Button";
 import {useAuthStore} from "@/context/authStore";
+import Button from "@/components/common/Button";
 
 const Container = styled.SafeAreaView`
   flex: 1;
